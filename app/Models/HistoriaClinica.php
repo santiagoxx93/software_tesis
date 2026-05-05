@@ -1,0 +1,55 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+
+class HistoriaClinica extends Model
+{
+    use HasFactory, SoftDeletes;
+
+    protected $table = 'historias_clinicas';
+
+    protected $fillable = [
+        'paciente_id',
+        'antecedentes_personales',
+        'antecedentes_familiares',
+        'motivo_consulta',
+        'grupo_sanguineo',
+        'medicamentos_actuales',
+        'observaciones_iniciales',
+        'creado_por',
+    ];
+
+    // -----------------------------------------------------------------------
+    // Relaciones
+    // -----------------------------------------------------------------------
+
+    /**
+     * Paciente al que pertenece esta historia clínica.
+     */
+    public function paciente(): BelongsTo
+    {
+        return $this->belongsTo(Paciente::class);
+    }
+
+    /**
+     * Usuario que creó la historia clínica.
+     */
+    public function creadoPor(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'creado_por');
+    }
+
+    /**
+     * Entradas de evolución clínica de esta historia, ordenadas cronológicamente.
+     */
+    public function evoluciones(): HasMany
+    {
+        return $this->hasMany(EvolucionClinica::class)->orderBy('fecha_consulta', 'asc');
+    }
+}
