@@ -212,7 +212,7 @@
     {{-- Panel izquierdo (marca) --}}
     <div class="login-brand">
         <div class="brand-logo-wrap">
-            <img src="/sanalfonzo.png" alt="Centro San Alfonso Logo" draggable="false">
+            <img src="{{ asset('sanalfonzo.png') }}" alt="Centro San Alfonso Logo" draggable="false">
         </div>
         <div class="brand-name">Centro Integral<br>San Alfonso, C.A.</div>
         <div class="brand-sub">Sistema de Gestión de Citas e Historias Clínicas</div>

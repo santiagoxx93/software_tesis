@@ -6,6 +6,7 @@ use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EvolucionClinicaController;
 use App\Http\Controllers\HistoriaClinicaController;
 use App\Http\Controllers\PacienteController;
+use App\Http\Controllers\ReportesController;
 use App\Models\Cita;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
@@ -56,6 +57,13 @@ Route::middleware('auth')->group(function () {
         Route::get('/{paciente}/editar',    [PacienteController::class, 'edit'])->name('edit')->middleware('admin');
         Route::put('/{paciente}',           [PacienteController::class, 'update'])->name('update')->middleware('admin');
     });
+
+    // -------------------------------------------------------------------
+    // Módulo de Reportes y Estadísticas (Solo Admin)
+    // -------------------------------------------------------------------
+    Route::get('/reportes', [ReportesController::class, 'index'])
+        ->name('reportes.index')
+        ->middleware('admin');
 
     // -------------------------------------------------------------------
     // Módulo de Historia Clínica y Evoluciones — solo especialistas

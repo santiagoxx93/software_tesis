@@ -136,7 +136,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from 'vue'
+import { ref, computed, watch } from 'vue'
 import EstadoBadge from './EstadoBadge.vue'
 
 const props = defineProps({
@@ -154,6 +154,25 @@ const modoVista         = ref('mes')
 const filtroEspecialista = ref('')
 const diaSeleccionado   = ref(null)
 const inicioSemana      = ref(lunes(hoy))
+const citasLocales      = ref([...props.citas])
+const cargando          = ref(false)
+
+// Refetch al cambiar mes o año
+watch([mesActual, anioActual], async ([mes, anio]) => {
+  cargando.value = true
+  try {
+    const res = await fetch(`/api/citas?mes=${mes + 1}&anio=${anio}`, {
+      headers: { 'Accept': 'application/json' }
+    })
+    if (res.ok) {
+      citasLocales.value = await res.json()
+    }
+  } catch (e) {
+    console.error('Error cargando citas:', e)
+  } finally {
+    cargando.value = false
+  }
+})
 
 const modos     = [{ value: 'mes', label: 'Mes' }, { value: 'semana', label: 'Semana' }]
 const diasSemana = ['Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb', 'Dom']
@@ -166,7 +185,7 @@ const nombreMes = computed(() => MESES[mesActual.value])
 // Filtrado
 // -----------------------------------------------------------------------
 const citasFiltradas = computed(() => {
-  let lista = props.citas
+  let lista = citasLocales.value
   if (filtroEspecialista.value) {
     lista = lista.filter(c => c.especialista_id == filtroEspecialista.value)
   }
@@ -226,7 +245,7 @@ const semanaLabel = computed(() => {
 })
 
 function citasDelDia(fecha) {
-  return props.citas.filter(c => c.fecha === fecha)
+  return citasLocales.value.filter(c => c.fecha === fecha)
     .sort((a, b) => a.hora_inicio.localeCompare(b.hora_inicio))
 }
 

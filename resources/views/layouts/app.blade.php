@@ -386,9 +386,11 @@
         .mt-1 { margin-top: .4rem; }
         .mt-2 { margin-top: .8rem; }
         .mt-3 { margin-top: 1.25rem; }
+        .mt-4 { margin-top: 2rem; }
         .mb-1 { margin-bottom: .4rem; }
         .mb-2 { margin-bottom: .8rem; }
         .mb-3 { margin-bottom: 1.25rem; }
+        .mb-4 { margin-bottom: 2rem; }
         .text-muted { color: var(--color-text-muted); font-size: .85rem; }
         .text-right { text-align: right; }
         .flex { display: flex; }
@@ -407,7 +409,7 @@
 {{-- ===== SIDEBAR ===== --}}
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <img src="/sanalfonzo.png" alt="Logo San Alfonso" class="sidebar-logo">
+        <img src="{{ asset('sanalfonzo.png') }}" alt="Logo San Alfonso" class="sidebar-logo">
         <div class="sidebar-brand-text">
             <h1>Centro San Alfonso</h1>
             <span>Sistema de Gestión Clínica</span>
@@ -444,6 +446,17 @@
                 </svg>
                 Pacientes
             </a>
+
+            @if(auth()->user()->esAdmin())
+            <p class="nav-section-label" style="margin-top:.5rem;">Gerencial</p>
+            <a href="{{ route('reportes.index') }}"
+               class="nav-link {{ request()->routeIs('reportes.*') ? 'active' : '' }}">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"/>
+                </svg>
+                Reportes y Estadísticas
+            </a>
+            @endif
 
             @if(auth()->user()->esEspecialista())
             <a href="{{ route('pacientes.index') }}"
