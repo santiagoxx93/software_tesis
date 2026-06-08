@@ -201,9 +201,22 @@
             line-height: 1.6;
         }
         .hint-box strong { color: var(--color-text); }
+        .mobile-logo-wrap {
+            display: none;
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+        .mobile-logo-wrap img {
+            width: 90px;
+            height: 90px;
+            border-radius: 50%;
+            object-fit: cover;
+            filter: drop-shadow(0 4px 10px rgba(34,197,94,.4));
+        }
         @media (max-width: 680px) {
             .login-wrapper { grid-template-columns: 1fr; }
             .login-brand { display: none; }
+            .mobile-logo-wrap { display: block; }
         }
     </style>
 </head>
@@ -212,7 +225,7 @@
     {{-- Panel izquierdo (marca) --}}
     <div class="login-brand">
         <div class="brand-logo-wrap">
-            <img src="{{ asset('sanalfonzo.png') }}" alt="Centro San Alfonso Logo" draggable="false">
+            <img src="/sanalfonzo.png" alt="Centro San Alfonso Logo" draggable="false">
         </div>
         <div class="brand-name">Centro Integral<br>San Alfonso, C.A.</div>
         <div class="brand-sub">Sistema de Gestión de Citas e Historias Clínicas</div>
@@ -238,6 +251,9 @@
 
     {{-- Panel derecho (formulario) --}}
     <div class="login-form-panel">
+        <div class="mobile-logo-wrap">
+            <img src="/sanalfonzo.png" alt="Centro San Alfonso Logo" draggable="false">
+        </div>
         <div class="form-title">Bienvenido</div>
         <div class="form-subtitle">Ingresa tus credenciales para continuar</div>
 

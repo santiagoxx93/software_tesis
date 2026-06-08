@@ -98,6 +98,38 @@ class Cita extends Model
             ->exists();
     }
 
+    /**
+     * Verifica si la cita está dentro del horario laboral del especialista.
+     * Retorna true si es válido, o un string con el mensaje de error si no lo es.
+     */
+    public static function esHorarioValido(int $especialistaId, string $fecha, string $horaInicio, string $horaFin): bool|string
+    {
+        $especialista = Especialista::find($especialistaId);
+        if (!$especialista) return 'Especialista no encontrado.';
+
+        // 1. Validar si el día de la semana es laborable para él
+        // dayOfWeekIso devuelve 1 (Lunes) a 7 (Domingo)
+        $diaSemana = \Carbon\Carbon::parse($fecha)->dayOfWeekIso; 
+        $diasLaborables = $especialista->dias_laborables ?? [];
+        
+        if (!in_array((string)$diaSemana, $diasLaborables) && !in_array($diaSemana, $diasLaborables)) {
+            return 'El especialista no labora en el día seleccionado.';
+        }
+
+        // 2. Validar que la cita esté dentro del rango de entrada y salida
+        // Asumiendo que horaInicio y horaFin son "HH:mm" y las BD guardan "HH:mm:ss"
+        $hInicio = substr($horaInicio, 0, 5);
+        $hFin = substr($horaFin, 0, 5);
+        $hEntrada = substr($especialista->hora_entrada, 0, 5);
+        $hSalida = substr($especialista->hora_salida, 0, 5);
+
+        if ($hInicio < $hEntrada || $hFin > $hSalida) {
+            return "El horario seleccionado está fuera del turno del especialista ({$hEntrada} a {$hSalida}).";
+        }
+
+        return true;
+    }
+
     // -----------------------------------------------------------------------
     // Relaciones
     // -----------------------------------------------------------------------

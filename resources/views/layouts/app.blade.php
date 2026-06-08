@@ -8,6 +8,8 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
     <style>
         /* ================================================================
@@ -409,7 +411,7 @@
 {{-- ===== SIDEBAR ===== --}}
 <aside class="sidebar">
     <div class="sidebar-brand">
-        <img src="{{ asset('sanalfonzo.png') }}" alt="Logo San Alfonso" class="sidebar-logo">
+        <img src="/sanalfonzo.png" alt="Logo San Alfonso" class="sidebar-logo">
         <div class="sidebar-brand-text">
             <h1>Centro San Alfonso</h1>
             <span>Sistema de Gestión Clínica</span>
@@ -456,16 +458,34 @@
                 </svg>
                 Reportes y Estadísticas
             </a>
+
+            <a href="{{ route('usuarios.index') }}"
+               class="nav-link {{ request()->routeIs('usuarios.*') ? 'active' : '' }}">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"/>
+                </svg>
+                Trabajadores
+            </a>
             @endif
 
             @if(auth()->user()->esEspecialista())
-            <a href="{{ route('pacientes.index') }}"
+            <a href="{{ route('historias.index') }}"
                class="nav-link {{ request()->routeIs('historias.*') ? 'active' : '' }}">
                 <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
                         d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
                 </svg>
                 Historias Clínicas
+            </a>
+            @endif
+
+            @if(auth()->user()->esAdmin())
+            <hr style="border-top:1px solid rgba(255,255,255,0.1); margin:1rem 0;">
+            <a href="{{ route('backup.download') }}" class="nav-link" style="color: #fbbf24;">
+                <svg class="icon" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4"/>
+                </svg>
+                Descargar Respaldo (BD)
             </a>
             @endif
         @endauth
@@ -534,6 +554,20 @@
     </main>
 </div>
 
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        // Inicializar flatpickr para todos los inputs de tipo "time"
+        flatpickr("input[type=time]", {
+            enableTime: true,
+            noCalendar: true,
+            dateFormat: "H:i",       // Lo que se envía al servidor (24h)
+            altInput: true,          // Crea un input visual falso
+            altFormat: "h:i K",      // Lo que ve el usuario (12h AM/PM)
+            time_24hr: false         // Formato 12 horas AM/PM
+        });
+    });
+</script>
 @stack('scripts')
 </body>
 </html>

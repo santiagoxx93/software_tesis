@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama Entidad-Relación - Centro San Alfonso</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            // Configuraciones para hacer el diagrama más compacto
+            er: {
+                layoutDirection: 'LR',
+                minNodeSpacing: 30,
+                nodeSpacing: 30,
+                rankSpacing: 40
+            }
+        });
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: white; color: #333; }
+        /* Controlamos el ancho para que no se expanda innecesariamente */
+        .mermaid { display: flex; justify-content: center; margin-top: 20px; max-width: 100%; overflow-x: auto; }
+        .mermaid svg { max-height: 80vh; /* Evita que sea muy alto */ }
+        .instrucciones { text-align: center; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.6; }
+        .badge { background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 8px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .btn-print { 
+            background: #0284c7; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-print:hover { background: #0369a1; }
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            .mermaid { display: block; margin: 0; max-width: none; }
+            .mermaid svg { max-height: 100vh; width: 100%; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instrucciones no-print">
+        <h2>Diagrama Entidad-Relación (DER)</h2>
+        <p>Este diagrama está renderizado usando tecnología vectorial (SVG), lo que garantiza que <strong>nunca se pondrá borroso</strong> independientemente del zoom aplicado.</p>
+        <div class="badge">💡 Tip para tu tesis:</div>
+        <p>Para guardarlo en máxima calidad, presiona el botón de abajo o <b>Ctrl + P</b> y selecciona <b>"Guardar como PDF"</b> en el cuadro de impresión. (Asegúrate de marcar "Gráficos de fondo" en las opciones de impresión).</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button>
+    </div>
+    
+    <div class="mermaid">
+    erDiagram
+        %% Ordenar de más general a más específico suele mejorar el layout
+        PACIENTES ||--o{ CITAS : "agenda"
+        ESPECIALISTAS ||--o{ CITAS : "atiende"
+        
+        PACIENTES ||--o| HISTORIAS_CLINICAS : "tiene"
+        CITAS ||--o| EVOLUCIONES_CLINICAS : "genera"
+        HISTORIAS_CLINICAS ||--o{ EVOLUCIONES_CLINICAS : "contiene"
+        ESPECIALISTAS ||--o{ EVOLUCIONES_CLINICAS : "registra"
+        
+        USERS ||--o| ESPECIALISTAS : "cuenta de"
+        USERS ||--o{ CITAS : "registra/cancela"
+        USERS ||--o{ HISTORIAS_CLINICAS : "crea"
+
+        PACIENTES {
+            bigint id PK
+            string cedula
+            string nombres
+            string apellidos
+            date fecha_nacimiento
+            enum sexo
+            string telefono
+            string telefono_emergencia
+            string email
+            text direccion
+            string ocupacion
+        }
+
+        ESPECIALISTAS {
+            bigint id PK
+            bigint user_id FK
+            string cedula
+            string nombres
+            string apellidos
+            string especialidad
+            time hora_entrada
+            time hora_salida
+            json dias_laborables
+            string telefono
+            boolean activo
+        }
+
+        CITAS {
+            bigint id PK
+            bigint paciente_id FK
+            bigint especialista_id FK
+            date fecha
+            time hora_inicio
+            time hora_fin
+            enum estado "pendiente, confirmada, etc."
+            text motivo
+            text notas_recepcion
+            bigint cita_reprogramada_id FK
+            bigint registrado_por FK
+            bigint cancelado_por FK
+            text motivo_cancelacion
+        }
+
+        HISTORIAS_CLINICAS {
+            bigint id PK
+            bigint paciente_id FK
+            text antecedentes_personales
+            text antecedentes_familiares
+            text motivo_consulta
+            string grupo_sanguineo
+            text medicamentos_actuales
+            text observaciones_iniciales
+            bigint creado_por FK
+        }
+
+        EVOLUCIONES_CLINICAS {
+            bigint id PK
+            bigint historia_clinica_id FK
+            bigint cita_id FK
+            bigint especialista_id FK
+            date fecha_consulta
+            text evaluacion
+            text tratamiento_aplicado
+            text respuesta_paciente
+            text plan_siguiente_sesion
+            timestamp bloqueado_en
+        }
+
+        USERS {
+            bigint id PK
+            string name
+            string email
+            string password
+            enum rol "admin, especialista"
+            boolean activo
+            timestamp email_verified_at
+        }
+    </div>
+</body>
+</html>

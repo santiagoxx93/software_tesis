@@ -1,0 +1,586 @@
+﻿
+63817517780REPÚBLICA BOLIVARIANA DE VENEZUELA
+INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+EXTENSIÓN CHARALLAVE
+
+REPÚBLICA BOLIVARIANA DE VENEZUELA
+INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+EXTENSIÓN CHARALLAVE
+
+-10287086360
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+DESARROLLO DE UN SISTEMA DE INFORMACIÓN PARA LA GESTIÓN Y CONTROL DE LAS HISTORIAS CLÍNICAS Y CITAS DE PACIENTES 
+EN EL CENTRO INTEGRAL DE REFLEXOLOGÍA PODAL 
+SAN ALFONSO, C.A. UBICADO EN SANTA LUCÍA, 
+ESTADO MIRANDA, 2025
+
+Propuesta de Trabajo Especial de Grado presentado como requisito parcial para optar al Título de Técnico Superior Universitario en Informática
+
+
+
+
+
+
+
+
+
+
+
+Autor (a): Santiago Sanchez      
+Tutora Metodológica: Mayira Bravo
+
+
+
+Charallave, febrero 2026
+
+1929765-529866
+81724560960INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+
+
+CONSTANCIA DE APROBACIÓN DE LA PROPUESTA
+DE TRABAJO ESPECIAL DE GRADO
+(DOCENTE QUE ADMINISTRA LA ASIGNATURA Y TUTOR)
+
+Por la presente hacemos constar que hemos evaluado el Proyecto de Investigación que lleva por título “Desarrollo de un sistema de información para la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A. Ubicado en Santa Lucía, Estado Miranda, 2025”, el cual ha sido elaborado y presentado como Propuesta de Trabajo Especial de Grado por el (los) ciudadano (s) Santiago Alfredo Sanchez Roa, Cédula (s) de Identidad N° V31.601.397. El mismo se considera Aprobado por cuanto reúne los requisitos exigidos por la Institución y ha logrado una valoración cuantitativa del 60%, calculada bajo el criterio de que las calificaciones mínima y máxima aprobatoria están comprendidas entre dieciséis (16) y veinte (20) puntos.
+
+CALIFICACIÓN
+Docente de Asignatura
+30%
+Tutor
+30%
+
+
+Total
+60%
+puntos
+puntos
+=
+puntos
+
+En la ciudad de_______________________________ a los________ días del mes de___________________ de________.
+Firman:
+Docente que administra la
+Asignatura Investigación II
+
+Tutor (a)
+Nombre y Apellido
+
+Nombre y Apellido
+C.I.:
+
+C.I.:
+1950113-5391151072515316230INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+AUTORIZACIÓN PARA LA PRESENTACIÓN ORAL
+DE LA PROPUESTA DE TRABAJO ESPECIAL DE GRADO
+(DOCENTE QUE ADMINISTRA LA ASIGNATURA Y TUTOR)
+
+Por la presente hacemos constar que hemos evaluado y aprobado el Proyecto de Investigación que, como Propuesta de Trabajo Especial de Grado, ha (n) presentado Santiago Alfredo Sanchez Roa, Cédula (s) de Identidad N° V31.601.397, cursante (s) de la Carrera Informática; el cual lleva por título “Desarrollo de un sistema de información para la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A. Ubicado en Santa Lucía, Estado Miranda, 2025””, y consideramos que reúne los requisitos exigidos y los méritos suficientes para ser presentado ante el Jurado Evaluador que se designe.
+En la ciudad de_____________________________ a los________ días del mes de_________________ de _________.
+
+Firman:
+
+Docente que administra la
+Asignatura Investigación II
+
+
+Tutor (a)
+
+
+
+
+
+
+Nombre y Apellido
+
+Nombre y Apellido
+C.I.:
+
+C.I.:
+
+
+
+DEDICATORIA
+
+Principalmente a Dios, ser supremo y arquitecto de mi vida. Gracias por ser mi guía espiritual en cada paso de este sendero, por dotarme de salud, sabiduría y entendimiento para superar los retos más complejos. A Ti te dedico este logro, porque en los momentos de mayor incertidumbre, cuando las fuerzas parecían agotarse y la ansiedad intentaba ganar terreno, Tu luz nunca dejó de brillar. Gracias por sostenerme con Tu mano, por enseñarme que con fe no existen imposibles y por permitirme llegar a este día con la satisfacción del deber cumplido bajo Tu bendición.
+
+A mis amados padres, mi mayor tesoro y mi fuente inagotable de inspiración. Gracias, mamá y papá, por sembrar en mí la semilla de la superación y por enseñarme, con su propio ejemplo, que la honradez y el trabajo duro son las únicas vías para alcanzar el éxito. Gracias por cada sacrificio silencioso que hicieron para garantizar mi educación, por sus consejos sabios en los momentos de duda y por ese amor infinito que fue mi refugio. Ustedes creyeron en mí incluso antes de que yo mismo lo hiciera, y ver el orgullo en sus ojos es la mayor recompensa que puedo recibir. Todo lo que soy y lo que aspiro ser, se lo debo a ustedes.
+
+Y finalmente, pero con un profundo sentido de reconocimiento y amor propio, dedico este trabajo a mí mismo. Me dedico este triunfo por la inmensa resiliencia que demostré a lo largo de la carrera. Por todas esas noches de desvelo frente a la computadora, por los fines de semana sacrificados, por luchar contra el estrés y el cansancio, y aun así, decidir levantarme cada mañana para continuar. Me agradezco por no haberme rendido cuando el camino se tornó difícil, por haber tenido la disciplina de aprender de mis errores y la valentía de enfrentar nuevos desafíos tecnológicos. Hoy, al mirar atrás y ver todo lo recorrido, me abrazo y me felicito, porque me he demostrado a mí mismo que soy capaz de transformar mis sueños en realidad y que mi capacidad para superar obstáculos es más grande de lo que imaginaba.
+
+
+
+Santiago Alfredo Sanchez Roa
+ÍNDICE GENERAL
+
+ TOC \o "1-3" \h \z \u DEDICATORIA PAGEREF _Toc220881272 \h iv
+ÍNDICE GENERAL PAGEREF _Toc220881273 \h v
+Resumen PAGEREF _Toc220881274 \h vii
+INTRODUCCIÓN PAGEREF _Toc220881275 \h 1
+CAPÍTULO I PAGEREF _Toc220881276 \h 3
+EL PROBLEMA PAGEREF _Toc220881277 \h 3
+Contextualización Del Problema PAGEREF _Toc220881278 \h 3
+Objetivos De La Investigación PAGEREF _Toc220881279 \h 5
+Justificación de la Investigación PAGEREF _Toc220881280 \h 5
+CAPÍTULO II PAGEREF _Toc220881281 \h 7
+MARCO REFERENCIAL PAGEREF _Toc220881282 \h 7
+Reseña Histórica del Problema PAGEREF _Toc220881283 \h 7
+Antecedentes de la Investigación PAGEREF _Toc220881284 \h 8
+Bases Teóricas PAGEREF _Toc220881285 \h 9
+Bases Legales PAGEREF _Toc220881286 \h 12
+Sistema de Variables PAGEREF _Toc220881287 \h 15
+OPERACIONALIZACIÓN DE VARIABLES. PAGEREF _Toc220881288 \h 16
+Términos Básicos PAGEREF _Toc220881289 \h 17
+CAPÍTULO III PAGEREF _Toc220881290 \h 19
+Marco Metodológico PAGEREF _Toc220881291 \h 19
+Paradigma de la Investigación PAGEREF _Toc220881292 \h 19
+Enfoque de la Investigación PAGEREF _Toc220881293 \h 20
+Modalidad de la Investigación PAGEREF _Toc220881294 \h 20
+Tipo de Investigación PAGEREF _Toc220881295 \h 20
+Diseño de Investigación PAGEREF _Toc220881296 \h 21
+Especificaciones Técnicas del Diseño PAGEREF _Toc220881297 \h 21
+Técnicas e Instrumentos de Recolección de Datos PAGEREF _Toc220881298 \h 22
+Fases de la Investigación PAGEREF _Toc220881299 \h 22
+Referencias Bibliográficas PAGEREF _Toc220881300 \h 24
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-432435-78740REPÚBLICA BOLIVARIANA DE VENEZUELA
+INSTITUTO UNIVERSITARIO DE TECNOLOGÍA
+“ANTONIO JOSÉ DE SUCRE”
+EXTENSIÓN CHARALLAVE
+
+Desarrollo de un sistema de información para la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A. Ubicado en Santa Lucía, 
+Estado Miranda, 2025
+Línea de Investigación: Sistema de Información.
+
+Autor: Santiago A. Sanchez R.
+Tutora Metodológica: Mayira Bravo
+Charallave, Febrero, 2026
+
+
+
+Resumen
+Hoy en día, la dependencia de procesos manuales en centros de salud ocasiona demoras operativas. Ante esto, el presente trabajo propone el desarrollo de un sistema de información para gestionar historias clínicas y citas en el Centro Integral de Reflexología Podal San Alfonso, C.A., con la meta de modernizar el procesamiento físico de datos. Metodológicamente, corresponde a un Proyecto Factible con diseño de campo descriptivo. La población estudiada integró al personal administrativo y terapéutico de la entidad. Para la recolección, se aplicaron la observación directa y la encuesta, empleando el cuestionario estructurado. Técnicamente, la solución se fundamenta en PHP y MySQL, permitiendo automatizar la agenda y el archivo digital. Finalmente, se proyecta que la implementación garantice la seguridad de la información y eleve la eficiencia en la atención al paciente.
+
+Palabras Clave: Sistema de Información, Historia Clínica Digital, Gestión de Citas, Automatización, PHP.
+INTRODUCCIÓN
+
+
+En el escenario tecnológico contemporáneo, la digitalización de los procesos administrativos y clínicos ha dejado de ser una opción para convertirse en un estándar de calidad indispensable en las instituciones de salud. La gestión eficiente de los datos médicos no solo optimiza los tiempos de respuesta, sino que constituye una garantía de seguridad y confianza para el paciente. No obstante, una parte significativa de los centros de terapias y bienestar en el ámbito nacional aún conserva modelos de trabajo tradicionales, dependiendo excesivamente del papel, lo cual propicia la desorganización de los expedientes y eleva el riesgo de errores humanos en la administración de la información.
+Dentro de este contexto, el Centro Integral de Reflexología Podal San Alfonso, C.A., ubicado en Santa Lucía, evidencia una problemática operativa marcada por la gestión manual de sus actividades críticas. La inexistencia de una plataforma tecnológica para coordinar la agenda de citas y resguardar las historias clínicas ocasiona dificultades tangibles, tales como el cruce de horarios, la pérdida de trazabilidad en la evolución de los pacientes y la lentitud en la atención. En vista de ello, el presente Trabajo Especial de Grado se plantea como objetivo el desarrollo de un sistema de información diseñado a la medida, capaz de centralizar estas operaciones y ofrecer un acceso rápido, seguro y confiable a la data institucional.
+La importancia de esta investigación se estructura sobre tres dimensiones fundamentales: la dimensión técnica, al proponer una solución moderna basada en tecnologías web (PHP y MySQL) que aseguran la escalabilidad del sistema; la dimensión institucional, al proveer al centro de un recurso que moderniza su imagen y maximiza la eficiencia de su personal; y la dimensión profesional, pues permite materializar las competencias adquiridas durante la formación académica en Informática, aportando una solución concreta a una necesidad real del entorno socio-productivo.
+Siguiendo las directrices establecidas por el Instituto Universitario de Tecnología “Antonio José de Sucre” para la elaboración de propuestas de grado, el estudio se ha organizado en tres capítulos esenciales. El Capítulo I aborda el Planteamiento del Problema, detallando los objetivos y la justificación del proyecto. El Capítulo II presenta el Marco Referencial, donde se sustentan los antecedentes y las bases teóricas y legales. Finalmente, el Capítulo III describe el Marco Metodológico, especificando el diseño de la investigación y las fases técnicas planificadas para la ejecución de la propuesta.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CAPÍTULO I
+
+
+EL PROBLEMA
+Todo proyecto de investigación surge de la imperante necesidad de resolver una situación irregular o deficiente dentro de un contexto determinado. En este sentido, para Arias (2012), el planteamiento del problema "consiste en describir de manera amplia la situación objeto de estudio, ubicándola en un contexto que permita comprender su origen, relaciones e incógnitas por responder" (p. 41). Atendiendo a esta definición, el presente capítulo se estructura iniciando con la contextualización del problema, abordando la realidad objeto de estudio desde una perspectiva macro, meso y micro. Posteriormente, se formulan las interrogantes de la investigación, se establecen los objetivos generales y específicos que guiarán el estudio, y finalmente se presenta la justificación, destacando los aportes teóricos, prácticos y sociales de la propuesta.
+
+Contextualización Del Problema
+En la dinámica global contemporánea, la transformación digital se ha consolidado como el eje transversal de las organizaciones modernas. Según Laudon y Laudon (2024), los sistemas de información son esenciales para realizar las actividades comerciales diarias en los Estados Unidos y la mayoría de los demás países avanzados, al punto que la supervivencia de las empresas depende de su capacidad para utilizar estas tecnologías. A nivel internacional, la tendencia apunta hacia la digitalización total de los procesos clínicos y administrativos, permitiendo una gestión eficiente de los recursos y una atención personalizada.
+Sin embargo, al descender al contexto latinoamericano y específicamente al venezolano, se observa una realidad contrastante. Investigaciones regionales, como la de Castillo (2023), evidencian que, en el entorno andino y caribeño, la falta de herramientas tecnológicas en los consultorios compromete la calidad de la atención y la seguridad del paciente. A pesar de los avances globales, el sector de la salud privada en Venezuela, y particularmente las Pequeñas y Medianas Empresas (PYMES), enfrentan barreras económicas y culturales que frenan su modernización. Es común encontrar centros terapéuticos con excelentes profesionales, pero con una gestión administrativa obsoleta, basada aún en el registro manual.
+Esta situación se refleja claramente a nivel micro en la operatividad del Centro Integral de Reflexología Podal San Alfonso, C.A., ubicado en Santa Lucía. Al carecer de una plataforma tecnológica propia, el flujo de trabajo diario se ve interrumpido por tareas manuales repetitivas y propensas al error. El personal administrativo invierte una cantidad desproporcionada de tiempo llenando fichas en manuscrito, localizando carpetas físicas y corrigiendo cruces de horarios en agendas de papel, lo que genera una brecha de eficiencia respecto a los estándares de calidad descritos por la teoría gerencial moderna.
+Por consiguiente, la implementación de una solución tecnológica adaptada a las necesidades específicas del centro no es un lujo, sino un requisito indispensable para su sostenibilidad. Actualmente, la lentitud del proceso manual y los tiempos de espera prolongados para ubicar los historiales generan una percepción negativa en los pacientes, afectando directamente la calidad del servicio al cliente. Asimismo, la desorganización física de los expedientes y la duplicidad de tareas administrativas se traducen en un aumento de los costos operacionales para la clínica, al invertir horas laborables del personal en tareas repetitivas. El desarrollo de este sistema de información permitirá transformar estos procesos en flujos digitales eficientes, reduciendo los costos operativos y asegurando que la información esté disponible, segura y organizada para el beneficio de todos los involucrados.
+
+A partir de esta realidad, se plantean las siguientes interrogantes de investigación:
+¿Cuál es la situación actual de los procesos de gestión de citas y control de historias clínicas en el Centro Integral de Reflexología Podal San Alfonso, C.A.?
+¿Cuáles son los requerimientos funcionales y técnicos necesarios para mejorar la gestión administrativa y clínica del centro?
+¿Cómo será el diseño de un sistema de información que permita optimizar el registro de citas y el manejo seguro de las historias clínicas de los pacientes?
+
+Objetivos De La Investigación
+Objetivo General
+Desarrollar un sistema de información para optimizar la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A. Ubicado En Santa Luca, Estado Miranda, 2025
+
+Objetivos Específicos
+Conocer la situación actual referente al registro de citas y manejo de expedientes físicos en el Centro Integral de Reflexología Podal San Alfonso, C.A.
+Determinar los requerimientos funcionales y técnicos necesarios para mejorar la gestión administrativa y clínica del centro.
+Diseñar la arquitectura, base de datos e interfaz gráfica del sistema de información, asegurando la optimización de los procesos y la seguridad de la data.
+
+
+Justificación de la Investigación
+La importancia de la presente investigación se fundamenta en la necesidad crítica de sustituir los mecanismos de registro manual en el Centro Integral de Reflexología Podal San Alfonso, C.A. La implementación de una solución tecnológica resulta vital no solo para agilizar los tiempos de atención, sino para asegurar la integridad física y lógica de los datos de los pacientes. Al migrar hacia un entorno digital, se erradican los problemas de pérdida de expedientes y se garantiza una continuidad operativa que el manejo tradicional en papel no puede ofrecer.
+Desde la óptica de su relevancia, el estudio introduce un avance significativo al modernizar la gestión clínica bajo estándares web actuales. La adopción de este sistema posiciona a la institución como un referente de innovación en el sector de terapias locales, demostrando cómo la tecnología puede elevar la calidad del servicio. Esta modernización no es meramente estética, sino funcional, permitiendo una administración de recursos más eficiente y profesional.
+En lo que respecta a los beneficiarios, los aportes del proyecto son tangibles para todos los involucrados. La institución logrará optimizar sus flujos de trabajo administrativo; el personal contará con una herramienta que reduce la carga operativa y minimiza el error humano; y los pacientes disfrutarán de un servicio caracterizado por la inmediatez, la seguridad y la confidencialidad de su historial médico.
+Además de los beneficios operativos directos, la adopción de este sistema fortalece la toma de decisiones gerenciales en la institución. En este contexto, se hace evidente lo planteado por Laudon y Laudon (2024), quienes afirman que los sistemas de información son esenciales para realizar las actividades comerciales diarias, al punto que la supervivencia y competitividad de las organizaciones depende de su capacidad para utilizar estas tecnologías. Por lo tanto, el desarrollo de esta plataforma dotará al centro de una base sólida para el crecimiento futuro, permitiendo un manejo inteligente y estructurado de los datos que no solo resuelve la problemática actual, sino que previene la saturación del servicio a medida que aumente la afluencia de pacientes.
+Finalmente, la pertinencia de la propuesta es incuestionable, dado que responde directamente a las carencias diagnosticadas en el entorno real de la empresa.
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CAPÍTULO II
+
+MARCO REFERENCIAL
+
+La fundamentación teórica y contextual de una investigación es esencial para dar soporte científico al desarrollo del proyecto. En este sentido, según Arias (2012), el marco referencial "comprende la revisión de trabajos previos sobre el tema en estudio y (o) sobre la realidad contextual donde se ubica" (p. 107). Este capítulo desarrolla el conjunto de conocimientos, estudios previos y el basamento legal que sirven de soporte fundamental a la presente investigación. Se inicia con una descripción histórica del problema, seguido de una revisión de los antecedentes de investigación que abordan las variables de estudio, las bases teóricas, el sistema de variables, bases legales y términos básicos.
+
+Reseña Histórica del Problema
+La situación que motiva este estudio es una característica operativa común en muchos centros terapéuticos, consultorios y clínicas de tamaño mediano en Venezuela. Históricamente, estas organizaciones inician sus operaciones dependiendo de sistemas de gestión análogos o manuales, los cuales, aunque funcionales en una primera etapa, se convierten en una fuente de ineficiencia a medida que la organización crece.
+Actualmente, es una práctica extendida que el registro de pacientes, la asignación de citas y la administración del historial clínico se realicen en agendas físicas, ficheros y carpetas de papel. Este método tradicional genera una alta fricción operativa; la información del paciente se encuentra fragmentada (la cita en un libro, el historial en un archivador), lo que dificulta una visión integral del caso.
+
+Antecedentes de la Investigación
+Los antecedentes de la investigación constituyen la base fundamental sobre la cual se construye el nuevo conocimiento. Según Arias (2012), los antecedentes "reflejan los avances y el estado actual del conocimiento en un área determinada y sirven de modelo o ejemplo para futuras investigaciones" (p. 106). A continuación, se presentan los estudios previos seleccionados para sustentar esta propuesta:
+Castillo (2023) realizó la investigación “Impacto de un Sistema de Historial Clínico Digital en la Calidad de Atención y Seguridad del Paciente en Consultorios Pediátricos”, presentada ante la Universidad de los Andes (Colombia). Su propósito fue determinar cómo la digitalización de expedientes influye en la seguridad y precisión del diagnóstico médico. La metodología fue de tipo explicativa y evaluativa, enfocada en medir la reducción de errores tras la implementación del sistema digital. Dicho estudio guarda estrecha relación con el proyecto actual, pues aporta el sustento teórico que justifica la automatización de las historias clínicas como mecanismo para garantizar la seguridad de los datos del paciente y minimizar los errores humanos derivados del manejo manual de expedientes en el centro de reflexología.
+Por su parte, Mendoza y Soria (2022) desarrollaron la investigación titulada “Sistema Web para la Gestión de Citas e Historias Clínicas en el Policlínico San Miguel”, presentada en la Universidad Privada del Norte (Perú). Su objetivo fue automatizar los procesos de reserva de citas y gestión de historiales clínicos para optimizar la atención al paciente en un centro de alta afluencia. La metodología fue un proyecto de desarrollo tecnológico bajo la metodología ágil Scrum, utilizando el lenguaje PHP con el framework Laravel y el gestor de base de datos MySQL. Este antecedente se vincula directamente con la presente investigación, ya que sirve como modelo técnico para el desarrollo del software en el Centro Integral de Reflexología Podal San Alfonso, C.A., validando la efectividad del uso de lenguajes web y bases de datos relacionales para centralizar la información clínica y administrativa.
+Finalmente, Varela (2021) llevó a cabo la investigación titulada “Sistema de Agendamiento de Citas Médicas y Recordatorio Automatizado vía WhatsApp para Centros de Fisioterapia”, presentada en la Escuela Superior Politécnica del Litoral (Ecuador). Su objetivo fue crear una herramienta tecnológica que no solo gestionara la agenda, sino que redujera el ausentismo mediante el envío de notificaciones automáticas. La metodología fue de proyecto factible, integrando el software con una API de mensajería instantánea. Esta investigación es pertinente para el estudio, ya que ofrece estrategias funcionales para el módulo de gestión de citas del Centro San Alfonso, demostrando cómo la automatización del agendamiento impacta positivamente en la reducción del ausentismo y en la optimización del tiempo de los terapeutas.
+
+Bases Teóricas
+Para fundamentar científicamente el estudio, resulta imperativo desarrollar las bases teóricas. Tal como lo expresa Arias (2012), esta sección no se limita a un glosario, sino que implica "un desarrollo amplio de los conceptos y proposiciones que conforman el punto de vista o enfoque adoptado, para sustentar o explicar el problema planteado" (p. 107).
+En virtud de ello, a continuación, se analizan los principios de la ingeniería de software, la gestión clínica y los sistemas de bases de datos que dan soporte lógico a la automatización propuesta para el Centro San Alfonso, garantizando así la solidez conceptual de la investigación.
+
+
+
+
+Sistemas de Información 
+Un sistema de información es un conjunto de elementos orientados al tratamiento y administración de datos e información, organizados y listos para su uso posterior. Laudon y Laudon (2024) lo definen técnicamente como "un conjunto de componentes interrelacionados que recolectan (o recuperan), procesan, almacenan y distribuyen información para apoyar la toma de decisiones y el control en una organización".
+Tipos de Sistemas de Información:
+
+Sistemas de Procesamiento de Transacciones (TPS): Gestionan la información operativa y rutinaria, como el registro diario de citas médicas.
+Sistemas de Información Gerencial (MIS): Consolidan los datos operativos para generar reportes y estadísticas que apoyan la toma de decisiones administrativas en la clínica.
+
+Características de un Sistema de Información:
+Integridad: Garantiza que los datos médicos no sean alterados de forma no autorizada.
+Disponibilidad: Asegura que los historiales clínicos estén accesibles para el personal médico en todo momento.
+Seguridad: Implementa controles de acceso para proteger la confidencialidad de los pacientes.
+
+Ciclo de Vida del Desarrollo de Sistemas:
+Planificación: Identificación de necesidades.
+Análisis: Comprensión de los requerimientos.
+Diseño: Especificación de la solución tecnológica.
+Implementación: Construcción y codificación.
+Pruebas y Mantenimiento: Verificación y corrección.
+
+Gestión de Citas Médicas 
+La gestión de citas es el proceso administrativo mediante el cual se organiza la demanda de atención de los pacientes respecto a la disponibilidad de los especialistas y recursos. Kotler (2017) menciona que la gestión eficiente de la agenda es crítica en empresas de servicios para minimizar los tiempos de espera y maximizar la capacidad instalada.
+Componentes Clave:
+Agendamiento: Reserva de un bloque de tiempo específico.
+Confirmación: Validación de la asistencia del paciente.
+Reprogramación: Gestión de cambios por imprevistos.
+Historia Clínica Digital 
+La historia clínica es el documento médico-legal que surge del contacto entre el profesional de la salud y el paciente, donde se recoge la información necesaria para la correcta atención. Su versión digital permite el almacenamiento y recuperación inmediata de la información. Carnicero (2016) la define como "el repositorio de información sobre la salud de un sujeto de atención, procesable por ordenador, almacenado y transmitido de forma segura".
+
+Ventajas:
+Integridad y durabilidad de los datos.
+Acceso simultáneo y remoto.
+Legibilidad y orden cronológico.
+
+Control de Gestión 
+El control de gestión es un proceso que sirve para guiar la gestión empresarial hacia los objetivos de la organización y un instrumento para evaluarla. Para Robbins y Coulter (2016), el control es "el proceso de monitorear, comparar y corregir el desempeño laboral" (p. 450). En el contexto de este sistema, el control se aplica al seguimiento de las citas cumplidas, canceladas y la evolución de los pacientes.
+
+Base de Datos Relacional 
+Una base de datos es una colección organizada de datos estructurados. El modelo relacional organiza estos datos en tablas compuestas por filas y columnas. Elmasri y Navathe (2017) explican que este modelo "facilita la gestión de las relaciones entre diferentes entidades de datos, como pacientes, médicos y citas, garantizando la integridad referencial".
+
+Desarrollo de Aplicaciones Web y Arquitectura MVC
+Para la construcción de soluciones tecnológicas modernas, es fundamental comprender el entorno donde operan y justificar su elección. Se seleccionó el entorno web para este proyecto porque permite que el personal del Centro San Alfonso acceda al sistema desde cualquier dispositivo con navegador (computadoras, tablets o teléfonos) sin requerir instalaciones locales complejas, garantizando la centralización y actualización de los datos en tiempo real.
+Según Pressman (2010), la ingeniería web es el proceso de crear aplicaciones que se ejecutan sobre internet, utilizando una combinación de recursos del lado del servidor y del cliente. En este contexto, el presente proyecto se fundamenta en la arquitectura Modelo-Vista-Controlador (MVC). Como explican Ariyanto, Rachmad y Puspitasari (2024), el patrón MVC es un estándar de la industria que separa los datos de la aplicación, la interfaz de usuario y la lógica de control en tres componentes distintos. Esta separación es vital para el sistema del Centro San Alfonso, ya que permite que el código sea escalable y seguro, utilizando herramientas de alto nivel (frameworks) que agilizan la gestión de las historias clínicas sin comprometer la integridad de la base de datos.
+Bases Legales
+El diseño de un Proyecto Factible, especialmente uno que maneja información sensible de salud, debe estar rigurosamente alineado con el marco jurídico venezolano. La propuesta debe ser viable no solo técnica y operativamente, sino también legal y éticamente.
+
+Constitución de la República Bolivariana de Venezuela (1999)
+Artículo 60: Garantiza el derecho a la protección de la privacidad, el honor y la reputación, estableciendo el principio de "Habeas Data". Este artículo se vincula directamente con el proyecto, ya que el sistema almacenará datos sensibles de los pacientes del Centro San Alfonso. Por mandato constitucional, el software deberá incluir mecanismos de seguridad (usuarios y contraseñas) para garantizar que solo el personal autorizado acceda a los diagnósticos, protegiendo así la privacidad del paciente.
+Artículo 83: Consagra la salud como un derecho social fundamental y obligación del Estado. La relación con la investigación radica en que el Sistema de Información tiene como fin último optimizar la gestión de citas e historiales. Al reducir los tiempos de espera y evitar errores en los expedientes, el proyecto contribuye a garantizar un servicio de salud de calidad para la comunidad de Santa Lucía, cumpliendo con este precepto constitucional.
+Decreto con Fuerza de Ley N° 1.204 sobre Mensajes de Datos y Firmas Electrónicas (2001)
+Este instrumento es el habilitador legal clave del proyecto, otorgando validez a la información digital.
+Artículos 2 y 9: Definen los mensajes de datos y otorgan plena validez jurídica a la información que se encuentre en formato electrónico. Esta ley es fundamental para el Centro Integral de Reflexología Podal San Alfonso, C.A., ya que le otorga validez legal a la Historia Clínica Digital que generará el sistema propuesto. Esto permite a la organización migrar sus archivos físicos a digitales con la seguridad jurídica de que los registros electrónicos tienen el mismo valor probatorio que el papel.
+Ley Especial contra los Delitos Informáticos (2001)
+Esta ley define el modelo de amenazas y responsabilidades en el manejo de sistemas.
+Artículos 6 y 7: Tipifican el acceso indebido y el sabotaje o daño a sistemas. Vinculación: Su relación con el proyecto es preventiva. Al digitalizar la información, el sistema se vuelve susceptible a estos delitos. Por tanto, el diseño de la propuesta (Fase III) debe obligatoriamente incluir módulos de seguridad informática y respaldo de datos (backups) para blindar la información del centro contra accesos no autorizados o pérdida de integridad, cumpliendo con la protección que exige la ley.
+Código Deontológico del Médico Venezolano (Vigente)
+Establece el marco ético del manejo de información médica.
+Capítulo II (Del Secreto Médico): Impone la obligación de mantener la confidencialidad de la información del paciente. El sistema de información se diseñará respetando este código ético mediante la implementación de Roles y Permisos. El software garantizará que la información clínica detallada solo sea visible para los terapeutas y médicos tratantes, mientras que el personal administrativo (recepción) tendrá acceso limitado solo a datos de contacto y agenda, preservando así el secreto profesional.
+
+
+
+
+Sistema de Variables
+Las variables son características o cualidades de la realidad que son susceptibles de asumir diferentes valores. Según Arias (2012), una variable es "una característica o cualidad, magnitud o cantidad, que puede sufrir cambios y que es objeto de análisis, medición, manipulación o control en una investigación" (p. 57).
+
+Cuadro 1°
+Sistema de variables del Desarrollo de un sistema de información para la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A., Ubicado en Santa Lucía, Estado Miranda, 2025"
+
+Variable
+Clasificación
+Sistema de Información 
+Dependiente
+Gestión y control de historias clínicas y citas
+Independiente
+Cuadro 1: Cuadro de Sistema de Variables. Sanchez, 2026.
+OPERACIONALIZACIÓN DE VARIABLES.
+OBJETIVO GENERAL: Desarrollar un sistema de información para la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A.
+Objetivos Específicos
+Variable
+Definición conceptual
+Definición operacional
+Dimensiones
+Indicadores
+Instrumento
+Ítems
+
+Conocer la situación actual referente al registro de citas y manejo de expedientes físicos en el Centro Integral de Reflexología Podal San Alfonso, C.A.
+
+
+
+Sistema de Información
+ Conjunto de elementos (software, hardware, datos) orientados al tratamiento y administración de datos e información, organizados para cubrir una necesidad. (Laudon &amp; Laudon, 2024).
+Se definirá mediante la identificación de los requerimientos funcionales y técnicos necesarios para automatizar los procesos del centro.
+-Satisfacción del cliente
+
+ -Seguridad de la información
+-Superación de expectativas
+-Usabilidad
+-Eficiencia 
+-Control de acceso (Usuarios/Roles)
+-Respaldos de datos (Backups)
+
+
+Cuestionario 
+
+
+E4g
+1
+2
+3
+4
+5
+
+Determinar los requerimientos funcionales y técnicos necesarios para mejorar la gestión administrativa y clínica del centro.
+
+Gestión y control de historias clínicas y citas
+Proceso administrativo y clínico que abarca la organización de la agenda de atención y el registro detallado de la evolución del paciente.(Kotler,2017; Carnicero, 2016).
+Se medirá evaluando la eficiencia, seguridad y rapidez de los procesos actuales de asignación de citas y manejo de expedientes físicos en el centro
+-Gestión de Citas
+
+-Control de   Historiales
+-Tiempo de registro
+ -Citas duplicadas
+ -Tasa de ausentismo
+-Tiempo de búsqueda
+ -Integridad física del expediente
+
+
+6
+7
+8
+9
+10
+Diseñar la arquitectura, base de datos e interfaz gráfica del sistema de información, asegurando la optimización de los procesos y la seguridad de la data.
+
+
+NO SE OPERACIONALIZA
+Cuadro 2: Cuadro de Operacionalización De Variables. Sanchez, 2026
+Términos Básicos
+Automatización: Es la tecnología que trata de la aplicación de sistemas mecánicos, electrónicos y de bases computarizadas para operar y controlar la producción. Es el uso de sistemas de control y tecnologías de la información para reducir la necesidad de la intervención humana en la producción de bienes y servicios. Groover (2015)
+Backup (Copia de Seguridad): Se refiere a la duplicación de datos o archivos con el fin de tener un medio para recuperarlos en caso de pérdida, es una copia de archivos que se mantiene como medida de seguridad para restaurar la información original si el sistema falla o los datos se corrompen. Stair y Reynolds (2017)
+Cita Médica: Es el proceso de programar un encuentro entre un paciente y un profesional de la salud, constituye un acuerdo administrativo mediante el cual se asigna un espacio de tiempo específico en la agenda de un proveedor de salud para la atención de un usuario. García (2019)
+Interfaz de Usuario: Es el medio con que el usuario puede comunicarse con una máquina, la interfaz es el mecanismo de interacción que permite al usuario comunicar sus deseos al software y recibir los resultados de la operación del sistema. Pressman (2010)
+Paciente: Persona que recibe atención médica, es toda persona que requiere asistencia sanitaria y está sometida a cuidados profesionales para el mantenimiento o recuperación de su salud. Organización Mundial de la Salud (2020)
+Reflexología: Es una terapia complementaria que se basa en el principio de que hay zonas reflejas en los pies y las manos que corresponden a todos los órganos, glándulas y partes del cuerpo, es la aplicación de presión en áreas específicas de los pies (o manos) para promover la relajación y el bienestar general. Kunz y Kunz (2018)
+
+Servidor: Ordenador que forma parte de una red y provee servicios a otros ordenadores, Se define como una computadora potente o un sistema que gestiona el acceso a un recurso centralizado o servicio en una red. Tanenbaum (2012)
+Software: Conjunto de programas y rutinas que permiten a la computadora realizar determinadas tareas, son los programas de ordenador y la documentación asociada, los cuales pueden haber sido desarrollados para un cliente en particular o para un mercado general. Sommerville (2011)
+Usuario: Individuo que utiliza un sistema informático, son las personas que realmente utilizan el sistema de información desarrollado, interactuando directamente con la interfaz para realizar sus tareas diarias. Laudon y Laudon (2016)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+CAPÍTULO III
+
+Marco Metodológico
+El desarrollo de todo proyecto requiere de una ruta de acción clara y estructurada que garantice la validez de los resultados. Por ello, tal como indica Sabino (2012), el marco metodológico constituye la sección donde se detallan los procedimientos lógicos y operativos para responder a los objetivos. En este orden de ideas, este capítulo funciona como la estructura vertebral del trabajo, justificando las herramientas seleccionadas y el plan de acción. Su finalidad es asegurar que el proceso investigativo sea riguroso y coherente. A continuación, se desglosan el paradigma, enfoque, tipo, diseño y las fases operativas del estudio.
+
+Paradigma de la Investigación
+El paradigma define la postura del investigador frente a la realidad. Desde la óptica de Hernández, Fernández y Baptista (2014), el paradigma positivista se basa en la medición objetiva de los fenómenos, apoyándose en la estadística y la prueba de hipótesis para hallar patrones. Estos autores sostienen que la realidad es concreta y observable imparcialmente.
+En consonancia con estos postulados, la presente investigación adopta el paradigma positivista. Esto se debe a que las ineficiencias del registro manual en el Centro San Alfonso no son opiniones subjetivas, sino hechos cuantificables (tiempos de espera, número de expedientes extraviados). Por ende, la solución propuesta busca intervenir esta realidad basándose en datos concretos y verificables, alejándose de apreciaciones personales.
+
+Enfoque de la Investigación
+El estudio se orienta bajo un enfoque Cuantitativo. Según Palella y Martins (2012), este enfoque se caracteriza por "privilegiar el dato como esencia del saber", basándose en la medición numérica y el análisis estadístico para establecer patrones de comportamiento de la población estudiada. En este sentido, la investigación se fundamenta en la recolección de datos cuantificables sobre los tiempos de espera y errores de registro en el centro, lo que permitirá dimensionar objetivamente la problemática y validar la efectividad de la solución tecnológica propuesta.
+
+Modalidad de la Investigación
+La propuesta se inscribe en la modalidad de Proyecto Factible. Esta modalidad se concibe como la elaboración de una propuesta viable destinada a atender necesidades específicas a partir de un diagnóstico. El estudio encaja perfectamente en esta definición, ya que trasciende el análisis teórico para generar un producto tangible: el diseño de un Sistema de Información a la medida que resuelva operativamente los problemas de gestión de citas e historias clínicas detectados en la organización.
+
+Tipo de Investigación
+El estudio se tipifica como Descriptivo. Para Sabino (2012), estas investigaciones buscan "medir con la mayor precisión posible" las características de un fenómeno, respondiendo al qué y al cómo, sin necesariamente buscar explicaciones causales profundas.
+Visto de esta forma, la fase diagnóstica del proyecto posee un carácter eminentemente descriptivo. Resulta indispensable caracterizar detalladamente el "estado actual" de los procesos (cómo se agenda hoy, dónde se falla) para poder diseñar el sistema nuevo. Esta descripción minuciosa servirá de cimiento para definir los requerimientos funcionales del software.
+
+Diseño de Investigación
+Se aplica un diseño de Campo. Al respecto, Balestrini (2006) explica que este diseño permite al investigador observar y recolectar los datos directamente de la realidad empírica donde ocurren los hechos, sin manipular ni controlar variables. Consecuentemente, el trabajo es de Campo porque es imperativo acudir a las instalaciones del Centro Integral de Reflexología Podal San Alfonso, C.A. para levantar la información primaria directamente de la fuente viva (personal y procesos), garantizando así que el sistema responda a la dinámica real de la empresa.
+
+Especificaciones Técnicas del Diseño
+Lenguaje de Programación (Backend): PHP (Framework Laravel). Se ha seleccionado PHP como lenguaje base bajo el entorno de trabajo Laravel. Esta elección permite estructurar el desarrollo bajo el patrón Modelo-Vista-Controlador (MVC), garantizando un código más seguro, ordenado y escalable para la gestión de las citas y las historias clínicas.
+Gestor de Base de Datos: MySQL. Para el almacenamiento y la gestión de la información de pacientes, citas e historias médicas se utilizará MySQL. Este sistema de gestión de bases de datos relacional es reconocido por su rapidez y robustez, características indispensables para manejar consultas en tiempo real dentro del centro.
+Interfaz de Usuario (Frontend): HTML5, CSS3 y JavaScript. Se utilizarán estas tecnologías estándar para el desarrollo de la interfaz gráfica web. Esto permitirá crear un sistema accesible desde cualquier navegador, con un diseño intuitivo y responsivo que facilite el uso por parte del personal administrativo y médico.
+Herramientas de Desarrollo:
+Editor de Código: Visual Studio Code.
+Servidor Local: Laragon (para ejecutar Apache y MySQL).
+Navegador Web: Google Chrome (para pruebas y depuración).
+
+Técnicas e Instrumentos de Recolección de Datos
+La recopilación de datos precisos y fidedignos es un paso crítico para diagnosticar la realidad operativa de la clínica. Para la obtención de esta información, se siguen los postulados de Tamayo y Tamayo (2007), quienes definen las técnicas de recolección como el conjunto de mecanismos que permiten reunir los datos necesarios para la investigación. En coherencia con ello, se aplicará la observación directa para registrar visualmente el flujo de trabajo en la recepción, y la encuesta para obtener la opinión del personal. Como instrumentos, se emplearán una guía de observación y un cuestionario, respectivamente, asegurando el registro fidedigno de los requerimientos del sistema.
+
+Fases de la Investigación
+De acuerdo con el Manual de Trabajo Especial de Grado del Instituto Universitario de Tecnología “Antonio José de Sucre” (IUTAJS, 2016), la metodología para un proyecto factible se estructura en un plan sistemático. En concordancia con esta visión, el presente proyecto se articulará en las tres fases fundamentales que el manual establece para esta modalidad: Fase de Diagnóstico, Fase de Alternativas de Solución y Fase de Propuesta.
+Fase de Diagnóstico: En esta etapa inicial y fundamental, se realizará un análisis exhaustivo de la situación actual. Se aplicarán técnicas como la observación directa para mapear el flujo de trabajo existente (creando diagramas de proceso) y se realizarán entrevistas estructuradas al personal para identificar los puntos críticos, las deficiencias del proceso manual y recopilar una lista detallada de sus necesidades y expectativas. El resultado será un documento de diagnóstico que justifique clara y objetivamente la necesidad del sistema.
+Fase de Alternativas de Solución: En esta segunda etapa, con base en el diagnóstico, se evaluará la viabilidad de la solución. Esto implica un estudio de factibilidad que analizará las opciones disponibles. Se abordará la factibilidad técnica, evaluando las tecnologías (lenguajes, bases de datos) más adecuadas; la factibilidad operativa, determinando si el personal podrá adaptarse al cambio y qué capacitación se requerirá; y la factibilidad económica, realizando una estimación de costos y beneficios para asegurar que el proyecto sea viable para la organización.
+Fase de Propuesta: Siendo el núcleo de la investigación, en esta última fase se diseñará formalmente el Sistema de Información. Esta no es una fase de programación, sino de diseño detallado. Se crearán los artefactos técnicos como el diagrama entidad-relación de la base de datos, los prototipos o mockups de las interfaces de usuario (pantallas), y un documento de especificación funcional que describa en detalle cada módulo y característica del sistema. El resultado final será la Propuesta formal, que contendrá todas las especificaciones técnicas, diagramas y prototipos necesarios para guiar la etapa de desarrollo y programación.
+
+
+
+
+
+
+
+Referencias Bibliográficas
+Arias, F. (2012). El Proyecto de Investigación: Introducción a la metodología científica. (6ta ed.). Caracas: Episteme.
+
+Ariyanto, Y., Rachmad, M., &amp; Puspitasari, D. (2024). Laravel framework and native PHP: Comparison in the creation of REST API. Matrix: Jurnal Manajemen Teknologi Dan Informatika, 14(2), 66–73.
+
+Balestrini, M. (2006). Cómo se elabora el proyecto de investigación. Caracas: Consultores Asociados.
+
+Carnicero, J. (2016). La Historia Clínica Digital: Retos y Realidades. Madrid: Sociedad Española de Informática de la Salud.
+
+Castillo, A. (2023). Impacto de un Sistema de Historial Clínico Digital en la Calidad de Atención y Seguridad del Paciente en Consultorios Pediátricos. Trabajo de Grado no publicado. Universidad de los Andes, Colombia.
+
+Código Deontológico del Médico Venezolano. (2003). Aprobado durante la CXL reunión extraordinaria de la Asamblea de la Federación Médica Venezolana. Barquisimeto.
+
+Constitución de la República Bolivariana de Venezuela. (1999). Gaceta Oficial de la República Bolivariana de Venezuela N° 36.860. Diciembre 30, 1999.
+
+Decreto con Fuerza de Ley sobre Mensajes de Datos y Firmas Electrónicas. (2001). Gaceta Oficial de la República Bolivariana de Venezuela N° 37.148. Febrero 28, 2001.
+
+Elmasri, R., y Navathe, S. (2017). Fundamentos de Sistemas de Bases de Datos. (7ma ed.). Madrid: Pearson Educación.
+
+García, M. (2019). Gestión Administrativa en Salud: Procesos y Procedimientos. Bogotá: Ecoe Ediciones.
+
+Groover, M. (2015). Automatización, procesos de producción y manufactura integrada por computadora. (4ta ed.). México: Pearson Educación.
+
+Hernández, R., Fernández, C., y Baptista, P. (2014). Metodología de la Investigación. (6ta ed.). México: McGraw-Hill Interamericana.
+
+Instituto Universitario de Tecnología “Antonio José de Sucre”. (2016). Manual de Trabajo Especial de Grado. Caracas: IUTAJS.
+
+Kotler, P., y Keller, K. (2017). Dirección de Marketing. (15a ed.). México: Pearson Educación.
+
+Kunz, K., y Kunz, B. (2018). Reflexología: Salud en tus manos. Barcelona: Ediciones Obelisco.
+
+Laudon, K., y Laudon, J. (2024). Sistemas de Información Gerencial. (17a ed.). México: Pearson Educación.
+
+Ley Especial contra los Delitos Informáticos. (2001). Gaceta Oficial de la República Bolivariana de Venezuela N° 37.313. Octubre 30, 2001.
+
+Mendoza, J., y Soria, L. (2022). Sistema Web para la Gestión de Citas e Historias Clínicas en el Policlínico San Miguel. Trabajo de Grado no publicado. Universidad Privada del Norte, Perú.
+
+Organización Mundial de la Salud. (2020). Estrategia Mundial sobre Salud Digital 2020-2025. Ginebra: OMS.
+
+Palella, S. y Martins, F. (2012). Metodología de la investigación cuantitativa. (3ra ed.). Caracas: FEDUPEL.
+
+Pressman, R. (2010). Ingeniería del Software: Un enfoque práctico. (7ma ed.). México: McGraw-Hill.
+
+Robbins, S., y Coulter, M. (2016). Administración. (13a ed.). México: Pearson Educación.
+
+Sabino, C. (2012). El proceso de investigación. Caracas: Panapo.
+
+Sommerville, I. (2011). Ingeniería de Software. (9na ed.). México: Pearson Educación.
+
+Stair, R., y Reynolds, G. (2017). Principios de Sistemas de Información. (13a ed.). México: Cengage Learning.
+
+Tamayo y Tamayo, M. (2007). El proceso de la investigación científica. (4ta ed.). México: Limusa.
+
+Tanenbaum, A. (2012). Redes de Computadoras. (5ta ed.). México: Pearson Educación.
+
+Varela, E. (2021). Sistema de Agendamiento de Citas Médicas y Recordatorio Automatizado vía WhatsApp para Centros de Fisioterapia. Trabajo de Grado no publicado. Escuela Superior Politécnica del Litoral, Ecuador.
+
+

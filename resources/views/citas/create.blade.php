@@ -33,11 +33,22 @@
                 <select name="especialista_id" id="especialista_id" class="form-select {{ $errors->has('especialista_id') ? 'is-invalid' : '' }}" required>
                     <option value="">— Seleccionar especialista —</option>
                     @foreach($especialistas as $e)
-                        <option value="{{ $e->id }}" {{ old('especialista_id') == $e->id ? 'selected' : '' }}>
-                            {{ $e->nombre_completo }}
+                        @php
+                            $diasMap = [1=>'Lun', 2=>'Mar', 3=>'Mié', 4=>'Jue', 5=>'Vie', 6=>'Sáb', 7=>'Dom'];
+                            $diasE = $e->dias_laborables ?? [1,2,3,4,5];
+                            $diasTexto = implode(', ', array_map(fn($d) => $diasMap[$d] ?? '', $diasE));
+                            $hEntrada = $e->hora_entrada ? date('h:i A', strtotime($e->hora_entrada)) : '08:00 AM';
+                            $hSalida = $e->hora_salida ? date('h:i A', strtotime($e->hora_salida)) : '05:00 PM';
+                            $infoHorario = "Días: $diasTexto | Horario: $hEntrada — $hSalida";
+                        @endphp
+                        <option value="{{ $e->id }}" data-horario="{{ $infoHorario }}" {{ old('especialista_id') == $e->id ? 'selected' : '' }}>
+                            {{ $e->nombre_completo }} — {{ $e->especialidad ?? 'Sin especialidad' }}
                         </option>
                     @endforeach
                 </select>
+                <div id="info-horario-especialista" class="text-info mt-1" style="display:none; font-size: 0.75rem; background: rgba(56, 189, 248, 0.1); padding: 6px 10px; border-radius: 6px; border-left: 3px solid var(--color-info); margin-top: 8px;">
+                    🕒 <strong style="font-weight:600;">Disponibilidad:</strong> <span id="texto-horario"></span>
+                </div>
                 @error('especialista_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
         </div>
@@ -101,10 +112,36 @@
 <script>
 // Auto-calcular hora fin (+1 hora) al seleccionar hora inicio
 document.getElementById('hora_inicio').addEventListener('change', function() {
+    if (!this.value) return;
     const [h, m] = this.value.split(':').map(Number);
     const fin = new Date(0, 0, 0, h + 1, m);
-    document.getElementById('hora_fin').value =
-        String(fin.getHours()).padStart(2,'0') + ':' + String(fin.getMinutes()).padStart(2,'0');
+    const finStr = String(fin.getHours()).padStart(2,'0') + ':' + String(fin.getMinutes()).padStart(2,'0');
+    
+    const horaFinEl = document.getElementById('hora_fin');
+    if (horaFinEl._flatpickr) {
+        horaFinEl._flatpickr.setDate(finStr, true); // true para trigger change events
+    } else {
+        horaFinEl.value = finStr;
+    }
 });
+
+// Mostrar horario del especialista seleccionado
+const espSelect = document.getElementById('especialista_id');
+const infoBox = document.getElementById('info-horario-especialista');
+const textoBox = document.getElementById('texto-horario');
+
+function updateHorario() {
+    if(espSelect.selectedIndex < 0) return;
+    const selected = espSelect.options[espSelect.selectedIndex];
+    const horario = selected.getAttribute('data-horario');
+    if (horario && espSelect.value !== '') {
+        textoBox.textContent = horario;
+        infoBox.style.display = 'block';
+    } else {
+        infoBox.style.display = 'none';
+    }
+}
+espSelect.addEventListener('change', updateHorario);
+updateHorario(); // Ejecutar al cargar la página
 </script>
 @endpush

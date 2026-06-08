@@ -21,11 +21,15 @@ class Especialista extends Model
         'apellidos',
         'especialidad',
         'telefono',
+        'hora_entrada',
+        'hora_salida',
+        'dias_laborables',
         'activo',
     ];
 
     protected $casts = [
         'activo' => 'boolean',
+        'dias_laborables' => 'array',
     ];
 
     // -----------------------------------------------------------------------

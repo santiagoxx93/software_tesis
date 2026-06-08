@@ -7,6 +7,7 @@ use App\Http\Controllers\EvolucionClinicaController;
 use App\Http\Controllers\HistoriaClinicaController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ReportesController;
+use App\Http\Controllers\UsuarioController;
 use App\Models\Cita;
 use App\Models\Paciente;
 use Illuminate\Http\Request;
@@ -37,6 +38,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/',                [CitaController::class, 'index'])->name('index');
         Route::get('/crear',           [CitaController::class, 'create'])->name('create');
         Route::post('/',               [CitaController::class, 'store'])->name('store');
+        Route::get('/{cita}',          [CitaController::class, 'show'])->name('show');
         Route::get('/{cita}/editar',   [CitaController::class, 'edit'])->name('edit');
         Route::put('/{cita}',          [CitaController::class, 'update'])->name('update');
         Route::patch('/{cita}/estado', [CitaController::class, 'cambiarEstado'])->name('cambiarEstado');
@@ -48,15 +50,26 @@ Route::middleware('auth')->group(function () {
     // -------------------------------------------------------------------
     Route::prefix('pacientes')->name('pacientes.')->group(function () {
         // Listado y perfil básico — cualquier usuario autenticado
-        Route::get('/',              [PacienteController::class, 'index'])->name('index');
-        Route::get('/{paciente}',    [PacienteController::class, 'show'])->name('show');
-
-        // Crear/editar paciente — solo admin (recepción)
+        Route::get('/',                     [PacienteController::class, 'index'])->name('index');
+        
+        // Crear paciente — solo admin (recepción) - DEBE IR ANTES DEL WILDCARD
         Route::get('/crear',                [PacienteController::class, 'create'])->name('create')->middleware('admin');
         Route::post('/',                    [PacienteController::class, 'store'])->name('store')->middleware('admin');
+
+        // Wildcard routes
+        Route::get('/{paciente}',           [PacienteController::class, 'show'])->name('show');
+        
+        // Editar paciente — solo admin
         Route::get('/{paciente}/editar',    [PacienteController::class, 'edit'])->name('edit')->middleware('admin');
         Route::put('/{paciente}',           [PacienteController::class, 'update'])->name('update')->middleware('admin');
     });
+
+    // -------------------------------------------------------------------
+    // Respaldos (Solo Admin)
+    // -------------------------------------------------------------------
+    Route::get('/backup/descargar', [\App\Http\Controllers\BackupController::class, 'download'])
+        ->name('backup.download')
+        ->middleware('admin');
 
     // -------------------------------------------------------------------
     // Módulo de Reportes y Estadísticas (Solo Admin)
@@ -66,9 +79,21 @@ Route::middleware('auth')->group(function () {
         ->middleware('admin');
 
     // -------------------------------------------------------------------
+    // Módulo de Gestión de Trabajadores (Solo Admin)
+    // -------------------------------------------------------------------
+    Route::prefix('usuarios')->name('usuarios.')->middleware('admin')->group(function () {
+        Route::get('/',              [UsuarioController::class, 'index'])->name('index');
+        Route::get('/crear',         [UsuarioController::class, 'create'])->name('create');
+        Route::post('/',             [UsuarioController::class, 'store'])->name('store');
+        Route::get('/{usuario}/editar', [UsuarioController::class, 'edit'])->name('edit');
+        Route::put('/{usuario}',     [UsuarioController::class, 'update'])->name('update');
+    });
+
+    // -------------------------------------------------------------------
     // Módulo de Historia Clínica y Evoluciones — solo especialistas
     // -------------------------------------------------------------------
     Route::prefix('historias')->name('historias.')->middleware('especialista')->group(function () {
+        Route::get('/',                        [HistoriaClinicaController::class, 'index'])->name('index');
         Route::get('/{historia}',              [HistoriaClinicaController::class, 'show'])->name('show');
         Route::put('/{historia}',              [HistoriaClinicaController::class, 'update'])->name('update');
         Route::post('/{historia}/evoluciones', [EvolucionClinicaController::class, 'store'])->name('evoluciones.store');

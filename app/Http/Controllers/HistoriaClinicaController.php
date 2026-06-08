@@ -16,6 +16,28 @@ class HistoriaClinicaController extends Controller
     }
 
     /**
+     * Muestra la lista de historias clínicas (Mis Pacientes para el especialista).
+     */
+    public function index(): View
+    {
+        $especialistaId = auth()->user()->especialista->id ?? null;
+
+        if ($especialistaId) {
+            // Obtener historias que tengan evoluciones de este especialista
+            $historias = HistoriaClinica::whereHas('evoluciones', function ($query) use ($especialistaId) {
+                $query->where('especialista_id', $especialistaId);
+            })
+            ->with('paciente')
+            ->paginate(20);
+        } else {
+            // Fallback (ej: si un admin tuviera permiso)
+            $historias = HistoriaClinica::with('paciente')->paginate(20);
+        }
+
+        return view('historias.index', compact('historias'));
+    }
+
+    /**
      * Muestra la historia clínica completa de un paciente.
      */
     public function show(HistoriaClinica $historia): View

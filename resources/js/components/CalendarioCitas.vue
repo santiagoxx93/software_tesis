@@ -121,8 +121,16 @@
             :id="`detalle-cita-${cita.id}`"
           >
             <div class="detalle-hora">{{ cita.hora_inicio }} — {{ cita.hora_fin }}</div>
-            <div class="detalle-nombre">{{ cita.paciente_nombre }}</div>
-            <div class="detalle-especialista">{{ cita.especialista_nombre }}</div>
+            <div class="detalle-nombre">
+              <span style="font-size:.7rem; text-transform:uppercase; color:var(--color-text-muted); font-weight:600; display:block; margin-bottom:2px;">Paciente</span>
+              {{ cita.paciente_nombre }}
+              <span v-if="cita.paciente_telefono" class="text-muted" style="font-size:.75rem; display:block; margin-top:2px;">📞 {{ cita.paciente_telefono }}</span>
+            </div>
+            <div class="detalle-especialista" style="margin-top: .6rem;">
+              <span style="font-size:.7rem; text-transform:uppercase; color:var(--color-primary); font-weight:600; display:block; margin-bottom:2px;">Especialista</span>
+              👨‍⚕️ {{ cita.especialista_nombre }}
+              <span v-if="cita.especialista_telefono" style="font-size:.75rem; opacity:0.8; margin-left:4px;">(📞 {{ cita.especialista_telefono }})</span>
+            </div>
             <estado-badge :estado="cita.estado" />
             <a :href="`/citas/${cita.id}/editar`" class="btn btn-secondary btn-sm" style="margin-top:.5rem;">
               Editar

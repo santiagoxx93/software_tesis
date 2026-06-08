@@ -63,6 +63,8 @@ class CitaController extends Controller
                 'paciente_nombre'     => $c->paciente->nombre_completo,
                 'especialista_id'     => $c->especialista_id,
                 'especialista_nombre' => $c->especialista->nombre_completo,
+                'especialista_telefono'=> $c->especialista->telefono,
+                'paciente_telefono'   => $c->paciente->telefono,
                 'motivo'              => $c->motivo,
             ]);
 
@@ -100,6 +102,20 @@ class CitaController extends Controller
             'motivo'         => ['nullable', 'string', 'max:500'],
             'notas_recepcion'=> ['nullable', 'string', 'max:1000'],
         ]);
+
+        // Validación de Horario Laboral del Especialista
+        $validacionHorario = Cita::esHorarioValido(
+            $validated['especialista_id'],
+            $validated['fecha'],
+            $validated['hora_inicio'],
+            $validated['hora_fin']
+        );
+
+        if ($validacionHorario !== true) {
+            return back()
+                ->withInput()
+                ->withErrors(['hora_inicio' => $validacionHorario]);
+        }
 
         // Validación de duplicidad de horario
         if (Cita::existeCruceHorario(
@@ -148,6 +164,20 @@ class CitaController extends Controller
             'motivo'         => ['nullable', 'string', 'max:500'],
             'notas_recepcion'=> ['nullable', 'string', 'max:1000'],
         ]);
+
+        // Validación de Horario Laboral del Especialista
+        $validacionHorario = Cita::esHorarioValido(
+            $validated['especialista_id'],
+            $validated['fecha'],
+            $validated['hora_inicio'],
+            $validated['hora_fin']
+        );
+
+        if ($validacionHorario !== true) {
+            return back()
+                ->withInput()
+                ->withErrors(['hora_inicio' => $validacionHorario]);
+        }
 
         // Validación de cruce excluyendo la propia cita
         if (Cita::existeCruceHorario(

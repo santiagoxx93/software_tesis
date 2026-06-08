@@ -105,8 +105,16 @@
                             <td>
                                 <a href="{{ route('pacientes.show', $cita->paciente) }}">{{ $cita->paciente->nombre_completo }}</a><br>
                                 <span class="text-muted" style="font-size:.75rem;">{{ $cita->paciente->cedula }}</span>
+                                @if($cita->paciente->telefono)
+                                    <br><span class="text-muted" style="font-size:.75rem;">📞 {{ $cita->paciente->telefono }}</span>
+                                @endif
                             </td>
-                            <td>{{ $cita->especialista->nombre_completo }}</td>
+                            <td>
+                                <div>{{ $cita->especialista->nombre_completo }}</div>
+                                @if($cita->especialista->telefono)
+                                    <span class="text-muted" style="font-size:.75rem;">📞 {{ $cita->especialista->telefono }}</span>
+                                @endif
+                            </td>
                             <td>
                                 <div data-vue-app>
                                     <estado-badge estado="{{ $cita->estado }}"></estado-badge>

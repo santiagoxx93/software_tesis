@@ -8,10 +8,11 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
+use Spatie\Permission\Traits\HasRoles;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles;
 
     /**
      * The attributes that are mass assignable.
@@ -53,12 +54,12 @@ class User extends Authenticatable
 
     public function esAdmin(): bool
     {
-        return $this->rol === 'admin';
+        return $this->hasRole('admin');
     }
 
     public function esEspecialista(): bool
     {
-        return $this->rol === 'especialista';
+        return $this->hasRole('especialista');
     }
 
     // -----------------------------------------------------------------------
