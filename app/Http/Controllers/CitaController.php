@@ -78,6 +78,17 @@ class CitaController extends Controller
     }
 
     /**
+     * Muestra los detalles de una cita individual.
+     */
+    public function show(Cita $cita): View
+    {
+        // Cargar las relaciones necesarias para la vista
+        $cita->load(['paciente', 'especialista', 'registradoPor', 'canceladoPor', 'citaReprogramada']);
+        
+        return view('citas.show', compact('cita'));
+    }
+
+    /**
      * Formulario de nueva cita.
      */
     public function create(): View

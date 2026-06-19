@@ -125,6 +125,7 @@
                             </td>
                             <td>
                                 <div class="flex gap-2">
+                                    <a href="{{ route('citas.show', $cita) }}" class="btn btn-primary btn-sm">Ver</a>
                                     <a href="{{ route('citas.edit', $cita) }}" class="btn btn-secondary btn-sm">Editar</a>
                                     @if(in_array($cita->estado, ['pendiente', 'confirmada']))
                                         <form action="{{ route('citas.cambiarEstado', $cita) }}" method="POST">
