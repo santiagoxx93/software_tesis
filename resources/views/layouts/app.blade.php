@@ -7,10 +7,17 @@
     <title>@yield('title', 'Centro San Alfonso') — SGCHC</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
-    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css">
+    <link rel="stylesheet" type="text/css" href="https://npmcdn.com/flatpickr/dist/themes/dark.css" id="flatpickr-dark-theme">
     @vite(['resources/css/app.css', 'resources/js/app.js'])
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script>
+        const savedTheme = localStorage.getItem('theme') || 'dark';
+        if (savedTheme === 'light') {
+            document.documentElement.setAttribute('data-theme', 'light');
+        }
+    </script>
     <style>
         /* ================================================================
            DESIGN TOKENS
@@ -29,12 +36,30 @@
             --color-info:        #38bdf8;
             --color-text:        #e2e6f3;
             --color-text-muted:  #7c84a3;
-            --sidebar-w:         260px;
+            --sidebar-w:         280px;
+            --sidebar-w-collapsed: 80px;
             --radius:            12px;
             --radius-sm:         8px;
             --shadow:            0 4px 24px rgba(0,0,0,.4);
             --transition:        .2s ease;
         }
+
+        [data-theme="light"] {
+            --color-bg:          #f4f7fb;
+            --color-surface:     #ffffff;
+            --color-surface-2:   #f1f5f9;
+            --color-border:      #e2e8f0;
+            --color-text:        #1e293b;
+            --color-text-muted:  #64748b;
+            --shadow:            0 4px 24px rgba(0,0,0,.04);
+        }
+
+        [data-theme="light"] .topbar { background: rgba(255,255,255,.85); }
+        [data-theme="light"] .sidebar-user { border-top: 1px solid var(--color-border); }
+        [data-theme="light"] table td { border-bottom: 1px solid var(--color-border); }
+        [data-theme="light"] table tr:hover td { background: rgba(0,0,0,.02); }
+        [data-theme="light"] .form-control, [data-theme="light"] .form-select { background: #ffffff; border-color: #cbd5e1; box-shadow: inset 0 1px 2px rgba(0,0,0,.02); }
+        [data-theme="light"] .form-control:focus, [data-theme="light"] .form-select:focus { box-shadow: 0 0 0 3px rgba(79,110,247,.15); border-color: var(--color-primary); }
 
         /* ================================================================
            RESET & BASE
@@ -49,6 +74,14 @@
             display: flex;
         }
 
+        /* Scrollbars */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: var(--color-surface); }
+        ::-webkit-scrollbar-thumb { background: var(--color-border); border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: var(--color-text-muted); }
+
+        ::placeholder { color: var(--color-text-muted); opacity: 0.6; }
+
         a { color: var(--color-primary); text-decoration: none; transition: color var(--transition); }
         a:hover { color: var(--color-primary-h); }
 
@@ -56,7 +89,10 @@
            SIDEBAR
            ================================================================ */
         .sidebar {
-            width: var(--sidebar-w);
+            width: var(--sidebar-w-collapsed);
+            transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            overflow-x: hidden;
+            white-space: nowrap;
             min-height: 100vh;
             background: var(--color-surface);
             border-right: 1px solid var(--color-border);
@@ -66,17 +102,47 @@
             top: 0; left: 0;
             z-index: 100;
         }
+        .sidebar:hover {
+            width: var(--sidebar-w);
+            box-shadow: 4px 0 24px rgba(0,0,0,.2);
+        }
+        [data-theme="light"] .sidebar:hover {
+            box-shadow: 4px 0 24px rgba(0,0,0,.06);
+        }
+
+        /* Ocultar texto en modo colapsado */
+        .sidebar:not(:hover) .sidebar-brand-text,
+        .sidebar:not(:hover) .nav-section-label,
+        .sidebar:not(:hover) .user-info > div:not(.user-avatar) {
+            opacity: 0; visibility: hidden;
+        }
+        .sidebar:not(:hover) .nav-link,
+        .sidebar:not(:hover) .btn-logout {
+            color: transparent !important;
+        }
+        .sidebar:not(:hover) .btn-logout {
+            background: transparent !important;
+            border-color: transparent !important;
+        }
+        .sidebar:not(:hover) .nav-link .icon { color: var(--color-text-muted); }
+        .sidebar:not(:hover) .nav-link.active .icon { color: var(--color-text); }
+        .sidebar:not(:hover) .nav-link[href*="backup"] .icon { color: #f59e0b; }
+        .sidebar:not(:hover) .btn-logout svg { color: var(--color-danger); }
+
+        .sidebar-brand-text, .nav-section-label, .user-info > div:not(.user-avatar) {
+            transition: opacity 0.2s ease;
+        }
 
         .sidebar-brand {
-            padding: 1.25rem;
+            padding: 1.25rem 0.8rem;
             border-bottom: 1px solid var(--color-border);
             display: flex;
             align-items: center;
-            gap: .85rem;
+            gap: 1rem;
             background: linear-gradient(135deg, rgba(34,197,94,.06), rgba(56,189,248,.04));
         }
         .sidebar-logo {
-            width: 44px; height: 44px;
+            width: 56px; height: 56px;
             border-radius: 50%;
             object-fit: cover;
             flex-shrink: 0;
@@ -85,19 +151,19 @@
         }
         .sidebar-logo:hover { transform: scale(1.1) rotate(5deg); }
         .sidebar-brand-text h1 {
-            font-size: .82rem;
+            font-size: 1.05rem;
             font-weight: 700;
             color: var(--color-text);
             line-height: 1.25;
         }
         .sidebar-brand-text span {
-            font-size: .65rem;
+            font-size: .72rem;
             color: #22c55e;
-            font-weight: 500;
-            letter-spacing: .04em;
+            font-weight: 600;
+            letter-spacing: .01em;
             text-transform: uppercase;
             display: block;
-            margin-top: .1rem;
+            margin-top: .15rem;
         }
 
         .sidebar-nav { flex: 1; padding: 1rem 0; }
@@ -107,13 +173,13 @@
             letter-spacing: .08em;
             text-transform: uppercase;
             color: var(--color-text-muted);
-            padding: .75rem 1.25rem .3rem;
+            padding: .75rem 2.1rem .3rem;
         }
         .nav-link {
             display: flex;
             align-items: center;
             gap: .75rem;
-            padding: .65rem 1.25rem;
+            padding: .65rem 2.1rem;
             color: var(--color-text-muted);
             font-size: .875rem;
             font-weight: 500;
@@ -136,7 +202,7 @@
         .nav-link .icon { width: 18px; height: 18px; flex-shrink: 0; }
 
         .sidebar-user {
-            padding: 1rem 1.25rem;
+            padding: 1rem 1.5rem;
             border-top: 1px solid var(--color-border);
         }
         .user-info { display: flex; align-items: center; gap: .75rem; margin-bottom: .75rem; }
@@ -160,8 +226,8 @@
         }
         .btn-logout {
             width: 100%;
-            display: flex; align-items: center; justify-content: center; gap: .5rem;
-            padding: .5rem;
+            display: flex; align-items: center; justify-content: flex-start; gap: .75rem;
+            padding: .65rem 0.7rem;
             background: rgba(239,68,68,.1);
             color: var(--color-danger);
             border: 1px solid rgba(239,68,68,.2);
@@ -170,6 +236,7 @@
             cursor: pointer;
             transition: all var(--transition);
         }
+        .btn-logout svg { flex-shrink: 0; }
         .btn-logout:hover {
             background: rgba(239,68,68,.2);
             color: #fff;
@@ -179,7 +246,7 @@
            MAIN CONTENT
            ================================================================ */
         .main-content {
-            margin-left: var(--sidebar-w);
+            margin-left: var(--sidebar-w-collapsed);
             flex: 1;
             display: flex;
             flex-direction: column;
@@ -223,38 +290,59 @@
            BUTTONS
            ================================================================ */
         .btn {
-            display: inline-flex; align-items: center; gap: .5rem;
-            padding: .55rem 1.2rem;
-            border-radius: var(--radius-sm);
+            display: inline-flex; align-items: center; justify-content: center; gap: .4rem;
+            padding: .6rem 1.1rem; /* Mismo padding vertical que form-control para alinear perfecto */
+            border-radius: 6px;
             font-size: .85rem; font-weight: 500;
-            border: none; cursor: pointer;
-            transition: all var(--transition);
+            font-family: 'Outfit', 'Inter', sans-serif;
+            letter-spacing: 0.015em;
+            border: 1px solid transparent; cursor: pointer;
+            transition: all 0.2s ease-in-out;
             text-decoration: none;
+            box-shadow: 0 1px 2px rgba(0,0,0,0.1);
+            height: 38px; /* Altura fija para asegurar alineación con inputs */
         }
         .btn-primary {
-            background: var(--color-primary);
+            background: linear-gradient(135deg, var(--color-primary), var(--color-accent));
             color: #fff;
+            border-color: transparent;
         }
-        .btn-primary:hover { background: var(--color-primary-h); color: #fff; }
+        .btn-primary:hover { 
+            box-shadow: 0 4px 12px rgba(124,94,247,0.3); 
+            transform: translateY(-1px); 
+            filter: brightness(1.05);
+        }
+        .btn-primary:active { transform: translateY(0); box-shadow: 0 1px 2px rgba(0,0,0,0.1); }
+        
         .btn-secondary {
-            background: var(--color-surface-2);
+            background: rgba(255,255,255,0.04);
             color: var(--color-text);
-            border: 1px solid var(--color-border);
+            border-color: rgba(255,255,255,0.1);
         }
-        .btn-secondary:hover { background: var(--color-border); color: var(--color-text); }
+        .btn-secondary:hover { background: rgba(255,255,255,0.08); border-color: rgba(255,255,255,0.15); color: #fff; }
+
+        [data-theme="light"] .btn-secondary {
+            background: #f1f5f9;
+            color: #334155;
+            border-color: #cbd5e1;
+        }
+        [data-theme="light"] .btn-secondary:hover { background: #e2e8f0; color: #0f172a; border-color: #94a3b8; }
+        
         .btn-danger {
-            background: rgba(239,68,68,.15);
+            background: rgba(239,68,68,.1);
             color: var(--color-danger);
-            border: 1px solid rgba(239,68,68,.25);
+            border-color: rgba(239,68,68,.2);
         }
-        .btn-danger:hover { background: var(--color-danger); color: #fff; }
+        .btn-danger:hover { background: var(--color-danger); color: #fff; border-color: var(--color-danger); }
+        
         .btn-success {
-            background: rgba(34,197,94,.15);
+            background: rgba(34,197,94,.1);
             color: var(--color-success);
-            border: 1px solid rgba(34,197,94,.25);
+            border-color: rgba(34,197,94,.2);
         }
-        .btn-success:hover { background: var(--color-success); color: #fff; }
-        .btn-sm { padding: .35rem .8rem; font-size: .78rem; }
+        .btn-success:hover { background: var(--color-success); color: #fff; border-color: var(--color-success); }
+        
+        .btn-sm { padding: .35rem .75rem; font-size: .78rem; height: 32px; }
 
         /* ================================================================
            FORMS
@@ -370,17 +458,34 @@
         /* ================================================================
            PAGINATION
            ================================================================ */
-        .pagination { display: flex; gap: .4rem; align-items: center; padding-top: 1rem; }
-        .pagination a, .pagination span {
-            padding: .4rem .75rem;
+        .pagination { 
+            display: flex; gap: .4rem; align-items: center; 
+            padding-left: 0; list-style: none; margin: 0; flex-wrap: wrap;
+        }
+        .page-item .page-link, .pagination span {
+            padding: .4rem .85rem;
             border-radius: var(--radius-sm);
-            font-size: .82rem;
+            font-size: .85rem; font-weight: 500;
             border: 1px solid var(--color-border);
             color: var(--color-text-muted);
             background: var(--color-surface);
+            display: inline-flex; align-items: center; justify-content: center;
+            text-decoration: none; cursor: pointer; transition: all var(--transition);
         }
-        .pagination a:hover { background: var(--color-surface-2); color: var(--color-text); }
-        .pagination .active { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+        .page-item:not(.active):not(.disabled) .page-link:hover { background: var(--color-surface-2); color: var(--color-text); }
+        .page-item.active .page-link { background: var(--color-primary); color: #fff; border-color: var(--color-primary); }
+        .page-item.disabled .page-link { opacity: 0.5; cursor: not-allowed; }
+        
+        /* Ocultar duplicados de Bootstrap 5 Paginator */
+        .d-none { display: none !important; }
+        @media (min-width: 576px) {
+            .d-sm-none { display: none !important; }
+            .d-sm-flex { display: flex !important; }
+            .justify-content-sm-between { justify-content: space-between !important; }
+            .align-items-sm-center { align-items: center !important; }
+        }
+        .small.text-muted { font-size: .82rem; color: var(--color-text-muted); margin-bottom: 0; }
+        nav[role="navigation"] { margin-top: 1.5rem; }
 
         /* ================================================================
            MISC
@@ -525,7 +630,11 @@
             <div class="topbar-breadcrumb">@yield('breadcrumb')</div>
             @endif
         </div>
-        <div class="flex gap-2">
+        <div class="flex gap-2" style="align-items: center;">
+            <button id="theme-toggle" class="btn btn-secondary btn-sm" title="Alternar modo oscuro/claro" style="padding: 0.4rem; border-radius: 50%; width: 34px; height: 34px; display: flex; align-items: center; justify-content: center; margin-right: 0.5rem;">
+                <i data-lucide="sun" id="theme-icon-sun" style="width: 18px; height: 18px; display: none;"></i>
+                <i data-lucide="moon" id="theme-icon-moon" style="width: 18px; height: 18px;"></i>
+            </button>
             @yield('topbar-actions')
         </div>
     </header>
@@ -566,6 +675,46 @@
             altFormat: "h:i K",      // Lo que ve el usuario (12h AM/PM)
             time_24hr: false         // Formato 12 horas AM/PM
         });
+
+        // Inicializar iconos de Lucide
+        lucide.createIcons();
+
+        // Lógica del modo claro/oscuro
+        const themeToggle = document.getElementById('theme-toggle');
+        const iconSun = document.getElementById('theme-icon-sun');
+        const iconMoon = document.getElementById('theme-icon-moon');
+        const htmlEl = document.documentElement;
+
+        function updateThemeUI(theme) {
+            const flatpickrDark = document.getElementById('flatpickr-dark-theme');
+            if (theme === 'light') {
+                if (iconSun) iconSun.style.display = 'none';
+                if (iconMoon) iconMoon.style.display = 'block';
+                if (flatpickrDark) flatpickrDark.disabled = true;
+            } else {
+                if (iconSun) iconSun.style.display = 'block';
+                if (iconMoon) iconMoon.style.display = 'none';
+                if (flatpickrDark) flatpickrDark.disabled = false;
+            }
+        }
+
+        updateThemeUI(savedTheme);
+
+        if (themeToggle) {
+            themeToggle.addEventListener('click', () => {
+                const isLight = htmlEl.getAttribute('data-theme') === 'light';
+                const newTheme = isLight ? 'dark' : 'light';
+                
+                if (newTheme === 'light') {
+                    htmlEl.setAttribute('data-theme', 'light');
+                } else {
+                    htmlEl.removeAttribute('data-theme');
+                }
+                
+                localStorage.setItem('theme', newTheme);
+                updateThemeUI(newTheme);
+            });
+        }
     });
 </script>
 @stack('scripts')

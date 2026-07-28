@@ -165,8 +165,8 @@ class Cita extends Model
     /**
      * Evolución clínica asociada a esta cita (si la hay).
      */
-    public function evolucion(): \Illuminate\Database\Eloquent\Relations\HasOne
+    public function historiaClinica(): \Illuminate\Database\Eloquent\Relations\HasOne
     {
-        return $this->hasOne(EvolucionClinica::class);
+        return $this->hasOne(HistoriaClinica::class);
     }
 }

@@ -67,8 +67,8 @@ class Especialista extends Model
     /**
      * Evoluciones clínicas registradas por este especialista.
      */
-    public function evolucionesClincias(): HasMany
+    public function historiasClinicas(): HasMany
     {
-        return $this->hasMany(EvolucionClinica::class);
+        return $this->hasMany(HistoriaClinica::class);
     }
 }

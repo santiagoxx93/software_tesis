@@ -6,10 +6,7 @@
 
 @section('topbar-actions')
     <a href="{{ route('usuarios.create') }}" class="btn btn-primary btn-sm" id="btn-nuevo-usuario">
-        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Nuevo Trabajador
+        <i data-lucide="plus" style="width:16px;height:16px;"></i> Nuevo Trabajador
     </a>
 @endsection
 
@@ -34,9 +31,9 @@
             </select>
         </div>
         <div class="flex gap-2">
-            <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+            <button type="submit" class="btn btn-primary"><i data-lucide="search" style="width:14px;height:14px;"></i> Buscar</button>
             @if(request('buscar') || request('rol'))
-                <a href="{{ route('usuarios.index') }}" class="btn btn-secondary btn-sm">Limpiar</a>
+                <a href="{{ route('usuarios.index') }}" class="btn btn-secondary">Limpiar</a>
             @endif
         </div>
     </form>
@@ -81,7 +78,7 @@
                         <td>
                             <div>{{ $usuario->email }}</div>
                             @if($usuario->especialista && $usuario->especialista->telefono)
-                                <div class="text-muted" style="font-size:.75rem;">📞 {{ $usuario->especialista->telefono }}</div>
+                                <div class="text-muted" style="font-size:.75rem;"><i data-lucide="phone" style="width:12px;height:12px;margin-bottom:-2px;"></i> {{ $usuario->especialista->telefono }}</div>
                             @endif
                         </td>
                         <td>

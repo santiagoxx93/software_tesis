@@ -5,7 +5,6 @@ import { createApp } from 'vue';
 import CalendarioCitas      from './components/CalendarioCitas.vue';
 import FormularioCita       from './components/FormularioCita.vue';
 import BuscadorPacientes    from './components/BuscadorPacientes.vue';
-import FormularioEvolucion  from './components/FormularioEvolucion.vue';
 import EstadoBadge          from './components/EstadoBadge.vue';
 
 /**
@@ -19,7 +18,6 @@ document.querySelectorAll('[data-vue-app]').forEach((el) => {
     app.component('CalendarioCitas',     CalendarioCitas);
     app.component('FormularioCita',      FormularioCita);
     app.component('BuscadorPacientes',   BuscadorPacientes);
-    app.component('FormularioEvolucion', FormularioEvolucion);
     app.component('EstadoBadge',         EstadoBadge);
 
     app.mount(el);

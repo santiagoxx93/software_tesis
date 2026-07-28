@@ -7,7 +7,7 @@
 @section('content')
 <div class="card" style="max-width:860px;">
     <div class="card-header">
-        <span class="card-title">👤 Datos del paciente</span>
+        <span class="card-title flex align-center gap-2" style="align-items:center;"><i data-lucide="user" style="width:20px;height:20px;"></i> Datos del paciente</span>
         <a href="{{ route('pacientes.index') }}" class="btn btn-secondary btn-sm">← Volver</a>
     </div>
 

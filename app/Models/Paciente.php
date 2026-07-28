@@ -56,11 +56,11 @@ class Paciente extends Model
     // -----------------------------------------------------------------------
 
     /**
-     * Historia clínica del paciente (una sola por paciente).
+     * Historias clínicas del paciente (una por visita).
      */
-    public function historiaClinica(): HasOne
+    public function historiasClinicas(): HasMany
     {
-        return $this->hasOne(HistoriaClinica::class);
+        return $this->hasMany(HistoriaClinica::class);
     }
 
     /**

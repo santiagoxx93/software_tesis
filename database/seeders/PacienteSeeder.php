@@ -11,7 +11,7 @@ class PacienteSeeder extends Seeder
 {
     public function run(): void
     {
-        $admin = User::where('rol', 'admin')->first();
+        $admin = User::role('admin')->first();
 
         $pacientes = [
             [

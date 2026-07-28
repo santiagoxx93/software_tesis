@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\EvolucionClinicaController;
+
 use App\Http\Controllers\HistoriaClinicaController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ReportesController;
@@ -78,6 +78,10 @@ Route::middleware('auth')->group(function () {
         ->name('reportes.index')
         ->middleware('admin');
 
+    Route::get('/reportes/pdf', [ReportesController::class, 'downloadPdf'])
+        ->name('reportes.pdf')
+        ->middleware('admin');
+
     // -------------------------------------------------------------------
     // Módulo de Gestión de Trabajadores (Solo Admin)
     // -------------------------------------------------------------------
@@ -90,14 +94,14 @@ Route::middleware('auth')->group(function () {
     });
 
     // -------------------------------------------------------------------
-    // Módulo de Historia Clínica y Evoluciones — solo especialistas
+    // Módulo de Historia Clínica (Visitas) — solo especialistas
     // -------------------------------------------------------------------
     Route::prefix('historias')->name('historias.')->middleware('especialista')->group(function () {
         Route::get('/',                        [HistoriaClinicaController::class, 'index'])->name('index');
+        Route::get('/crear',                   [HistoriaClinicaController::class, 'create'])->name('create');
+        Route::post('/',                       [HistoriaClinicaController::class, 'store'])->name('store');
         Route::get('/{historia}',              [HistoriaClinicaController::class, 'show'])->name('show');
         Route::put('/{historia}',              [HistoriaClinicaController::class, 'update'])->name('update');
-        Route::post('/{historia}/evoluciones', [EvolucionClinicaController::class, 'store'])->name('evoluciones.store');
-        Route::get('/evoluciones/{evolucion}', [EvolucionClinicaController::class, 'show'])->name('evoluciones.show');
     });
 
     // -------------------------------------------------------------------

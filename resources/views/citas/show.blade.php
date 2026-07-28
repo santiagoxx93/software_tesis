@@ -20,7 +20,7 @@
             {{-- Columna 1: Información General y Paciente --}}
             <div>
                 <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border); color: var(--color-text);">
-                    📅 Información General
+                    <i data-lucide="info" style="width:18px;height:18px;margin-bottom:-2px;"></i> Información General
                 </h4>
                 <div style="margin-bottom: 8px;">
                     <strong>Fecha:</strong> {{ \Carbon\Carbon::parse($cita->fecha)->locale('es')->isoFormat('dddd, D [de] MMMM [de] YYYY') }}
@@ -30,7 +30,7 @@
                 </div>
                 
                 <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border); color: var(--color-text);">
-                    👤 Paciente
+                    <i data-lucide="user" style="width:18px;height:18px;margin-bottom:-2px;"></i> Paciente
                 </h4>
                 <div style="margin-bottom: 8px;">
                     <strong>Nombre:</strong> 
@@ -45,13 +45,13 @@
             {{-- Columna 2: Especialista y Datos Administrativos --}}
             <div>
                 <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border); color: var(--color-text);">
-                    🩺 Especialista
+                    <i data-lucide="stethoscope" style="width:18px;height:18px;margin-bottom:-2px;"></i> Especialista
                 </h4>
                 <div style="margin-bottom: 8px;"><strong>Nombre:</strong> {{ $cita->especialista->nombre_completo }}</div>
                 <div style="margin-bottom: 24px;"><strong>Especialidad:</strong> {{ $cita->especialista->especialidad }}</div>
 
                 <h4 style="font-size: 1.1rem; font-weight: 600; margin-bottom: 16px; padding-bottom: 8px; border-bottom: 1px solid var(--color-border); color: var(--color-text);">
-                    📋 Datos Administrativos
+                    <i data-lucide="file-text" style="width:18px;height:18px;margin-bottom:-2px;"></i> Datos Administrativos
                 </h4>
                 <div style="margin-bottom: 12px;"><strong>Registrada por:</strong> {{ $cita->registradoPor->name ?? 'Sistema' }}</div>
                 

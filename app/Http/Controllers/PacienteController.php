@@ -69,23 +69,17 @@ class PacienteController extends Controller
 
         $paciente = Paciente::create($validated);
 
-        // Crear historia clínica vacía automáticamente
-        HistoriaClinica::create([
-            'paciente_id' => $paciente->id,
-            'creado_por'  => auth()->id(),
-        ]);
-
         return redirect()->route('pacientes.show', $paciente)
             ->with('success', "Paciente {$paciente->nombre_completo} registrado exitosamente.");
     }
 
     /**
      * Perfil del paciente.
-     * Admins ven datos de contacto. Especialistas ven la historia clínica completa.
+     * Admins ven datos de contacto. Especialistas ven el historial de visitas.
      */
     public function show(Paciente $paciente): View
     {
-        $paciente->load(['historiaClinica.evoluciones.especialista', 'citas' => function ($q) {
+        $paciente->load(['historiasClinicas.especialista', 'citas' => function ($q) {
             $q->with('especialista')->orderBy('fecha', 'desc')->limit(10);
         }]);
 

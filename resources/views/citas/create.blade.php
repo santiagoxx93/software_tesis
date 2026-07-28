@@ -7,7 +7,7 @@
 @section('content')
 <div class="card" style="max-width:780px;">
     <div class="card-header">
-        <span class="card-title">📅 Datos de la cita</span>
+        <span class="card-title flex align-center gap-2" style="align-items:center;"><i data-lucide="calendar-plus" style="width:20px;height:20px;"></i> Datos de la cita</span>
         <a href="{{ route('citas.index') }}" class="btn btn-secondary btn-sm">← Volver</a>
     </div>
 
@@ -47,7 +47,7 @@
                     @endforeach
                 </select>
                 <div id="info-horario-especialista" class="text-info mt-1" style="display:none; font-size: 0.75rem; background: rgba(56, 189, 248, 0.1); padding: 6px 10px; border-radius: 6px; border-left: 3px solid var(--color-info); margin-top: 8px;">
-                    🕒 <strong style="font-weight:600;">Disponibilidad:</strong> <span id="texto-horario"></span>
+                    <i data-lucide="clock" style="width:14px;height:14px;margin-bottom:-2px;"></i> <strong style="font-weight:600;">Disponibilidad:</strong> <span id="texto-horario"></span>
                 </div>
                 @error('especialista_id')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>

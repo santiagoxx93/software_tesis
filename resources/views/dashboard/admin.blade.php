@@ -6,10 +6,7 @@
 
 @section('topbar-actions')
     <a href="{{ route('citas.create') }}" class="btn btn-primary btn-sm">
-        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Nueva Cita
+        <i data-lucide="plus" style="width:16px;height:16px;"></i> Nueva Cita
     </a>
 @endsection
 
@@ -25,28 +22,28 @@
 {{-- Estadísticas rápidas --}}
 <div class="grid-4 mb-3">
     <div class="stat-card">
-        <div class="stat-icon blue">📅</div>
+        <div class="stat-icon blue"><i data-lucide="calendar"></i></div>
         <div>
             <div class="stat-value">{{ $citasHoy->count() }}</div>
             <div class="stat-label">Citas hoy</div>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon green">📋</div>
+        <div class="stat-icon green"><i data-lucide="clipboard-list"></i></div>
         <div>
             <div class="stat-value">{{ $totalMes }}</div>
             <div class="stat-label">Citas este mes</div>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon yellow">⚠️</div>
+        <div class="stat-icon yellow"><i data-lucide="alert-circle"></i></div>
         <div>
             <div class="stat-value">{{ $ausentes }}</div>
             <div class="stat-label">Ausentes este mes</div>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon blue">👥</div>
+        <div class="stat-icon blue"><i data-lucide="users"></i></div>
         <div>
             <div class="stat-value">{{ $pacientes }}</div>
             <div class="stat-label">Pacientes registrados</div>
@@ -57,7 +54,10 @@
 {{-- Citas del día --}}
 <div class="card">
     <div class="card-header">
-        <span class="card-title">📅 Agenda de hoy — {{ $hoy->isoFormat('dddd, D [de] MMMM') }}</span>
+        <span class="card-title flex align-center gap-2" style="align-items:center;">
+            <i data-lucide="calendar-days" style="width:20px;height:20px;"></i>
+            Agenda de hoy — <span style="text-transform: capitalize;">{{ $hoy->locale('es')->isoFormat('dddd, D [de] MMMM') }}</span>
+        </span>
         <a href="{{ route('citas.index', ['fecha' => $hoy->toDateString()]) }}" class="btn btn-secondary btn-sm">Ver todas</a>
     </div>
 

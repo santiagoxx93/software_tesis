@@ -8,21 +8,21 @@
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
         :root {
-            --color-bg:       #0f1117;
-            --color-surface:  #1a1d27;
-            --color-border:   #2e3248;
+            --color-bg:       #f4f7f6;
+            --color-surface:  #ffffff;
+            --color-border:   #e2e8f0;
             --color-primary:  #4f6ef7;
             --color-primary-h:#3a56d4;
             --color-accent:   #7c5ef7;
-            --color-text:     #e2e6f3;
-            --color-muted:    #7c84a3;
+            --color-text:     #1e293b;
+            --color-muted:    #64748b;
             --color-danger:   #ef4444;
             --radius:         14px;
         }
         *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
         body {
             font-family: 'Inter', sans-serif;
-            background: var(--color-bg);
+            background: url('/medical-bg.png') no-repeat center center / cover;
             color: var(--color-text);
             min-height: 100vh;
             display: flex;
@@ -30,42 +30,32 @@
             justify-content: center;
             padding: 1rem;
             position: relative;
-            overflow: hidden;
         }
-        /* Decorative blobs */
+        /* Soft medical overlay */
         body::before {
             content: '';
-            position: fixed;
-            top: -20%; left: -10%;
-            width: 600px; height: 600px;
-            background: radial-gradient(circle, rgba(79,110,247,.15) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
-        }
-        body::after {
-            content: '';
-            position: fixed;
-            bottom: -15%; right: -5%;
-            width: 500px; height: 500px;
-            background: radial-gradient(circle, rgba(124,94,247,.12) 0%, transparent 70%);
-            border-radius: 50%;
-            pointer-events: none;
+            position: absolute;
+            top: 0; left: 0; width: 100%; height: 100%;
+            background: rgba(230, 240, 245, 0.65);
+            backdrop-filter: blur(8px);
+            z-index: 0;
         }
         .login-wrapper {
             display: grid;
             grid-template-columns: 1fr 1fr;
             max-width: 920px;
             width: 100%;
-            background: var(--color-surface);
-            border: 1px solid var(--color-border);
+            background: rgba(255, 255, 255, 0.9);
+            backdrop-filter: blur(25px);
+            border: 1px solid rgba(255, 255, 255, 0.8);
             border-radius: var(--radius);
-            box-shadow: 0 24px 80px rgba(0,0,0,.6);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.08);
             overflow: hidden;
             position: relative; z-index: 1;
         }
         /* Left panel */
         .login-brand {
-            background: linear-gradient(145deg, #1a1d27 0%, #151828 100%);
+            background: linear-gradient(145deg, rgba(79, 110, 247, 0.08) 0%, rgba(56, 189, 248, 0.03) 100%);
             padding: 3rem 2.5rem;
             display: flex;
             flex-direction: column;
@@ -153,7 +143,7 @@
         label { display: block; font-size: .8rem; font-weight: 500; color: var(--color-muted); margin-bottom: .4rem; }
         input {
             width: 100%;
-            background: rgba(255,255,255,.04);
+            background: rgba(255, 255, 255, 0.7);
             border: 1px solid var(--color-border);
             border-radius: 8px;
             padding: .7rem .9rem;

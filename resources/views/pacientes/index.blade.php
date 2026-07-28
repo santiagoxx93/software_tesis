@@ -7,10 +7,7 @@
 @section('topbar-actions')
     @if(auth()->user()->esAdmin())
     <a href="{{ route('pacientes.create') }}" class="btn btn-primary btn-sm" id="btn-nuevo-paciente">
-        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Nuevo Paciente
+        <i data-lucide="plus" style="width:16px;height:16px;"></i> Nuevo Paciente
     </a>
     @endif
 @endsection
@@ -28,9 +25,9 @@
                 id="input-buscar-paciente">
         </div>
         <div class="flex gap-2">
-            <button type="submit" class="btn btn-primary btn-sm">Buscar</button>
+            <button type="submit" class="btn btn-primary"><i data-lucide="search" style="width:14px;height:14px;"></i> Buscar</button>
             @if(request('buscar'))
-                <a href="{{ route('pacientes.index') }}" class="btn btn-secondary btn-sm">Limpiar</a>
+                <a href="{{ route('pacientes.index') }}" class="btn btn-secondary">Limpiar</a>
             @endif
         </div>
     </form>

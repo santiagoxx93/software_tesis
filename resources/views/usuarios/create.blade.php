@@ -7,7 +7,7 @@
 @section('content')
 <div class="card" style="max-width:860px;">
     <div class="card-header">
-        <span class="card-title">🧑‍💼 Datos del trabajador</span>
+        <span class="card-title flex align-center gap-2" style="align-items:center;"><i data-lucide="user" style="width:20px;height:20px;"></i> Datos del trabajador</span>
         <a href="{{ route('usuarios.index') }}" class="btn btn-secondary btn-sm">← Volver</a>
     </div>
 
@@ -17,7 +17,7 @@
         <p class="text-muted mb-2" style="font-size:.82rem;">Los campos marcados con * son obligatorios.</p>
 
         {{-- Datos de acceso --}}
-        <p style="font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--color-primary);">📋 Datos de acceso al sistema</p>
+        <p style="font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--color-primary);"><i data-lucide="lock" style="width:16px;height:16px;margin-bottom:-2px;"></i> Datos de acceso al sistema</p>
 
         <div class="grid-2">
             <div class="form-group">
@@ -70,7 +70,7 @@
 
         {{-- Datos de especialista (se muestran/ocultan dinámicamente) --}}
         <div id="campos-especialista" style="display:none;">
-            <p style="font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--color-success);">🩺 Datos del especialista</p>
+            <p style="font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--color-success);"><i data-lucide="stethoscope" style="width:16px;height:16px;margin-bottom:-2px;"></i> Datos del especialista</p>
 
             <div class="grid-2">
                 <div class="form-group">
@@ -116,7 +116,7 @@
                 </div>
             </div>
             <hr class="divider" style="margin: 1rem 0;">
-            <p style="font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--color-info);">🕒 Horario de Trabajo</p>
+            <p style="font-size:.85rem;font-weight:600;margin-bottom:.75rem;color:var(--color-info);"><i data-lucide="clock" style="width:16px;height:16px;margin-bottom:-2px;"></i> Horario de Trabajo</p>
 
             <div class="grid-2">
                 <div class="form-group">

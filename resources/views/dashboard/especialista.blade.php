@@ -24,21 +24,21 @@
 
 <div class="grid-3 mb-3">
     <div class="stat-card">
-        <div class="stat-icon blue">📅</div>
+        <div class="stat-icon blue"><i data-lucide="calendar"></i></div>
         <div>
             <div class="stat-value">{{ $citasHoy->count() }}</div>
             <div class="stat-label">Mis citas hoy</div>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon green">📋</div>
+        <div class="stat-icon green"><i data-lucide="clipboard-list"></i></div>
         <div>
             <div class="stat-value">{{ $citasSemana }}</div>
             <div class="stat-label">Esta semana</div>
         </div>
     </div>
     <div class="stat-card">
-        <div class="stat-icon yellow">👥</div>
+        <div class="stat-icon yellow"><i data-lucide="users"></i></div>
         <div>
             <div class="stat-value">{{ $totalPacientes }}</div>
             <div class="stat-label">Pacientes atendidos</div>
@@ -50,7 +50,10 @@
     {{-- Mis citas de hoy --}}
     <div class="card">
         <div class="card-header">
-            <span class="card-title">🗓️ Mis citas de hoy</span>
+            <span class="card-title flex align-center gap-2" style="align-items:center;">
+                <i data-lucide="calendar-clock" style="width:20px;height:20px;"></i>
+                Mis citas de hoy
+            </span>
             <a href="{{ route('citas.index') }}" class="btn btn-secondary btn-sm">Ver todas</a>
         </div>
         @if($citasHoy->isEmpty())
@@ -89,7 +92,10 @@
     {{-- Acceso rápido a pacientes --}}
     <div class="card">
         <div class="card-header">
-            <span class="card-title">👤 Acceso rápido</span>
+            <span class="card-title flex align-center gap-2" style="align-items:center;">
+                <i data-lucide="user" style="width:20px;height:20px;"></i>
+                Acceso rápido
+            </span>
             <a href="{{ route('pacientes.index') }}" class="btn btn-secondary btn-sm">Ver todos</a>
         </div>
         @php

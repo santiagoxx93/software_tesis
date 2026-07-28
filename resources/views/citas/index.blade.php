@@ -6,10 +6,7 @@
 
 @section('topbar-actions')
     <a href="{{ route('citas.create') }}" class="btn btn-primary btn-sm" id="btn-nueva-cita">
-        <svg width="14" height="14" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
-        </svg>
-        Nueva Cita
+        <i data-lucide="plus" style="width:16px;height:16px;"></i> Nueva Cita
     </a>
 @endsection
 
@@ -18,8 +15,8 @@
 {{-- Tabs: Calendario | Lista --}}
 <div class="tabs-wrapper mb-3">
     <div class="tabs">
-        <button class="tab-btn active" id="tab-calendario" onclick="switchTab('calendario')">📅 Calendario</button>
-        <button class="tab-btn" id="tab-lista" onclick="switchTab('lista')">☰ Lista</button>
+        <button class="tab-btn active" id="tab-calendario" onclick="switchTab('calendario')"><i data-lucide="calendar" style="width:16px;height:16px;margin-bottom:-3px;margin-right:4px;"></i> Calendario</button>
+        <button class="tab-btn" id="tab-lista" onclick="switchTab('lista')"><i data-lucide="list" style="width:16px;height:16px;margin-bottom:-3px;margin-right:4px;"></i> Lista</button>
     </div>
 </div>
 
@@ -66,8 +63,8 @@
             </div>
             @endif
             <div style="display:flex;gap:.5rem;">
-                <button type="submit" class="btn btn-primary btn-sm">Filtrar</button>
-                <a href="{{ route('citas.index') }}" class="btn btn-secondary btn-sm">Limpiar</a>
+                <button type="submit" class="btn btn-primary"><i data-lucide="filter" style="width:14px;height:14px;"></i> Filtrar</button>
+                <a href="{{ route('citas.index') }}" class="btn btn-secondary">Limpiar</a>
             </div>
         </form>
     </div>
@@ -106,13 +103,13 @@
                                 <a href="{{ route('pacientes.show', $cita->paciente) }}">{{ $cita->paciente->nombre_completo }}</a><br>
                                 <span class="text-muted" style="font-size:.75rem;">{{ $cita->paciente->cedula }}</span>
                                 @if($cita->paciente->telefono)
-                                    <br><span class="text-muted" style="font-size:.75rem;">📞 {{ $cita->paciente->telefono }}</span>
+                                    <br><span class="text-muted" style="font-size:.75rem;"><i data-lucide="phone" style="width:12px;height:12px;margin-bottom:-2px;"></i> {{ $cita->paciente->telefono }}</span>
                                 @endif
                             </td>
                             <td>
                                 <div>{{ $cita->especialista->nombre_completo }}</div>
                                 @if($cita->especialista->telefono)
-                                    <span class="text-muted" style="font-size:.75rem;">📞 {{ $cita->especialista->telefono }}</span>
+                                    <span class="text-muted" style="font-size:.75rem;"><i data-lucide="phone" style="width:12px;height:12px;margin-bottom:-2px;"></i> {{ $cita->especialista->telefono }}</span>
                                 @endif
                             </td>
                             <td>
