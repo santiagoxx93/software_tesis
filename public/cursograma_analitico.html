@@ -1,0 +1,308 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cursograma Analítico - Centro San Alfonso</title>
+    <style>
+        body { font-family: Arial, sans-serif; padding: 20px; background: white; color: #000; font-size: 13px; }
+        .instrucciones { text-align: center; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.6; }
+        .badge { background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 8px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .btn-print { 
+            background: #0284c7; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+        }
+        .btn-print:hover { background: #0369a1; }
+        
+        .container { max-width: 1000px; margin: 0 auto; }
+        .title { text-align: center; font-size: 18px; font-weight: bold; margin-bottom: 20px; text-transform: uppercase; }
+        
+        table { width: 100%; border-collapse: collapse; margin-bottom: 20px; }
+        th, td { border: 1px solid #000; padding: 6px; text-align: left; }
+        
+        .header-table th { background-color: #f3f4f6; text-align: center; font-size: 14px; }
+        .header-table .no-border-bottom { border-bottom: none; }
+        
+        .symbols { display: flex; justify-content: space-around; font-size: 18px; }
+        .sym { width: 24px; height: 24px; display: inline-flex; justify-content: center; align-items: center; }
+        .circle { border: 1.5px solid #000; border-radius: 50%; }
+        .square { border: 1.5px solid #000; }
+        .delay { border: 1.5px solid #000; border-top-right-radius: 50%; border-bottom-right-radius: 50%; border-left: none; width: 15px; }
+        .arrow { font-weight: bold; font-size: 20px; line-height: 1; }
+        .triangle { border-left: 10px solid transparent; border-right: 10px solid transparent; border-top: 18px solid #000; width: 0; height: 0; }
+        
+        .marked { background-color: #000 !important; color: #fff; }
+        .marked-triangle { border-top-color: #000; }
+        
+        .text-center { text-align: center !important; }
+        .w-60 { width: 60%; }
+        .w-40 { width: 40%; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; }
+            .container { max-width: 100%; }
+            th, td { padding: 4px; font-size: 12px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instrucciones no-print">
+        <h2>Cursograma Analítico</h2>
+        <p>He diseñado este documento basándome exactamente en el formato PDF que proporcionaste, llenándolo con los datos del proceso principal (propuesto) de tu sistema.</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button>
+    </div>
+
+    <div class="container">
+        <div class="title">Formato<br>Cursograma Analítico</div>
+
+        <table class="header-table">
+            <tr>
+                <th colspan="4" style="text-align: left;">CURSOGRAMA ANALÍTICO</th>
+                <th colspan="4" style="text-align: right;">Material / Sistema</th>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Diagrama no.</strong> 1</td>
+                <td colspan="2"><strong>Hoja:</strong> 1 <strong>de</strong> 1</td>
+                <td colspan="4" class="text-center" style="background:#f3f4f6; font-weight:bold;">Resumen</td>
+            </tr>
+            <tr>
+                <td colspan="4" rowspan="7" style="vertical-align: top;">
+                    <strong>Producto/Servicio:</strong> Gestión de Citas y Atención de Pacientes<br><br>
+                    <strong>Actividad:</strong> Agendamiento, validación, consulta y registro de historia clínica médica.<br><br>
+                    <strong>Método:</strong> Propuesto (Automatizado)
+                </td>
+                <td style="text-align: center; font-weight: bold;">Actividad</td>
+                <td class="text-center">Actual</td>
+                <td class="text-center">Propuesto</td>
+                <td class="text-center">Economía</td>
+            </tr>
+            <tr>
+                <td>Operación <span class="sym circle" style="float:right;"></span></td>
+                <td class="text-center">8</td>
+                <td class="text-center">5</td>
+                <td class="text-center">3</td>
+            </tr>
+            <tr>
+                <td>Inspección <span class="sym square" style="float:right;"></span></td>
+                <td class="text-center">4</td>
+                <td class="text-center">2</td>
+                <td class="text-center">2</td>
+            </tr>
+            <tr>
+                <td>Espera <span class="sym delay" style="float:right; border-left: 1.5px solid #000;"></span></td>
+                <td class="text-center">3</td>
+                <td class="text-center">1</td>
+                <td class="text-center">2</td>
+            </tr>
+            <tr>
+                <td>Transporte <span style="float:right; font-size:18px;">⇨</span></td>
+                <td class="text-center">2</td>
+                <td class="text-center">1</td>
+                <td class="text-center">1</td>
+            </tr>
+            <tr>
+                <td>Almacenamiento <span class="sym triangle" style="float:right; margin-top:3px; border-top-color:#fff; border:1px solid #000;">▽</span></td>
+                <td class="text-center">2</td>
+                <td class="text-center">2</td>
+                <td class="text-center">0</td>
+            </tr>
+            <tr>
+                <td style="font-weight:bold; text-align:right;">TOTAL</td>
+                <td class="text-center" style="font-weight:bold;">19</td>
+                <td class="text-center" style="font-weight:bold;">11</td>
+                <td class="text-center" style="font-weight:bold;">8</td>
+            </tr>
+            <tr>
+                <td colspan="4"><strong>Lugar:</strong> Centro San Alfonso</td>
+                <td><strong>Distancia (mts.)</strong></td>
+                <td class="text-center">30</td>
+                <td class="text-center">10</td>
+                <td class="text-center">20</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Operario (s):</strong> Recepción / Especialista</td>
+                <td colspan="2"><strong>Ficha no.</strong> 001</td>
+                <td><strong>Tiempo (min.)</strong></td>
+                <td class="text-center">60</td>
+                <td class="text-center">36</td>
+                <td class="text-center">24</td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Compuesto por:</strong> Tesista</td>
+                <td colspan="2"><strong>Fecha:</strong> 2026</td>
+                <td rowspan="2" style="vertical-align: top;"><strong>Costo</strong><br>Mano de obra<br>Material</td>
+                <td rowspan="2"></td>
+                <td rowspan="2"></td>
+                <td rowspan="2"></td>
+            </tr>
+            <tr>
+                <td colspan="2"><strong>Aprobado por:</strong> Tutora</td>
+                <td colspan="2"><strong>Fecha:</strong> 2026</td>
+            </tr>
+            <tr>
+                <td colspan="4"></td>
+                <td class="text-center" style="font-weight:bold;">TOTAL</td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr>
+        </table>
+
+        <table>
+            <thead>
+                <tr>
+                    <th rowspan="2" class="w-60 text-center">DESCRIPCIÓN</th>
+                    <th rowspan="2" class="text-center">Cantidad</th>
+                    <th rowspan="2" class="text-center">Distancia<br>(m)</th>
+                    <th rowspan="2" class="text-center">Tiempo<br>(min)</th>
+                    <th colspan="5" class="text-center" style="letter-spacing: 2px;">Actividad</th>
+                    <th rowspan="2" class="text-center">OBSERVACIONES</th>
+                </tr>
+                <tr>
+                    <!-- Iconos de cabecera -->
+                    <th class="text-center" style="width:25px;"><span class="sym circle"></span></th>
+                    <th class="text-center" style="width:25px;"><span class="sym square"></span></th>
+                    <th class="text-center" style="width:25px;"><span class="sym delay" style="border-left: 1.5px solid #000;"></span></th>
+                    <th class="text-center" style="width:25px; font-size:18px;">⇨</th>
+                    <th class="text-center" style="width:25px;"><span style="font-size:16px;">▽</span></th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- Paso 1 -->
+                <tr>
+                    <td>1. Paciente llega a recepción y solicita cita</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center"><span class="sym circle marked"></span></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td>Inicio del proceso</td>
+                </tr>
+                <!-- Paso 2 -->
+                <tr>
+                    <td>2. Recepción ingresa cédula en el sistema</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">0.5</td>
+                    <td class="text-center"><span class="sym circle marked"></span></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td></td>
+                </tr>
+                <!-- Paso 3 -->
+                <tr>
+                    <td>3. Sistema verifica si el paciente está registrado</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">0.1</td>
+                    <td></td>
+                    <td class="text-center"><span class="sym square marked"></span></td>
+                    <td></td><td></td><td></td>
+                    <td>Validación automática</td>
+                </tr>
+                <!-- Paso 4 -->
+                <tr>
+                    <td>4. Recepción selecciona Especialista y Fecha</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center"><span class="sym circle marked"></span></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td></td>
+                </tr>
+                <!-- Paso 5 -->
+                <tr>
+                    <td>5. Sistema valida disponibilidad y cruce horario</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">0.1</td>
+                    <td></td>
+                    <td class="text-center"><span class="sym square marked"></span></td>
+                    <td></td><td></td><td></td>
+                    <td>Algoritmo de validación</td>
+                </tr>
+                <!-- Paso 6 -->
+                <tr>
+                    <td>6. Se confirma y guarda la cita en Base de Datos</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">0.1</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="text-center"><span class="sym triangle marked-triangle"></span></td>
+                    <td>Almacenamiento seguro</td>
+                </tr>
+                <!-- Paso 7 -->
+                <tr>
+                    <td>7. Paciente aguarda en sala de espera</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">10</td>
+                    <td></td><td></td>
+                    <td class="text-center"><span class="sym delay marked" style="border-left: 1.5px solid #000;"></span></td>
+                    <td></td><td></td>
+                    <td>Espera turno</td>
+                </tr>
+                <!-- Paso 8 -->
+                <tr>
+                    <td>8. Paciente se traslada al consultorio médico</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">10</td>
+                    <td class="text-center">1</td>
+                    <td></td><td></td><td></td>
+                    <td class="text-center"><span class="arrow">⇨</span></td>
+                    <td></td>
+                    <td></td>
+                </tr>
+                <!-- Paso 9 -->
+                <tr>
+                    <td>9. Especialista realiza la consulta/terapia</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">20</td>
+                    <td class="text-center"><span class="sym circle marked"></span></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td></td>
+                </tr>
+                <!-- Paso 10 -->
+                <tr>
+                    <td>10. Especialista redacta la Evolución Médica</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">2</td>
+                    <td class="text-center"><span class="sym circle marked"></span></td>
+                    <td></td><td></td><td></td><td></td>
+                    <td>En módulo de Historias</td>
+                </tr>
+                <!-- Paso 11 -->
+                <tr>
+                    <td>11. Sistema guarda la Historia Clínica actualizada</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">-</td>
+                    <td class="text-center">0.1</td>
+                    <td></td><td></td><td></td><td></td>
+                    <td class="text-center"><span class="sym triangle marked-triangle"></span></td>
+                    <td>Fin del proceso</td>
+                </tr>
+                
+                <!-- Blank rows just to fill like the format -->
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                <tr><td>&nbsp;</td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td><td></td></tr>
+                
+                <tr>
+                    <td class="text-center" style="font-weight:bold;">TOTAL</td>
+                    <td class="text-center">11</td>
+                    <td class="text-center">10m</td>
+                    <td class="text-center">~36m</td>
+                    <td class="text-center">5</td>
+                    <td class="text-center">2</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">1</td>
+                    <td class="text-center">2</td>
+                    <td></td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+</body>
+</html>

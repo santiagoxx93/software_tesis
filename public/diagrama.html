@@ -56,13 +56,12 @@
         ESPECIALISTAS ||--o{ CITAS : "atiende"
         
         PACIENTES ||--o| HISTORIAS_CLINICAS : "tiene"
-        CITAS ||--o| EVOLUCIONES_CLINICAS : "genera"
-        HISTORIAS_CLINICAS ||--o{ EVOLUCIONES_CLINICAS : "contiene"
-        ESPECIALISTAS ||--o{ EVOLUCIONES_CLINICAS : "registra"
+        CITAS ||--o| HISTORIAS_CLINICAS : "genera"
+        ESPECIALISTAS ||--o{ HISTORIAS_CLINICAS : "registra"
         
         USERS ||--o| ESPECIALISTAS : "cuenta de"
         USERS ||--o{ CITAS : "registra/cancela"
-        USERS ||--o{ HISTORIAS_CLINICAS : "crea"
+        USERS ||--o{ HISTORIAS_CLINICAS : "crea/edita"
 
         PACIENTES {
             bigint id PK
@@ -111,26 +110,21 @@
         HISTORIAS_CLINICAS {
             bigint id PK
             bigint paciente_id FK
+            bigint especialista_id FK
+            bigint cita_id FK
             text antecedentes_personales
             text antecedentes_familiares
             text motivo_consulta
             string grupo_sanguineo
             text medicamentos_actuales
             text observaciones_iniciales
-            bigint creado_por FK
-        }
-
-        EVOLUCIONES_CLINICAS {
-            bigint id PK
-            bigint historia_clinica_id FK
-            bigint cita_id FK
-            bigint especialista_id FK
             date fecha_consulta
             text evaluacion
             text tratamiento_aplicado
             text respuesta_paciente
             text plan_siguiente_sesion
             timestamp bloqueado_en
+            bigint creado_por FK
         }
 
         USERS {

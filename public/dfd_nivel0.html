@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFD Nivel 0 (Contexto) - Centro San Alfonso</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true
+            }
+        });
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: white; color: #333; }
+        .mermaid { display: flex; justify-content: center; margin-top: 40px; margin-bottom: 40px; width: 100%; overflow-x: auto; }
+        .instrucciones { text-align: center; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.6; }
+        .badge { background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 8px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .btn-print { 
+            background: #0284c7; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-print:hover { background: #0369a1; }
+        .nota { text-align: justify; max-width: 800px; margin: 0 auto; padding: 15px; background: #f8fafc; border-left: 4px solid #94a3b8; }
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            .mermaid { display: flex; justify-content: center; transform: scale(0.9); transform-origin: top center; margin-top: 100px; }
+            .nota { margin-top: 50px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instrucciones no-print">
+        <h2>Diagrama de Flujo de Datos (DFD) - Nivel 0 (Contexto)</h2>
+        <p>A este diagrama se le ha añadido el Almacén de Datos Central tal como lo solicitó la profesora para la tesis.</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button>
+    </div>
+    
+    <div class="mermaid">
+    graph LR
+        %% Entidades Externas (Cuadrados)
+        Recepcion["Recepcionista /<br>Administrador"]
+        Especialista["Especialista /<br>Médico"]
+
+        %% Proceso Principal (Círculo)
+        Sistema((0.<br>Sistema de Gestión<br>Centro San Alfonso))
+
+        %% Almacén de Datos (Cilindro/Base de datos) - Agregado por petición de la profesora
+        BD[(D1. Base de Datos<br>Central)]
+
+        %% Flujos de datos Recepcionista <--> Sistema
+        Recepcion -- "Datos de Pacientes,<br>Solicitudes de Citas,<br>Configuración" --> Sistema
+        Sistema -- "Confirmaciones,<br>Alertas, Reportes,<br>Estadísticas" --> Recepcion
+
+        %% Flujos de datos Especialista <--> Sistema
+        Especialista -- "Evoluciones Clínicas,<br>Diagnósticos,<br>Disponibilidad" --> Sistema
+        Sistema -- "Agenda Diaria,<br>Expedientes Médicos" --> Especialista
+
+        %% Flujos Sistema <--> Base de Datos
+        Sistema -- "Registro y Actualización<br>de Información" --> BD
+        BD -- "Consultas y<br>Recuperación de Datos" --> Sistema
+
+        %% Estilos de Nodos
+        classDef entidad fill:#e2e8f0,stroke:#64748b,stroke-width:2px,color:#334155,font-weight:bold,shape:rect;
+        classDef proceso fill:#0284c7,stroke:#0369a1,stroke-width:3px,color:#ffffff,font-weight:bold;
+        classDef almacen fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#92400e,font-weight:bold;
+
+        class Recepcion,Especialista entidad;
+        class Sistema proceso;
+        class BD almacen;
+    </div>
+
+    <div class="nota">
+        <strong>Nota:</strong> Este diagrama de contexto (Nivel 0) representa el alcance general del Sistema de Gestión del Centro San Alfonso. Muestra cómo interactúan las principales entidades externas (Recepción y Especialistas) con el proceso central (el software) y el almacenamiento principal de la información, ilustrando el flujo de entrada y salida de datos a un nivel macro.
+    </div>
+</body>
+</html>

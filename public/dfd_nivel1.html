@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DFD Nivel 1 - Centro San Alfonso</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                rankSpacing: 80,
+                nodeSpacing: 50,
+                curve: 'linear'
+            }
+        });
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: white; color: #333; }
+        .mermaid { display: flex; justify-content: center; margin-top: 20px; margin-bottom: 40px; width: 100%; overflow-x: auto; }
+        .instrucciones { text-align: center; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.6; }
+        .badge { background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 8px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .btn-print { 
+            background: #0284c7; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-print:hover { background: #0369a1; }
+        .nota { text-align: justify; max-width: 1000px; margin: 0 auto; padding: 15px; background: #f8fafc; border-left: 4px solid #94a3b8; }
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            .mermaid { display: flex; justify-content: center; transform: scale(0.65); transform-origin: top center; margin-top: 20px; }
+            .nota { margin-top: 20px; font-size: 14px; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instrucciones no-print">
+        <h2>Diagrama de Flujo de Datos (DFD) - Nivel 1</h2>
+        <p>Este diagrama desglosa el Proceso 0 en los 5 procesos o módulos principales del sistema.</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button>
+    </div>
+    
+    <div class="mermaid">
+    graph TD
+        %% Nivel 1: Entidades Externas (Arriba)
+        E1["Recepcionista / Admin"]
+        E2["Especialista / Médico"]
+
+        %% Enlace invisible para mantenerlas juntas en la misma línea superior
+        E1 ~~~ E2
+
+        %% Nivel 2: Procesos (Círculos)
+        P1((1.<br>Registrar y Controlar<br>Usuarios))
+        P2((2.<br>Registrar Expedientes<br>Médicos))
+        P3((3.<br>Programar y Validar<br>Citas))
+        P4((4.<br>Procesar Historial y<br>Evolución))
+        P5((5.<br>Generar Reportes y<br>Estadísticas))
+
+        %% Nivel 3: Almacenes de Datos (Cilindros)
+        D1[(D1. Usuarios)]
+        D2[(D2. Pacientes)]
+        D3[(D3. Citas)]
+        D4[(D4. Historias)]
+
+        %% Enlace invisible para forzar procesos abajo de las entidades
+        E1 ~~~ P1
+        E2 ~~~ P5
+
+        %% Flujo Entidades -> Procesos (Hacia Abajo)
+        E1 -->|Datos Usuario| P1
+        E1 -->|Ficha Médica| P2
+        E1 -->|Solicitud| P3
+        E1 -->|Filtros| P5
+        
+        E2 -->|Verificación| P3
+        E2 -->|Diagnóstico| P4
+
+        %% Flujos de retorno al usuario (Hacia Arriba)
+        P3 -->|Confirmación| E1
+        P5 -->|PDF/Reporte| E1
+        P3 -->|Calendario| E2
+        P4 -->|Expediente| E2
+
+        %% Flujo Interno entre Procesos (Horizontal)
+        P1 -->|Horarios| P3
+        P2 -->|Estatus| P3
+        P3 -->|Turno| P4
+        P4 -->|Datos| P5
+
+        %% Flujo Procesos -> Almacenes (Hacia Abajo)
+        P1 <-->|Credenciales| D1
+        P2 <-->|Expedientes| D2
+        P3 <-->|Reservas| D3
+        P4 <-->|Notas Médicas| D4
+        P5 -.->|Datos| D1
+        P5 -.->|Datos| D2
+        P5 -.->|Datos| D3
+        P5 -.->|Datos| D4
+
+        %% Estilos
+        classDef entidad fill:#e2e8f0,stroke:#64748b,stroke-width:2px,color:#334155,font-weight:bold,shape:rect;
+        classDef proceso fill:#0284c7,stroke:#0369a1,stroke-width:3px,color:#ffffff,font-weight:bold;
+        classDef almacen fill:#fef3c7,stroke:#d97706,stroke-width:2px,color:#92400e,font-weight:bold;
+
+        class E1,E2 entidad;
+        class P1,P2,P3,P4,P5 proceso;
+        class D1,D2,D3,D4 almacen;
+    </div>
+
+    <div class="nota">
+        <strong>Nota (DFD Nivel 1):</strong> Aquí se descompone el "Proceso 0" (Sistema Central) en los 5 subsistemas lógicos. Además de interactuar con sus respectivos Almacenes de Datos (D1-D4), los procesos se comunican directamente entre sí para mantener el flujo de trabajo continuo (por ejemplo, el <i>Proceso 2</i> le informa al <i>Proceso 3</i> el estatus del paciente para agendar, el <i>Proceso 3</i> dispara una notificación de turno al <i>Proceso 4</i> para la consulta, y este último envía datos consolidados al <i>Proceso 5</i> para reportes).
+    </div>
+</body>
+</html>

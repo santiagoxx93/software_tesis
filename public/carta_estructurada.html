@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carta Estructurada - Centro San Alfonso</title>
+    <script type="module">
+        import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@10/dist/mermaid.esm.min.mjs';
+        mermaid.initialize({ 
+            startOnLoad: true, 
+            theme: 'default',
+            flowchart: {
+                useMaxWidth: false,
+                htmlLabels: true,
+                curve: 'stepBefore' // Da ese aspecto cuadrado típico de carta estructurada
+            }
+        });
+    </script>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: white; color: #333; }
+        .mermaid { display: flex; justify-content: center; margin-top: 20px; width: 100%; overflow-x: auto; }
+        .instrucciones { text-align: center; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.6; }
+        .badge { background: #e0f2fe; color: #0369a1; padding: 8px 15px; border-radius: 8px; font-weight: bold; display: inline-block; margin-bottom: 10px; }
+        .btn-print { 
+            background: #0284c7; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-print:hover { background: #0369a1; }
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            .mermaid { display: flex; justify-content: center; transform: scale(0.85); transform-origin: top center; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instrucciones no-print">
+        <h2>Carta Estructurada (Diagrama de Estructura)</h2>
+        <p>Este diagrama muestra la descomposición jerárquica de los módulos y funciones del sistema del Centro San Alfonso.</p>
+        <div class="badge">💡 Tip para tu tesis:</div>
+        <p>Para guardarlo en máxima calidad, presiona el botón de abajo o <b>Ctrl + P</b> y selecciona <b>"Guardar como PDF"</b>. Pon la orientación en "Horizontal" (Apaisado) para que encaje mejor.</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button>
+    </div>
+    
+    <div class="mermaid">
+    graph TD
+        %% Nodo Principal
+        Sistema["Sistema de Gestión<br>Centro San Alfonso"]
+
+        %% Módulos Principales
+        M_Seguridad["Módulo de Seguridad"]
+        M_Usuarios["Módulo de Trabajadores"]
+        M_Pacientes["Módulo de Pacientes"]
+        M_Citas["Módulo de Citas"]
+        M_Historias["Módulo de Historias Clínicas"]
+        M_Reportes["Módulo de Reportes"]
+
+        %% Conexiones Nivel 1
+        Sistema --- M_Seguridad
+        Sistema --- M_Usuarios
+        Sistema --- M_Pacientes
+        Sistema --- M_Citas
+        Sistema --- M_Historias
+        Sistema --- M_Reportes
+
+        %% Submódulos Seguridad
+        M_Seguridad --- Seg1["Autenticación (Login)"]
+        M_Seguridad --- Seg2["Control de Acceso (Roles)"]
+
+        %% Submódulos Usuarios
+        M_Usuarios --- Usu1["Registrar Trabajador"]
+        M_Usuarios --- Usu2["Asignar Especialidad"]
+        M_Usuarios --- Usu3["Definir Horario Laboral"]
+
+        %% Submódulos Pacientes
+        M_Pacientes --- Pac1["Registrar Paciente"]
+        M_Pacientes --- Pac2["Actualizar Expediente"]
+        M_Pacientes --- Pac3["Consultar Ficha"]
+
+        %% Submódulos Citas
+        M_Citas --- Cit1["Agendar Cita"]
+        M_Citas --- Cit2["Validar Disponibilidad"]
+        M_Citas --- Cit3["Reprogramar/Cancelar"]
+        M_Citas --- Cit4["Calendario Interactivo"]
+
+        %% Submódulos Historias
+        M_Historias --- His1["Crear Historia Base"]
+        M_Historias --- His2["Registrar Evolución"]
+        M_Historias --- His3["Consultar Historial"]
+
+        %% Submódulos Reportes
+        M_Reportes --- Rep1["Generar Estadísticas"]
+        M_Reportes --- Rep2["Exportar a PDF"]
+
+        %% Estilos para diferenciar niveles
+        classDef mainNode fill:#0284c7,stroke:#0369a1,stroke-width:3px,color:#fff,font-weight:bold,border-radius:5px;
+        classDef moduleNode fill:#e0f2fe,stroke:#0369a1,stroke-width:2px,color:#0369a1,font-weight:bold;
+        classDef subNode fill:#ffffff,stroke:#64748b,stroke-width:1px,color:#334155;
+
+        class Sistema mainNode;
+        class M_Seguridad,M_Usuarios,M_Pacientes,M_Citas,M_Historias,M_Reportes moduleNode;
+        class Seg1,Seg2,Usu1,Usu2,Usu3,Pac1,Pac2,Pac3,Cit1,Cit2,Cit3,Cit4,His1,His2,His3,Rep1,Rep2 subNode;
+    </div>
+</body>
+</html>
