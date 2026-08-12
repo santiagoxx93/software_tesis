@@ -19,7 +19,7 @@ class Especialista extends Model
         'cedula',
         'nombres',
         'apellidos',
-        'especialidad',
+        'especialidad_id',
         'telefono',
         'hora_entrada',
         'hora_salida',
@@ -70,5 +70,13 @@ class Especialista extends Model
     public function historiasClinicas(): HasMany
     {
         return $this->hasMany(HistoriaClinica::class);
+    }
+
+    /**
+     * Especialidad del especialista.
+     */
+    public function especialidad(): BelongsTo
+    {
+        return $this->belongsTo(Especialidad::class);
     }
 }

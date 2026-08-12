@@ -84,7 +84,7 @@
         <div class="form-group">
             <label class="form-label">Estado</label>
             <select name="estado" class="form-select">
-                @foreach(['pendiente','confirmada','completada','cancelada','ausente','reprogramada'] as $e)
+                @foreach(['pendiente','completada','cancelada','ausente','reprogramada'] as $e)
                     <option value="{{ $e }}" {{ old('estado', $cita->estado) === $e ? 'selected' : '' }}>
                         {{ ucfirst($e) }}
                     </option>
@@ -136,5 +136,32 @@ if (espSelect) {
     espSelect.addEventListener('change', updateHorario);
     updateHorario(); // Ejecutar al cargar la página
 }
+</script>
+
+<!-- Librería TomSelect para buscador en dropdown (Sin dependencias pesadas) -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<style>
+    /* Adaptación básica de TomSelect al Modo Oscuro del sistema */
+    .ts-control { background-color: var(--color-surface); color: var(--color-text); border-color: var(--color-border); border-radius: 0.375rem; padding: 0.5rem 0.75rem; }
+    .ts-dropdown { background-color: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+    .ts-dropdown .option { padding: 8px 12px; }
+    .ts-dropdown .option:hover, .ts-dropdown .option.active { background-color: var(--color-primary); color: #fff; }
+    .ts-control input { color: var(--color-text); }
+    .tom-select.single .ts-control:after { border-color: var(--color-text) transparent transparent transparent; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if(document.getElementById('paciente_id')){
+            new TomSelect("#paciente_id",{
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                },
+                placeholder: "— Buscar por nombre o cédula —"
+            });
+        }
+    });
 </script>
 @endpush

@@ -27,6 +27,9 @@ class CitaController extends Controller
 
         if ($request->filled('fecha')) {
             $query->whereDate('fecha', $request->fecha);
+        } elseif (!$request->has('incluir_pasadas')) {
+            // Por defecto, mostrar de hoy en adelante (Próximas citas)
+            $query->whereDate('fecha', '>=', today());
         }
 
         if ($request->filled('estado')) {
@@ -93,10 +96,11 @@ class CitaController extends Controller
      */
     public function create(): View
     {
-        $pacientes    = Paciente::orderBy('apellidos')->get();
-        $especialistas = Especialista::where('activo', true)->orderBy('apellidos')->get();
+        $pacientes     = Paciente::orderBy('apellidos')->get();
+        $especialidades= \App\Models\Especialidad::where('activo', true)->orderBy('nombre')->get();
+        $especialistas = Especialista::with('especialidad')->where('activo', true)->orderBy('apellidos')->get();
 
-        return view('citas.create', compact('pacientes', 'especialistas'));
+        return view('citas.create', compact('pacientes', 'especialistas', 'especialidades'));
     }
 
     /**
@@ -140,11 +144,22 @@ class CitaController extends Controller
                 ->withErrors(['hora_inicio' => 'El especialista ya tiene una cita en ese horario. Por favor selecciona otro bloque de tiempo.']);
         }
 
-        Cita::create([
+        $cita = Cita::create([
             ...$validated,
             'estado'        => Cita::ESTADO_PENDIENTE,
             'registrado_por'=> auth()->id(),
         ]);
+
+        // Enviar correo de confirmación si el paciente tiene email
+        if ($cita->paciente && $cita->paciente->email) {
+            try {
+                \Illuminate\Support\Facades\Mail::to($cita->paciente->email)
+                    ->send(new \App\Mail\CitaAgendadaMail($cita));
+            } catch (\Exception $e) {
+                // Log error but don't stop the user flow
+                \Illuminate\Support\Facades\Log::error('Error al enviar correo de cita: ' . $e->getMessage());
+            }
+        }
 
         return redirect()->route('citas.index')
             ->with('success', 'Cita registrada exitosamente.');
@@ -174,6 +189,8 @@ class CitaController extends Controller
             'hora_fin'       => ['required', 'date_format:H:i', 'after:hora_inicio'],
             'motivo'         => ['nullable', 'string', 'max:500'],
             'notas_recepcion'=> ['nullable', 'string', 'max:1000'],
+            'estado'         => ['required', 'in:pendiente,completada,cancelada,ausente,reprogramada'],
+            'motivo_cancelacion'=> ['nullable', 'string', 'max:500'],
         ]);
 
         // Validación de Horario Laboral del Especialista
@@ -203,6 +220,10 @@ class CitaController extends Controller
                 ->withErrors(['hora_inicio' => 'El especialista ya tiene una cita en ese horario.']);
         }
 
+        if ($validated['estado'] === \App\Models\Cita::ESTADO_CANCELADA && $cita->estado !== \App\Models\Cita::ESTADO_CANCELADA) {
+            $validated['cancelado_por'] = auth()->id();
+        }
+
         $cita->update($validated);
 
         return redirect()->route('citas.index')
@@ -215,7 +236,7 @@ class CitaController extends Controller
     public function cambiarEstado(Request $request, Cita $cita): RedirectResponse
     {
         $request->validate([
-            'estado'            => ['required', 'in:pendiente,confirmada,completada,cancelada,ausente,reprogramada'],
+            'estado'            => ['required', 'in:pendiente,completada,cancelada,ausente,reprogramada'],
             'motivo_cancelacion'=> ['required_if:estado,cancelada', 'nullable', 'string', 'max:500'],
         ]);
 
@@ -227,6 +248,11 @@ class CitaController extends Controller
         }
 
         $cita->update($datosActualizar);
+
+        if ($request->estado === \App\Models\Cita::ESTADO_COMPLETADA) {
+            return redirect()->route('historias.create', ['paciente_id' => $cita->paciente_id])
+                ->with('success', 'Cita marcada como completada. Por favor, registre la evolución clínica.');
+        }
 
         return back()->with('success', 'Estado de la cita actualizado.');
     }

@@ -25,7 +25,7 @@
 
     <!-- Filtro por especialista -->
     <div class="cal-filtros">
-      <select v-model="filtroEspecialista" class="form-select" style="max-width:220px;" id="filtro-especialista-cal">
+      <select v-if="esAdmin" v-model="filtroEspecialista" class="form-select" style="max-width:220px;" id="filtro-especialista-cal">
         <option value="">Todos los especialistas</option>
         <option v-for="e in especialistas" :key="e.id" :value="e.id">
           {{ e.nombres }} {{ e.apellidos }}
@@ -149,7 +149,14 @@ import EstadoBadge from './EstadoBadge.vue'
 
 const props = defineProps({
   citas:        { type: Array,  default: () => [] },
-  especialistas: { type: Array,  default: () => [] },
+  especialistas: {
+    type: Array,
+    default: () => []
+  },
+  esAdmin: {
+    type: Boolean,
+    default: false
+  }
 })
 
 // -----------------------------------------------------------------------

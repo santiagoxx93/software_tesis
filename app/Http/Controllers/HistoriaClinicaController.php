@@ -17,23 +17,41 @@ class HistoriaClinicaController extends Controller
     }
 
     /**
-     * Muestra la lista de historias clínicas (Mis Pacientes para el especialista).
+     * Muestra la lista de pacientes para el especialista con buscador.
      */
-    public function index(): View
+    public function index(Request $request): View
+    {
+        $query = Paciente::query()->orderBy('apellidos');
+
+        if ($request->filled('buscar')) {
+            $termino = $request->buscar;
+            $query->where(function ($q) use ($termino) {
+                $q->where('nombres', 'like', "%{$termino}%")
+                  ->orWhere('apellidos', 'like', "%{$termino}%")
+                  ->orWhere('cedula', 'like', "%{$termino}%");
+            });
+        }
+
+        $pacientes = $query->paginate(15);
+        return view('historias.index', compact('pacientes'));
+    }
+
+    /**
+     * Muestra la línea de tiempo de evoluciones de un paciente.
+     */
+    public function paciente(Paciente $paciente): View
     {
         $especialistaId = auth()->user()->especialista->id ?? null;
 
+        $query = $paciente->historiasClinicas()->with('especialista');
+        
         if ($especialistaId) {
-            $historias = HistoriaClinica::where('especialista_id', $especialistaId)
-                ->with('paciente')
-                ->latest('fecha_consulta')
-                ->paginate(20);
-        } else {
-            // Fallback (ej: si un admin tuviera permiso)
-            $historias = HistoriaClinica::with('paciente')->latest('fecha_consulta')->paginate(20);
+            $query->where('especialista_id', $especialistaId);
         }
 
-        return view('historias.index', compact('historias'));
+        $historias = $query->latest('fecha_consulta')->get();
+
+        return view('historias.paciente', compact('paciente', 'historias'));
     }
 
     /**
@@ -42,7 +60,9 @@ class HistoriaClinicaController extends Controller
     public function create(Request $request): View
     {
         $paciente = Paciente::findOrFail($request->get('paciente_id'));
-        return view('historias.create', compact('paciente'));
+        $ultimaHistoria = $paciente->historiasClinicas()->latest('fecha_consulta')->first();
+        
+        return view('historias.create', compact('paciente', 'ultimaHistoria'));
     }
 
     /**

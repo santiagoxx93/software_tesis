@@ -49,51 +49,51 @@
         
         <div class="form-group">
             <label class="form-label">Motivo de consulta inicial</label>
-            <textarea name="motivo_consulta" class="form-control" rows="2">{{ old('motivo_consulta') }}</textarea>
+            <textarea name="motivo_consulta" class="form-control" rows="2" placeholder="Ej: El paciente acude por dolor agudo en la zona lumbar baja que inició hace 3 días...">{{ old('motivo_consulta') }}</textarea>
         </div>
         <div class="grid-2">
             <div class="form-group">
                 <label class="form-label">Grupo sanguíneo</label>
-                <input type="text" name="grupo_sanguineo" class="form-control" value="{{ old('grupo_sanguineo') }}">
+                <input type="text" name="grupo_sanguineo" class="form-control" placeholder="Ej: O+, A-, AB+..." value="{{ old('grupo_sanguineo', $ultimaHistoria?->grupo_sanguineo) }}">
             </div>
             <div class="form-group">
                 <label class="form-label">Medicamentos actuales</label>
-                <input type="text" name="medicamentos_actuales" class="form-control" value="{{ old('medicamentos_actuales') }}">
+                <input type="text" name="medicamentos_actuales" class="form-control" placeholder="Ej: Losartán 50mg, Ibuprofeno..." value="{{ old('medicamentos_actuales', $ultimaHistoria?->medicamentos_actuales) }}">
             </div>
         </div>
         <div class="form-group">
             <label class="form-label">Antecedentes personales</label>
-            <textarea name="antecedentes_personales" class="form-control" rows="2">{{ old('antecedentes_personales') }}</textarea>
+            <textarea name="antecedentes_personales" class="form-control" rows="2" placeholder="Ej: Hipertensión, asma, cirugías previas en rodilla derecha...">{{ old('antecedentes_personales', $ultimaHistoria?->antecedentes_personales) }}</textarea>
         </div>
         <div class="form-group">
             <label class="form-label">Antecedentes familiares</label>
-            <textarea name="antecedentes_familiares" class="form-control" rows="2">{{ old('antecedentes_familiares') }}</textarea>
+            <textarea name="antecedentes_familiares" class="form-control" rows="2" placeholder="Ej: Madre diabética, padre con problemas cardíacos...">{{ old('antecedentes_familiares', $ultimaHistoria?->antecedentes_familiares) }}</textarea>
         </div>
         <div class="form-group">
             <label class="form-label">Observaciones iniciales</label>
-            <textarea name="observaciones_iniciales" class="form-control" rows="2">{{ old('observaciones_iniciales') }}</textarea>
+            <textarea name="observaciones_iniciales" class="form-control" rows="2" placeholder="Ej: Paciente llega caminando con dificultad, postura encorvada...">{{ old('observaciones_iniciales') }}</textarea>
         </div>
 
         <h4 style="margin-top: 1.5rem; margin-bottom: 1rem; font-size: 1.1rem; color: var(--color-primary); display: flex; align-items: center; gap: 0.5rem;"><i data-lucide="activity" style="width:18px;height:18px;"></i> Evolución Clínica</h4>
 
         <div class="form-group">
             <label class="form-label">Evaluación clínica *</label>
-            <textarea name="evaluacion" class="form-control" rows="3" required>{{ old('evaluacion') }}</textarea>
+            <textarea name="evaluacion" class="form-control" rows="3" placeholder="Ej: Se palpa contractura muscular severa a nivel de trapecio y romboides derecho. Signos de inflamación local..." required>{{ old('evaluacion') }}</textarea>
         </div>
 
         <div class="form-group">
             <label class="form-label">Tratamiento aplicado *</label>
-            <textarea name="tratamiento_aplicado" class="form-control" rows="3" required>{{ old('tratamiento_aplicado') }}</textarea>
+            <textarea name="tratamiento_aplicado" class="form-control" rows="3" placeholder="Ej: Masaje descontracturante por 30 minutos, aplicación de calor local y acupresión en puntos gatillo..." required>{{ old('tratamiento_aplicado') }}</textarea>
         </div>
 
         <div class="form-group">
             <label class="form-label">Respuesta del paciente</label>
-            <textarea name="respuesta_paciente" class="form-control" rows="2">{{ old('respuesta_paciente') }}</textarea>
+            <textarea name="respuesta_paciente" class="form-control" rows="2" placeholder="Ej: Paciente refiere disminución del dolor de 8/10 a 3/10 al finalizar la sesión. Mayor rango de movilidad.">{{ old('respuesta_paciente') }}</textarea>
         </div>
 
         <div class="form-group">
-            <label class="form-label">Plan para la próxima sesión</label>
-            <textarea name="plan_siguiente_sesion" class="form-control" rows="2">{{ old('plan_siguiente_sesion') }}</textarea>
+            <label class="form-label">Plan a seguir y/o Receta Médica</label>
+            <textarea name="plan_siguiente_sesion" class="form-control" rows="2" placeholder="Ej: Continuar con masajes relajantes. Tomar Ibuprofeno 400mg cada 8 horas por 3 días.">{{ old('plan_siguiente_sesion') }}</textarea>
         </div>
 
         <button type="submit" class="btn btn-primary mt-3">Registrar Visita</button>

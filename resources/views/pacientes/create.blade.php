@@ -37,10 +37,16 @@
         <div class="grid-3">
             <div class="form-group">
                 <label class="form-label" for="cedula">Cédula *</label>
-                <input type="text" name="cedula" id="cedula"
-                    class="form-control {{ $errors->has('cedula') ? 'is-invalid' : '' }}"
-                    value="{{ old('cedula') }}" required placeholder="V-12345678">
-                @error('cedula')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                <div style="display: flex; align-items: stretch;">
+                    <span style="display: flex; align-items: center; padding: 0 15px; background: #f1f5f9; border: 1px solid #cbd5e1; border-right: none; border-radius: 8px 0 0 8px; font-weight: 600; color: #334155;">V-</span>
+                    <input type="text" name="cedula" id="cedula"
+                        class="form-control {{ $errors->has('cedula') ? 'is-invalid' : '' }}"
+                        style="border-top-left-radius: 0; border-bottom-left-radius: 0; width: 100%;"
+                        value="{{ old('cedula') }}" required placeholder="Ej. 12345678"
+                        pattern="[0-9]+" title="Solo se permiten números"
+                        oninput="this.value = this.value.replace(/[^0-9]/g, '')">
+                </div>
+                @error('cedula')<div class="invalid-feedback" style="display:block">{{ $message }}</div>@enderror
             </div>
 
             <div class="form-group">

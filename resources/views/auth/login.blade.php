@@ -292,12 +292,7 @@
             </button>
         </form>
 
-        <div class="hint-box">
-            <strong>Acceso de demostración:</strong><br>
-            Admin: <strong>admin@santalfonso.com</strong><br>
-            Especialista: <strong>terapeuta@santalfonso.com</strong><br>
-            Contraseña: <strong>password</strong>
-        </div>
+
     </div>
 </div>
 </body>

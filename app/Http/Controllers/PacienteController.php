@@ -20,7 +20,11 @@ class PacienteController extends Controller
      */
     public function index(Request $request): View
     {
-        $query = Paciente::query()->orderBy('apellidos');
+        if ($request->has('archivados')) {
+            $query = Paciente::onlyTrashed()->orderBy('apellidos');
+        } else {
+            $query = Paciente::query()->orderBy('apellidos');
+        }
 
         if ($request->filled('buscar')) {
             $termino = $request->buscar;
@@ -53,6 +57,11 @@ class PacienteController extends Controller
     public function store(Request $request): RedirectResponse
     {
         abort_if(! auth()->user()->esAdmin(), 403, 'Solo el personal de recepción puede registrar pacientes.');
+
+        if ($request->has('cedula')) {
+            $cedulaLimpia = preg_replace('/[^0-9]/', '', $request->cedula);
+            $request->merge(['cedula' => 'V-' . $cedulaLimpia]);
+        }
 
         $validated = $request->validate([
             'cedula'              => ['required', 'string', 'max:20', 'unique:pacientes,cedula'],
@@ -103,6 +112,11 @@ class PacienteController extends Controller
     {
         abort_if(! auth()->user()->esAdmin(), 403, 'Solo el personal de recepción puede editar pacientes.');
 
+        if ($request->has('cedula')) {
+            $cedulaLimpia = preg_replace('/[^0-9]/', '', $request->cedula);
+            $request->merge(['cedula' => 'V-' . $cedulaLimpia]);
+        }
+
         $validated = $request->validate([
             'cedula'              => ['required', 'string', 'max:20', "unique:pacientes,cedula,{$paciente->id}"],
             'nombres'             => ['required', 'string', 'max:100'],
@@ -120,5 +134,50 @@ class PacienteController extends Controller
 
         return redirect()->route('pacientes.show', $paciente)
             ->with('success', 'Datos del paciente actualizados.');
+    }
+
+    /**
+     * Elimina lógicamente (SoftDelete) al paciente.
+     */
+    public function destroy(Paciente $paciente): RedirectResponse
+    {
+        abort_if(! auth()->user()->esAdmin(), 403, 'Solo el personal de recepción puede eliminar pacientes.');
+
+        try {
+            // Cancelar citas pendientes para liberar la agenda
+            $paciente->citas()
+                ->where('estado', \App\Models\Cita::ESTADO_PENDIENTE)
+                ->update([
+                    'estado' => \App\Models\Cita::ESTADO_CANCELADA,
+                    'motivo_cancelacion' => 'Paciente archivado (baja del sistema).',
+                    'cancelado_por' => auth()->id(),
+                ]);
+
+            $paciente->delete();
+            return redirect()->route('pacientes.index')
+                ->with('success', 'Paciente archivado. Todas sus citas pendientes han sido canceladas automáticamente para liberar la agenda.');
+        } catch (\Exception $e) {
+            return redirect()->route('pacientes.index')
+                ->with('error', 'Ocurrió un error inesperado al intentar eliminar el paciente.');
+        }
+    }
+
+    /**
+     * Restaura un paciente que fue archivado (Soft Deleted).
+     */
+    public function restore($id)
+    {
+        abort_if(! auth()->user()->esAdmin(), 403, 'Solo el personal de recepción puede restaurar pacientes.');
+
+        try {
+            $paciente = Paciente::withTrashed()->findOrFail($id);
+            $paciente->restore();
+
+            return redirect()->route('pacientes.index', ['archivados' => 1])
+                ->with('success', 'Paciente restaurado exitosamente del archivo.');
+        } catch (\Exception $e) {
+            return redirect()->back()
+                ->with('error', 'Ocurrió un error inesperado al intentar restaurar el paciente.');
+        }
     }
 }

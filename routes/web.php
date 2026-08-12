@@ -3,7 +3,7 @@
 use App\Http\Controllers\Auth\LoginController;
 use App\Http\Controllers\CitaController;
 use App\Http\Controllers\DashboardController;
-
+use App\Http\Controllers\EspecialidadController;
 use App\Http\Controllers\HistoriaClinicaController;
 use App\Http\Controllers\PacienteController;
 use App\Http\Controllers\ReportesController;
@@ -43,6 +43,12 @@ Route::middleware('auth')->group(function () {
         Route::put('/{cita}',          [CitaController::class, 'update'])->name('update');
         Route::patch('/{cita}/estado', [CitaController::class, 'cambiarEstado'])->name('cambiarEstado');
         Route::delete('/{cita}',       [CitaController::class, 'destroy'])->name('destroy');
+        
+        // Ruta para enviar los recordatorios manualmente (Demo Tesis / Uso Real)
+        Route::post('/simular-recordatorios', function() {
+            \Illuminate\Support\Facades\Artisan::call('citas:send-reminders');
+            return back()->with('success', 'Recordatorios enviados exitosamente.');
+        })->name('simular_recordatorios')->middleware('admin');
     });
 
     // -------------------------------------------------------------------
@@ -57,11 +63,27 @@ Route::middleware('auth')->group(function () {
         Route::post('/',                    [PacienteController::class, 'store'])->name('store')->middleware('admin');
 
         // Wildcard routes
-        Route::get('/{paciente}',           [PacienteController::class, 'show'])->name('show');
+        Route::get('/{paciente}',           [PacienteController::class, 'show'])->name('show')->withTrashed();
         
         // Editar paciente — solo admin
-        Route::get('/{paciente}/editar',    [PacienteController::class, 'edit'])->name('edit')->middleware('admin');
-        Route::put('/{paciente}',           [PacienteController::class, 'update'])->name('update')->middleware('admin');
+        Route::get('/{paciente}/editar',    [PacienteController::class, 'edit'])->name('edit')->withTrashed()->middleware('admin');
+        Route::put('/{paciente}',           [PacienteController::class, 'update'])->name('update')->withTrashed()->middleware('admin');
+        Route::patch('/{paciente}/restaurar', [PacienteController::class, 'restore'])->name('restore')->withTrashed()->middleware('admin');
+        Route::delete('/{paciente}',        [PacienteController::class, 'destroy'])->name('destroy')->withTrashed()->middleware('admin');
+    });
+
+    // -------------------------------------------------------------------
+    // Módulo de Especialidades Médicas (Solo Admin)
+    // -------------------------------------------------------------------
+    Route::prefix('especialidades')->name('especialidades.')->middleware('admin')->group(function () {
+        Route::get('/',                     [EspecialidadController::class, 'index'])->name('index');
+        Route::get('/crear',                [EspecialidadController::class, 'create'])->name('create');
+        Route::post('/',                    [EspecialidadController::class, 'store'])->name('store');
+        Route::get('/{especialidad}/editar',[EspecialidadController::class, 'edit'])->name('edit')->withTrashed();
+        Route::put('/{especialidad}',       [EspecialidadController::class, 'update'])->name('update')->withTrashed();
+        Route::patch('/{especialidad}/toggle-status', [EspecialidadController::class, 'toggleStatus'])->name('toggle_status')->withTrashed();
+        Route::patch('/{especialidad}/restaurar',     [EspecialidadController::class, 'restore'])->name('restore')->withTrashed();
+        Route::delete('/{especialidad}',    [EspecialidadController::class, 'destroy'])->name('destroy')->withTrashed();
     });
 
     // -------------------------------------------------------------------
@@ -91,12 +113,15 @@ Route::middleware('auth')->group(function () {
         Route::post('/',             [UsuarioController::class, 'store'])->name('store');
         Route::get('/{usuario}/editar', [UsuarioController::class, 'edit'])->name('edit');
         Route::put('/{usuario}',     [UsuarioController::class, 'update'])->name('update');
+        Route::patch('/{usuario}/toggle-status', [UsuarioController::class, 'toggleStatus'])->name('toggle_status');
+        Route::delete('/{usuario}',  [UsuarioController::class, 'destroy'])->name('destroy');
     });
 
     // -------------------------------------------------------------------
     // Módulo de Historia Clínica (Visitas) — solo especialistas
     // -------------------------------------------------------------------
     Route::prefix('historias')->name('historias.')->middleware('especialista')->group(function () {
+        Route::get('/paciente/{paciente}', [HistoriaClinicaController::class, 'paciente'])->name('paciente');
         Route::get('/',                        [HistoriaClinicaController::class, 'index'])->name('index');
         Route::get('/crear',                   [HistoriaClinicaController::class, 'create'])->name('create');
         Route::post('/',                       [HistoriaClinicaController::class, 'store'])->name('store');

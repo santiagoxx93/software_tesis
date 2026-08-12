@@ -78,7 +78,7 @@ class HistoriaClinica extends Model
      */
     public function paciente(): BelongsTo
     {
-        return $this->belongsTo(Paciente::class);
+        return $this->belongsTo(Paciente::class)->withTrashed();
     }
 
     /**

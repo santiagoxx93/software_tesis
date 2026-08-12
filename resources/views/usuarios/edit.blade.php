@@ -5,6 +5,18 @@
 @section('breadcrumb', 'Trabajadores / Editar')
 
 @section('content')
+
+@push('styles')
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<style>
+    .ts-control { background-color: var(--color-surface); color: var(--color-text); border-color: var(--color-border); border-radius: 0.375rem; padding: 0.5rem 0.75rem; }
+    .ts-dropdown { background-color: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+    .ts-dropdown .option { padding: 8px 12px; }
+    .ts-dropdown .option:hover, .ts-dropdown .option.active { background-color: var(--color-primary); color: #fff; }
+    .ts-control input { color: var(--color-text); }
+</style>
+@endpush
+
 <div class="card" style="max-width:860px;">
     <div class="card-header">
         <span class="card-title flex align-center gap-2" style="align-items:center;"><i data-lucide="edit" style="width:20px;height:20px;"></i> Editar trabajador: {{ $usuario->name }}</span>
@@ -106,11 +118,16 @@
             </div>
 
             <div class="form-group">
-                <label class="form-label" for="especialidad">Especialidad *</label>
-                <input type="text" name="especialidad" id="especialidad"
-                    class="form-control {{ $errors->has('especialidad') ? 'is-invalid' : '' }}"
-                    value="{{ old('especialidad', $usuario->especialista->especialidad) }}" maxlength="150">
-                @error('especialidad')<div class="invalid-feedback">{{ $message }}</div>@enderror
+                <label class="form-label" for="especialidad_id">Especialidad *</label>
+                <select name="especialidad_id" id="especialidad_id" class="form-select {{ $errors->has('especialidad_id') ? 'is-invalid' : '' }}">
+                    <option value="">— Seleccionar especialidad —</option>
+                    @foreach($especialidades as $especialidad)
+                        <option value="{{ $especialidad->id }}" {{ old('especialidad_id', $usuario->especialista->especialidad_id) == $especialidad->id ? 'selected' : '' }}>
+                            {{ $especialidad->nombre }}
+                        </option>
+                    @endforeach
+                </select>
+                @error('especialidad_id')<div class="invalid-feedback" style="display:block;">{{ $message }}</div>@enderror
             </div>
 
             <div class="form-group">
@@ -176,4 +193,21 @@
         </div>
     </form>
 </div>
+@push('scripts')
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        if(document.getElementById('especialidades')){
+            new TomSelect("#especialidades",{
+                plugins: ['remove_button'],
+                create: false,
+                sortField: {
+                    field: "text",
+                    direction: "asc"
+                }
+            });
+        }
+    });
+</script>
+@endpush
 @endsection

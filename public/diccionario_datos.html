@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diccionario de Datos - Centro San Alfonso</title>
+    <style>
+        body { font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; padding: 20px; background: white; color: #333; }
+        .instrucciones { text-align: center; margin-bottom: 20px; max-width: 800px; margin: 0 auto 30px auto; line-height: 1.6; }
+        .btn-print { 
+            background: #0284c7; color: white; border: none; padding: 10px 20px; 
+            border-radius: 5px; font-size: 16px; cursor: pointer; margin-top: 10px;
+            font-weight: bold; box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+            transition: background 0.3s;
+        }
+        .btn-print:hover { background: #0369a1; }
+        
+        .diccionario-container { max-width: 1000px; margin: 0 auto; }
+        .tabla-diccionario { width: 100%; border-collapse: collapse; margin-bottom: 40px; font-size: 14px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .tabla-diccionario th, .tabla-diccionario td { border: 1px solid #cbd5e1; padding: 10px 15px; text-align: left; }
+        .tabla-diccionario th { background-color: #0369a1; color: white; font-weight: bold; text-transform: uppercase; font-size: 13px; }
+        .tabla-header { background-color: #e0f2fe; color: #0f172a; font-weight: bold; font-size: 16px; text-transform: uppercase; }
+        
+        .pk { color: #b91c1c; font-weight: bold; }
+        .fk { color: #047857; font-weight: bold; }
+        
+        @media print {
+            .no-print { display: none !important; }
+            body { padding: 0; margin: 0; }
+            .tabla-diccionario { page-break-inside: avoid; }
+        }
+    </style>
+</head>
+<body>
+    <div class="instrucciones no-print">
+        <h2>Diccionario de Datos</h2>
+        <p>Este documento detalla la estructura física de la Base de Datos Relacional del sistema (tipos de datos, longitudes y restricciones), cumpliendo con los estándares de ingeniería de software.</p>
+        <button class="btn-print" onclick="window.print()">🖨️ Guardar como PDF / Imprimir</button>
+    </div>
+    
+    <div class="diccionario-container">
+        
+        <!-- Tabla: users -->
+        <table class="tabla-diccionario">
+            <tr class="tabla-header">
+                <td colspan="5">Tabla: users (Almacena Trabajadores, Recepcionistas y Especialistas)</td>
+            </tr>
+            <tr>
+                <th>Campo</th>
+                <th>Tipo de Dato</th>
+                <th>Longitud</th>
+                <th>Restricción</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="pk">PK, AI</td>
+                <td>Identificador único del usuario.</td>
+            </tr>
+            <tr>
+                <td>name</td>
+                <td>VARCHAR</td>
+                <td>255</td>
+                <td>NOT NULL</td>
+                <td>Nombre completo del trabajador.</td>
+            </tr>
+            <tr>
+                <td>email</td>
+                <td>VARCHAR</td>
+                <td>255</td>
+                <td>UNIQUE, NOT NULL</td>
+                <td>Correo electrónico (Usado para Login).</td>
+            </tr>
+            <tr>
+                <td>password</td>
+                <td>VARCHAR</td>
+                <td>255</td>
+                <td>NOT NULL</td>
+                <td>Contraseña encriptada (Hash Bcrypt).</td>
+            </tr>
+            <tr>
+                <td>dni</td>
+                <td>VARCHAR</td>
+                <td>20</td>
+                <td>UNIQUE, NULL</td>
+                <td>Cédula o documento de identidad.</td>
+            </tr>
+            <tr>
+                <td>telefono</td>
+                <td>VARCHAR</td>
+                <td>20</td>
+                <td>NULL</td>
+                <td>Número de contacto telefónico.</td>
+            </tr>
+            <tr>
+                <td>especialidad</td>
+                <td>VARCHAR</td>
+                <td>255</td>
+                <td>NULL</td>
+                <td>Especialidad médica (Solo para doctores).</td>
+            </tr>
+        </table>
+
+        <!-- Tabla: pacientes -->
+        <table class="tabla-diccionario">
+            <tr class="tabla-header">
+                <td colspan="5">Tabla: pacientes (Almacena la ficha demográfica)</td>
+            </tr>
+            <tr>
+                <th>Campo</th>
+                <th>Tipo de Dato</th>
+                <th>Longitud</th>
+                <th>Restricción</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="pk">PK, AI</td>
+                <td>Identificador único del paciente.</td>
+            </tr>
+            <tr>
+                <td>cedula</td>
+                <td>VARCHAR</td>
+                <td>20</td>
+                <td>UNIQUE, NOT NULL</td>
+                <td>Cédula de identidad.</td>
+            </tr>
+            <tr>
+                <td>nombres</td>
+                <td>VARCHAR</td>
+                <td>100</td>
+                <td>NOT NULL</td>
+                <td>Nombres del paciente.</td>
+            </tr>
+            <tr>
+                <td>apellidos</td>
+                <td>VARCHAR</td>
+                <td>100</td>
+                <td>NOT NULL</td>
+                <td>Apellidos del paciente.</td>
+            </tr>
+            <tr>
+                <td>fecha_nacimiento</td>
+                <td>DATE</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Fecha de nacimiento para cálculo de edad.</td>
+            </tr>
+            <tr>
+                <td>genero</td>
+                <td>ENUM</td>
+                <td>'M','F','Otro'</td>
+                <td>NOT NULL</td>
+                <td>Género biológico o identidad.</td>
+            </tr>
+            <tr>
+                <td>telefono</td>
+                <td>VARCHAR</td>
+                <td>20</td>
+                <td>NOT NULL</td>
+                <td>Número de contacto telefónico.</td>
+            </tr>
+            <tr>
+                <td>direccion</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NULL</td>
+                <td>Lugar de residencia física.</td>
+            </tr>
+            <tr>
+                <td>antecedentes</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NULL</td>
+                <td>Alergias o condiciones preexistentes.</td>
+            </tr>
+        </table>
+
+        <!-- Tabla: citas -->
+        <table class="tabla-diccionario">
+            <tr class="tabla-header">
+                <td colspan="5">Tabla: citas (Gestión de turnos y agenda)</td>
+            </tr>
+            <tr>
+                <th>Campo</th>
+                <th>Tipo de Dato</th>
+                <th>Longitud</th>
+                <th>Restricción</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="pk">PK, AI</td>
+                <td>Identificador único de la cita.</td>
+            </tr>
+            <tr>
+                <td>paciente_id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="fk">FK (pacientes)</td>
+                <td>Paciente que reserva la cita.</td>
+            </tr>
+            <tr>
+                <td>especialista_id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="fk">FK (users)</td>
+                <td>Médico asignado para la atención.</td>
+            </tr>
+            <tr>
+                <td>fecha_cita</td>
+                <td>DATE</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Día programado para la consulta.</td>
+            </tr>
+            <tr>
+                <td>hora_inicio</td>
+                <td>TIME</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Hora de inicio del bloque de agenda.</td>
+            </tr>
+            <tr>
+                <td>hora_fin</td>
+                <td>TIME</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Hora de finalización del bloque.</td>
+            </tr>
+            <tr>
+                <td>estado</td>
+                <td>ENUM</td>
+                <td>'Pendiente', 'Completada', 'Cancelada'</td>
+                <td>DEFAULT 'Pendiente'</td>
+                <td>Estatus actual del turno.</td>
+            </tr>
+            <tr>
+                <td>notas</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NULL</td>
+                <td>Motivo o anotación de la recepcionista.</td>
+            </tr>
+        </table>
+
+        <!-- Tabla: historias_clinicas -->
+        <table class="tabla-diccionario">
+            <tr class="tabla-header">
+                <td colspan="5">Tabla: historias_clinicas (Evolución y registro médico)</td>
+            </tr>
+            <tr>
+                <th>Campo</th>
+                <th>Tipo de Dato</th>
+                <th>Longitud</th>
+                <th>Restricción</th>
+                <th>Descripción</th>
+            </tr>
+            <tr>
+                <td>id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="pk">PK, AI</td>
+                <td>Identificador único de la evolución.</td>
+            </tr>
+            <tr>
+                <td>paciente_id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="fk">FK (pacientes)</td>
+                <td>Dueño de la historia clínica.</td>
+            </tr>
+            <tr>
+                <td>especialista_id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="fk">FK (users)</td>
+                <td>Médico que realiza el registro.</td>
+            </tr>
+            <tr>
+                <td>cita_id</td>
+                <td>BIGINT</td>
+                <td>20</td>
+                <td class="fk">FK (citas)</td>
+                <td>Turno asociado a esta consulta.</td>
+            </tr>
+            <tr>
+                <td>motivo_consulta</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Razón por la que asiste el paciente.</td>
+            </tr>
+            <tr>
+                <td>sintomas</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NULL</td>
+                <td>Cuadro sintomatológico (Anamnesis).</td>
+            </tr>
+            <tr>
+                <td>diagnostico</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Conclusión médica del especialista.</td>
+            </tr>
+            <tr>
+                <td>plan_tratamiento</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Receta médica o indicaciones a seguir.</td>
+            </tr>
+            <tr>
+                <td>observaciones</td>
+                <td>TEXT</td>
+                <td>-</td>
+                <td>NULL</td>
+                <td>Notas extra (ej. reposo, próxima cita).</td>
+            </tr>
+            <tr>
+                <td>fecha_registro</td>
+                <td>DATETIME</td>
+                <td>-</td>
+                <td>NOT NULL</td>
+                <td>Fecha y hora exacta de la redacción.</td>
+            </tr>
+        </table>
+        
+        <p style="font-size: 12px; color: #64748b; margin-top: 20px;">* Nota: PK = Llave Primaria (Primary Key), FK = Llave Foránea (Foreign Key), AI = Autoincrementable. Todas las tablas incluyen campos created_at y updated_at (TIMESTAMP) administrados automáticamente por el framework.</p>
+
+    </div>
+</body>
+</html>

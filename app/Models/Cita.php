@@ -18,7 +18,6 @@ class Cita extends Model
      * Estados posibles de una cita.
      */
     const ESTADO_PENDIENTE    = 'pendiente';
-    const ESTADO_CONFIRMADA   = 'confirmada';
     const ESTADO_COMPLETADA   = 'completada';
     const ESTADO_CANCELADA    = 'cancelada';
     const ESTADO_AUSENTE      = 'ausente';
@@ -48,11 +47,11 @@ class Cita extends Model
     // -----------------------------------------------------------------------
 
     /**
-     * Citas pendientes o confirmadas (activas).
+     * Citas pendientes (activas).
      */
     public function scopeActivas(Builder $query): Builder
     {
-        return $query->whereIn('estado', [self::ESTADO_PENDIENTE, self::ESTADO_CONFIRMADA]);
+        return $query->whereIn('estado', [self::ESTADO_PENDIENTE]);
     }
 
     /**
@@ -86,13 +85,10 @@ class Cita extends Model
             ->whereDate('fecha', $fecha)
             ->whereNotIn('estado', [self::ESTADO_CANCELADA, self::ESTADO_REPROGRAMADA])
             ->where(function (Builder $q) use ($horaInicio, $horaFin) {
-                // Se cruzan si el inicio de una cita cae dentro del rango de otra
-                $q->whereBetween('hora_inicio', [$horaInicio, $horaFin])
-                  ->orWhereBetween('hora_fin', [$horaInicio, $horaFin])
-                  ->orWhere(function (Builder $q2) use ($horaInicio, $horaFin) {
-                      $q2->where('hora_inicio', '<=', $horaInicio)
-                         ->where('hora_fin', '>=', $horaFin);
-                  });
+                // Dos rangos de tiempo (A y B) se solapan SI Y SOLO SI:
+                // InicioA < FinB AND FinA > InicioB
+                $q->where('hora_inicio', '<', $horaFin)
+                  ->where('hora_fin', '>', $horaInicio);
             })
             ->when($excluirCitaId, fn (Builder $q) => $q->where('id', '!=', $excluirCitaId))
             ->exists();
@@ -110,7 +106,7 @@ class Cita extends Model
         // 1. Validar si el día de la semana es laborable para él
         // dayOfWeekIso devuelve 1 (Lunes) a 7 (Domingo)
         $diaSemana = \Carbon\Carbon::parse($fecha)->dayOfWeekIso; 
-        $diasLaborables = $especialista->dias_laborables ?? [];
+        $diasLaborables = $especialista->dias_laborables ?? [1, 2, 3, 4, 5];
         
         if (!in_array((string)$diaSemana, $diasLaborables) && !in_array($diaSemana, $diasLaborables)) {
             return 'El especialista no labora en el día seleccionado.';
@@ -136,7 +132,7 @@ class Cita extends Model
 
     public function paciente(): BelongsTo
     {
-        return $this->belongsTo(Paciente::class);
+        return $this->belongsTo(Paciente::class)->withTrashed();
     }
 
     public function especialista(): BelongsTo

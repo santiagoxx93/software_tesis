@@ -5,6 +5,15 @@
 @section('breadcrumb', 'Listado y calendario de citas')
 
 @section('topbar-actions')
+    @if(auth()->user()->esAdmin())
+        <form action="{{ route('citas.simular_recordatorios') }}" method="POST" style="display:inline-block; margin-right: 10px;" onsubmit="return confirm('¿Deseas enviar los correos de recordatorio para las citas programadas para el día de mañana?');">
+            @csrf
+            <button type="submit" class="btn btn-sm" style="background:#f59e0b; color:white; border:none; padding:8px 12px; border-radius:6px; cursor:pointer; display:flex; align-items:center; gap:5px;">
+                <svg width="16" height="16" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"/></svg>
+                Enviar Recordatorios
+            </button>
+        </form>
+    @endif
     <a href="{{ route('citas.create') }}" class="btn btn-primary btn-sm" id="btn-nueva-cita">
         <i data-lucide="plus" style="width:16px;height:16px;"></i> Nueva Cita
     </a>
@@ -26,6 +35,7 @@
         <calendario-citas
             :citas="{{ json_encode($citasJson) }}"
             :especialistas="{{ json_encode($especialistasJson) }}"
+            :es-admin="{{ auth()->user()->esAdmin() ? 'true' : 'false' }}"
         ></calendario-citas>
     </div>
 </div>
@@ -44,7 +54,7 @@
                 <label class="form-label">Estado</label>
                 <select name="estado" class="form-select">
                     <option value="">Todos</option>
-                    @foreach(['pendiente','confirmada','completada','cancelada','ausente','reprogramada'] as $e)
+                    @foreach(['pendiente','completada','cancelada','ausente','reprogramada'] as $e)
                         <option value="{{ $e }}" {{ request('estado') === $e ? 'selected' : '' }}>{{ ucfirst($e) }}</option>
                     @endforeach
                 </select>
@@ -62,6 +72,10 @@
                 </select>
             </div>
             @endif
+            <div class="form-group flex align-center" style="margin:0; min-width:140px; margin-bottom: 12px; gap: 8px;">
+                <input type="checkbox" name="incluir_pasadas" id="incluir_pasadas" value="1" {{ request()->has('incluir_pasadas') ? 'checked' : '' }} style="width: 16px; height: 16px;">
+                <label for="incluir_pasadas" class="form-label" style="margin: 0; cursor: pointer;">Incluir pasadas</label>
+            </div>
             <div style="display:flex;gap:.5rem;">
                 <button type="submit" class="btn btn-primary"><i data-lucide="filter" style="width:14px;height:14px;"></i> Filtrar</button>
                 <a href="{{ route('citas.index') }}" class="btn btn-secondary">Limpiar</a>
@@ -124,16 +138,22 @@
                                 <div class="flex gap-2">
                                     <a href="{{ route('citas.show', $cita) }}" class="btn btn-primary btn-sm">Ver</a>
                                     <a href="{{ route('citas.edit', $cita) }}" class="btn btn-secondary btn-sm">Editar</a>
-                                    @if(in_array($cita->estado, ['pendiente', 'confirmada']))
-                                        <form action="{{ route('citas.cambiarEstado', $cita) }}" method="POST">
+                                    @if(auth()->user()->esAdmin())
+                                        <form action="{{ route('citas.destroy', $cita) }}" method="POST" onsubmit="return confirm('¿Está seguro de que desea ELIMINAR esta cita? (Solo en caso de error).');">
+                                            @csrf @method('DELETE')
+                                            <button class="btn btn-danger btn-sm" style="background:#ef4444; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Eliminar</button>
+                                        </form>
+                                    @endif
+                                    @if(in_array($cita->estado, ['pendiente']))
+                                        <form action="{{ route('citas.cambiarEstado', $cita) }}" method="POST" title="Marcar como Completada">
                                             @csrf @method('PATCH')
                                             <input type="hidden" name="estado" value="completada">
-                                            <button class="btn btn-success btn-sm">✓</button>
+                                            <button class="btn btn-success btn-sm" style="font-weight:600; padding:4px 8px;">✓ Completada</button>
                                         </form>
-                                        <form action="{{ route('citas.cambiarEstado', $cita) }}" method="POST">
+                                        <form action="{{ route('citas.cambiarEstado', $cita) }}" method="POST" title="Marcar como Ausente">
                                             @csrf @method('PATCH')
                                             <input type="hidden" name="estado" value="ausente">
-                                            <button class="btn btn-danger btn-sm">✗</button>
+                                            <button class="btn btn-danger btn-sm" style="font-weight:600; padding:4px 8px;">✗ Ausente</button>
                                         </form>
                                     @endif
                                 </div>
@@ -178,6 +198,18 @@ function switchTab(tab) {
     document.getElementById('panel-lista').style.display      = tab === 'lista'       ? '' : 'none';
     document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
     document.getElementById('tab-' + tab).classList.add('active');
+    localStorage.setItem('citasTab', tab);
 }
+
+document.addEventListener('DOMContentLoaded', () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const hasFilters = urlParams.has('page') || urlParams.has('fecha') || urlParams.has('estado') || urlParams.has('especialista_id') || urlParams.has('incluir_pasadas');
+    
+    let activeTab = localStorage.getItem('citasTab') || 'calendario';
+    if (hasFilters) {
+        activeTab = 'lista'; // Forzar pestaña de lista si hay filtros o paginación activa
+    }
+    switchTab(activeTab);
+});
 </script>
 @endpush

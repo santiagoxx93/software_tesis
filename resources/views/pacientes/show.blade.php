@@ -32,7 +32,12 @@
                     {{ strtoupper(substr($paciente->nombres,0,1).substr($paciente->apellidos,0,1)) }}
                 </div>
                 <div>
-                    <div style="font-size:1.1rem;font-weight:700;">{{ $paciente->nombre_completo }}</div>
+                    <h1 class="page-title">
+                        Expediente: {{ $paciente->nombre_completo }}
+                        @if($paciente->trashed())
+                            <span style="background: #fee2e2; color: #ef4444; font-size: 0.8rem; padding: 4px 8px; border-radius: 4px; margin-left: 8px; vertical-align: middle; font-weight: bold;">ARCHIVADO</span>
+                        @endif
+                    </h1>
                     <div class="text-muted">{{ $paciente->cedula }}</div>
                 </div>
             </div>

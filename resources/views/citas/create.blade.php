@@ -29,6 +29,17 @@
             </div>
 
             <div class="form-group">
+                <label class="form-label" for="especialidad_id">Especialidad (Filtro)</label>
+                <select id="especialidad_id" class="form-select">
+                    <option value="">— Seleccionar especialidad —</option>
+                    @foreach($especialidades as $especialidad)
+                        <option value="{{ $especialidad->id }}">{{ $especialidad->nombre }}</option>
+                    @endforeach
+                </select>
+                <div class="text-muted mt-1" style="font-size: 0.75rem;">Opcional: filtre los especialistas por su especialidad.</div>
+            </div>
+
+            <div class="form-group">
                 <label class="form-label" for="especialista_id">Especialista *</label>
                 <select name="especialista_id" id="especialista_id" class="form-select {{ $errors->has('especialista_id') ? 'is-invalid' : '' }}" required>
                     <option value="">— Seleccionar especialista —</option>
@@ -40,9 +51,11 @@
                             $hEntrada = $e->hora_entrada ? date('h:i A', strtotime($e->hora_entrada)) : '08:00 AM';
                             $hSalida = $e->hora_salida ? date('h:i A', strtotime($e->hora_salida)) : '05:00 PM';
                             $infoHorario = "Días: $diasTexto | Horario: $hEntrada — $hSalida";
+                            $especialidadId = $e->especialidad_id ?? '';
+                            $nombreEspecialidad = $e->especialidad ? $e->especialidad->nombre : 'Sin especialidad';
                         @endphp
-                        <option value="{{ $e->id }}" data-horario="{{ $infoHorario }}" {{ old('especialista_id') == $e->id ? 'selected' : '' }}>
-                            {{ $e->nombre_completo }} — {{ $e->especialidad ?? 'Sin especialidad' }}
+                        <option value="{{ $e->id }}" data-horario="{{ $infoHorario }}" data-especialidad="{{ $especialidadId }}" {{ old('especialista_id') == $e->id ? 'selected' : '' }}>
+                            {{ $e->nombre_completo }} — {{ $nombreEspecialidad }}
                         </option>
                     @endforeach
                 </select>
@@ -143,5 +156,54 @@ function updateHorario() {
 }
 espSelect.addEventListener('change', updateHorario);
 updateHorario(); // Ejecutar al cargar la página
+
+// Filtrado de Especialistas por Especialidad
+const especialidadSelect = document.getElementById('especialidad_id');
+
+especialidadSelect.addEventListener('change', function() {
+    const selectedEspecialidad = this.value;
+    
+    // Resetear selección y ocultar horario al cambiar filtro
+    espSelect.value = '';
+    infoBox.style.display = 'none';
+    
+    const options = espSelect.querySelectorAll('option:not([value=""])');
+    
+    options.forEach(option => {
+        const especialidadId = option.getAttribute('data-especialidad');
+        
+        if (!selectedEspecialidad || especialidadId === selectedEspecialidad) {
+            option.style.display = '';
+        } else {
+            option.style.display = 'none';
+        }
+    });
+});
+
+</script>
+
+<!-- Librería TomSelect para buscador en dropdown (Sin dependencias pesadas) -->
+<link href="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/css/tom-select.css" rel="stylesheet">
+<style>
+    /* Adaptación básica de TomSelect al Modo Oscuro del sistema */
+    .ts-control { background-color: var(--color-surface); color: var(--color-text); border-color: var(--color-border); border-radius: 0.375rem; padding: 0.5rem 0.75rem; }
+    .ts-dropdown { background-color: var(--color-surface); color: var(--color-text); border-color: var(--color-border); }
+    .ts-dropdown .option { padding: 8px 12px; }
+    .ts-dropdown .option:hover, .ts-dropdown .option.active { background-color: var(--color-primary); color: #fff; }
+    .ts-control input { color: var(--color-text); }
+    .tom-select.single .ts-control:after { border-color: var(--color-text) transparent transparent transparent; }
+</style>
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.2.2/dist/js/tom-select.complete.min.js"></script>
+<script>
+    document.addEventListener("DOMContentLoaded", function() {
+        new TomSelect("#paciente_id",{
+            create: false,
+            sortField: {
+                field: "text",
+                direction: "asc"
+            },
+            placeholder: "— Buscar por nombre o cédula —"
+        });
+    });
 </script>
 @endpush

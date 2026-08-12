@@ -10,8 +10,14 @@
     $hoy = \Carbon\Carbon::today();
     $citasHoy = \App\Models\Cita::where('especialista_id', $especialista?->id)
         ->whereDate('fecha', $hoy)
+        ->get();
+    $proximasCitas = \App\Models\Cita::where('especialista_id', $especialista?->id)
+        ->where('fecha', '>=', $hoy)
+        ->whereIn('estado', ['pendiente', 'reprogramada'])
         ->with('paciente')
+        ->orderBy('fecha')
         ->orderBy('hora_inicio')
+        ->limit(5)
         ->get();
     $totalPacientes = \App\Models\Cita::where('especialista_id', $especialista?->id)
         ->distinct('paciente_id')->count('paciente_id');
@@ -52,34 +58,37 @@
         <div class="card-header">
             <span class="card-title flex align-center gap-2" style="align-items:center;">
                 <i data-lucide="calendar-clock" style="width:20px;height:20px;"></i>
-                Mis citas de hoy
+                Próximas citas pendientes
             </span>
-            <a href="{{ route('citas.index') }}" class="btn btn-secondary btn-sm">Ver todas</a>
+            <a href="{{ route('citas.index') }}" class="btn btn-secondary btn-sm">Ver agenda</a>
         </div>
-        @if($citasHoy->isEmpty())
-            <p class="text-muted">No tienes citas programadas para hoy.</p>
+        @if($proximasCitas->isEmpty())
+            <p class="text-muted">No tienes próximas citas programadas.</p>
         @else
             <div class="table-wrap">
                 <table>
                     <thead>
                         <tr>
+                            <th>Fecha</th>
                             <th>Hora</th>
                             <th>Paciente</th>
-                            <th>Estado</th>
                             <th></th>
                         </tr>
                     </thead>
                     <tbody>
-                        @foreach($citasHoy as $cita)
+                        @foreach($proximasCitas as $cita)
                         <tr>
-                            <td><strong>{{ \Carbon\Carbon::parse($cita->hora_inicio)->format('h:i A') }}</strong></td>
-                            <td>{{ $cita->paciente->nombre_completo }}</td>
-                            <td><span class="badge badge-{{ $cita->estado }}">{{ ucfirst($cita->estado) }}</span></td>
-                            <td>
-                                @if($cita->paciente->historiaClinica)
-                                <a href="{{ route('historias.show', $cita->paciente->historiaClinica) }}"
-                                   class="btn btn-primary btn-sm">Ver HC</a>
+                            <td style="white-space:nowrap;">
+                                @if(\Carbon\Carbon::parse($cita->fecha)->isToday())
+                                    <span style="color:var(--color-primary);font-weight:600;">Hoy</span>
+                                @else
+                                    {{ \Carbon\Carbon::parse($cita->fecha)->isoFormat('DD/MM') }}
                                 @endif
+                            </td>
+                            <td style="white-space:nowrap;"><strong>{{ \Carbon\Carbon::parse($cita->hora_inicio)->format('h:i A') }}</strong></td>
+                            <td>{{ $cita->paciente->nombre_completo }}</td>
+                            <td>
+                                <a href="{{ route('citas.show', $cita) }}" class="btn btn-secondary btn-sm">Ver</a>
                             </td>
                         </tr>
                         @endforeach

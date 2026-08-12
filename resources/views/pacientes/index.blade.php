@@ -24,6 +24,10 @@
                 value="{{ request('buscar') }}"
                 id="input-buscar-paciente">
         </div>
+        <div class="form-group flex align-center" style="margin:0; min-width:140px; margin-bottom: 12px; gap: 8px;">
+            <input type="checkbox" name="archivados" id="archivados" value="1" {{ request()->has('archivados') ? 'checked' : '' }} style="width: 16px; height: 16px;">
+            <label for="archivados" class="form-label text-danger" style="margin: 0; cursor: pointer; color: #ef4444; font-weight: 600;">Ver Archivados</label>
+        </div>
         <div class="flex gap-2">
             <button type="submit" class="btn btn-primary"><i data-lucide="search" style="width:14px;height:14px;"></i> Buscar</button>
             @if(request('buscar'))
@@ -62,7 +66,12 @@
                                     {{ strtoupper(substr($paciente->nombres,0,1).substr($paciente->apellidos,0,1)) }}
                                 </div>
                                 <div>
-                                    <div style="font-weight:500;">{{ $paciente->nombre_completo }}</div>
+                                    <div style="font-weight:500;">
+                                        {{ $paciente->nombre_completo }}
+                                        @if($paciente->trashed())
+                                            <span style="background: #fee2e2; color: #ef4444; font-size: 0.65rem; padding: 2px 6px; border-radius: 4px; margin-left: 4px; font-weight: bold;">ARCHIVADO</span>
+                                        @endif
+                                    </div>
                                     <div class="text-muted" style="font-size:.72rem;">{{ $paciente->ocupacion ?? '' }}</div>
                                 </div>
                             </div>
@@ -75,7 +84,20 @@
                             <div class="flex gap-2">
                                 <a href="{{ route('pacientes.show', $paciente) }}" class="btn btn-secondary btn-sm">Ver</a>
                                 @if(auth()->user()->esAdmin())
-                                <a href="{{ route('pacientes.edit', $paciente) }}" class="btn btn-secondary btn-sm">Editar</a>
+                                    @if($paciente->trashed())
+                                        <form action="{{ route('pacientes.restore', $paciente->id) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro de que desea restaurar a este paciente del archivo?');">
+                                            @csrf
+                                            @method('PATCH')
+                                            <button type="submit" class="btn btn-sm" style="background:#10b981; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Restaurar</button>
+                                        </form>
+                                    @else
+                                        <a href="{{ route('pacientes.edit', $paciente) }}" class="btn btn-secondary btn-sm">Editar</a>
+                                        <form action="{{ route('pacientes.destroy', $paciente) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro de que desea ELIMINAR (Archivar) a este paciente? Esta acción no se puede deshacer.');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit" class="btn btn-danger btn-sm" style="background:#ef4444; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Eliminar</button>
+                                        </form>
+                                    @endif
                                 @endif
                                 @if(auth()->user()->esEspecialista() && $paciente->historiaClinica)
                                 <a href="{{ route('historias.show', $paciente->historiaClinica) }}" class="btn btn-primary btn-sm">HC</a>

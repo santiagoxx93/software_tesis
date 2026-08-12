@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Diagrama E-R - Sistema de Gestión Clínica</title>
+    <script src="https://cdn.jsdelivr.net/npm/mermaid/dist/mermaid.min.js"></script>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            padding: 20px;
+            background-color: #ffffff;
+            text-align: center;
+        }
+        .mermaid {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+        }
+        
+        /* Ocultar botones de impresión a la hora de imprimir */
+        @media print {
+            .no-print {
+                display: none;
+            }
+        }
+    </style>
+    <script>
+        mermaid.initialize({
+            startOnLoad: true,
+            theme: 'default',
+            er: {
+                diagramPadding: 20,
+                layoutDirection: 'LR',
+                minEntityWidth: 100,
+                minEntityHeight: 75,
+                entityPadding: 15,
+                stroke: '#7c3aed', // Borde morado para igualar tu captura
+                fill: '#f3e8ff',   // Fondo morado claro
+                fontSize: 12,
+                useMaxWidth: false
+            },
+            themeVariables: {
+                primaryColor: '#f3e8ff',
+                primaryBorderColor: '#7c3aed',
+                primaryTextColor: '#000000',
+                lineColor: '#6b7280',
+                fontFamily: 'arial'
+            }
+        });
+    </script>
+</head>
+<body>
+
+    <div class="no-print" style="margin-bottom: 20px;">
+        <h2>Diagrama Entidad-Relación</h2>
+        <p>Presiona <b>Ctrl + P</b> para guardarlo como PDF.</p>
+    </div>
+
+    <div class="mermaid">
+erDiagram
+    USERS {
+        bigint id PK
+        string name
+        string email
+        string password
+        enum rol "admin, especialista"
+        boolean activo
+        timestamp email_verified_at
+    }
+    ESPECIALISTAS {
+        bigint id PK
+        bigint user_id FK
+        bigint especialidad_id FK
+        string cedula
+        string nombres
+        string apellidos
+        time hora_entrada
+        time hora_salida
+        json dias_laborables
+        string telefono
+        boolean activo
+    }
+    ESPECIALIDADES {
+        bigint id PK
+        string nombre
+        text descripcion
+        boolean activo
+    }
+    PACIENTES {
+        bigint id PK
+        string cedula
+        string nombres
+        string apellidos
+        date fecha_nacimiento
+        enum sexo
+        string telefono
+        string telefono_emergencia
+        string email
+        text direccion
+        string ocupacion
+    }
+    CITAS {
+        bigint id PK
+        bigint paciente_id FK
+        bigint especialista_id FK
+        date fecha
+        time hora_inicio
+        time hora_fin
+        enum estado "pendiente, confirmada, etc."
+        text motivo
+        text notas_recepcion
+        bigint cita_reprogramada_id FK
+        bigint registrado_por FK
+        bigint cancelado_por FK
+        text motivo_cancelacion
+    }
+    HISTORIAS_CLINICAS {
+        bigint id PK
+        bigint paciente_id FK
+        bigint especialista_id FK
+        bigint cita_id FK
+        text antecedentes_personales
+        text antecedentes_familiares
+        text motivo_consulta
+        string grupo_sanguineo
+        text medicamentos_actuales
+        text observaciones_iniciales
+        date fecha_consulta
+        text evaluacion
+        text tratamiento_aplicado
+        text respuesta_paciente
+        text plan_siguiente_sesion
+        timestamp bloqueado_en
+        bigint creado_por FK
+    }
+
+    %% Eje central (De izquierda a derecha)
+    PACIENTES ||--o{ CITAS : "agenda"
+    CITAS ||--o| HISTORIAS_CLINICAS : "genera"
+    
+    %% Ramificaciones (Especialistas y Usuarios)
+    ESPECIALISTAS ||--o{ CITAS : "atiende"
+    ESPECIALISTAS ||--o{ HISTORIAS_CLINICAS : "registra"
+    
+    USERS ||--o| ESPECIALISTAS : "cuenta de"
+    USERS ||--o{ CITAS : "registra/cancela"
+    USERS ||--o{ HISTORIAS_CLINICAS : "crea/edita"
+    
+    PACIENTES ||--o{ HISTORIAS_CLINICAS : "tiene"
+    
+    %% Especialidades
+    ESPECIALIDADES ||--o{ ESPECIALISTAS : "tiene"
+    </div>
+
+</body>
+</html>

@@ -97,7 +97,7 @@
         </div>
 
         <div class="form-group">
-            <label class="form-label">Plan para la próxima sesión</label>
+            <label class="form-label">Plan a seguir y/o Receta Médica</label>
             <textarea name="plan_siguiente_sesion" class="form-control" rows="2" {{ $historia->estaBloqueado() ? 'disabled' : '' }}>{{ old('plan_siguiente_sesion', $historia->plan_siguiente_sesion) }}</textarea>
         </div>
 

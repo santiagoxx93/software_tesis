@@ -57,8 +57,8 @@
 
         %% Nivel 2: Procesos (Círculos)
         P1((1.<br>Registrar y Controlar<br>Usuarios))
-        P2((2.<br>Registrar Expedientes<br>Médicos))
-        P3((3.<br>Programar y Validar<br>Citas))
+        P2((2.<br>Programar y Validar<br>Citas))
+        P3((3.<br>Registrar Expedientes<br>Médicos))
         P4((4.<br>Procesar Historial y<br>Evolución))
         P5((5.<br>Generar Reportes y<br>Estadísticas))
 
@@ -67,6 +67,7 @@
         D2[(D2. Pacientes)]
         D3[(D3. Citas)]
         D4[(D4. Historias)]
+        D5[(D5. Especialidades)]
 
         %% Enlace invisible para forzar procesos abajo de las entidades
         E1 ~~~ P1
@@ -74,30 +75,38 @@
 
         %% Flujo Entidades -> Procesos (Hacia Abajo)
         E1 -->|Datos Usuario| P1
-        E1 -->|Ficha Médica| P2
-        E1 -->|Solicitud| P3
+        E1 -->|Solicitud| P2
+        E1 -->|Ficha Médica| P3
         E1 -->|Filtros| P5
         
-        E2 -->|Verificación| P3
+        E2 -->|Verificación| P2
         E2 -->|Diagnóstico| P4
 
         %% Flujos de retorno al usuario (Hacia Arriba)
-        P3 -->|Confirmación| E1
+        P2 -->|Confirmación| E1
         P5 -->|PDF/Reporte| E1
-        P3 -->|Calendario| E2
+        P2 -->|Calendario| E2
         P4 -->|Expediente| E2
 
-        %% Flujo Interno entre Procesos (Horizontal)
-        P1 -->|Horarios| P3
-        P2 -->|Estatus| P3
-        P3 -->|Turno| P4
-        P4 -->|Datos| P5
+        %% Flujo Interno entre Procesos (Horizontal - Lógica de la Profesora)
+        P1 -->|Credenciales| P2
+        P2 -->|Datos Nuevo Paciente| P3
+        P3 -->|Registro Confirmado| P2
+        P2 -->|Turno Asignado| P4
+        P4 -->|Datos Clínicos| P5
 
         %% Flujo Procesos -> Almacenes (Hacia Abajo)
         P1 <-->|Credenciales| D1
-        P2 <-->|Expedientes| D2
-        P3 <-->|Reservas| D3
+        P1 <-->|Catálogo| D5
+        P2 <-->|Reservas| D3
+        P3 <-->|Expedientes| D2
         P4 <-->|Notas Médicas| D4
+        
+        %% Consultas de Validación para Citas
+        D2 -.->|Validación de Perfil| P2
+        D5 -.->|Filtro Terapéutico| P2
+        
+        %% Extracción para Reportes
         P5 -.->|Datos| D1
         P5 -.->|Datos| D2
         P5 -.->|Datos| D3
@@ -110,7 +119,7 @@
 
         class E1,E2 entidad;
         class P1,P2,P3,P4,P5 proceso;
-        class D1,D2,D3,D4 almacen;
+        class D1,D2,D3,D4,D5 almacen;
     </div>
 
     <div class="nota">

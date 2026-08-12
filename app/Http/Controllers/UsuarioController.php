@@ -47,7 +47,8 @@ class UsuarioController extends Controller
      */
     public function create(): View
     {
-        return view('usuarios.create');
+        $especialidades = \App\Models\Especialidad::where('activo', true)->orderBy('nombre')->get();
+        return view('usuarios.create', compact('especialidades'));
     }
 
     /**
@@ -64,7 +65,7 @@ class UsuarioController extends Controller
             'cedula'        => ['required_if:rol,especialista', 'nullable', 'string', 'max:20'],
             'nombres'       => ['required_if:rol,especialista', 'nullable', 'string', 'max:100'],
             'apellidos'     => ['required_if:rol,especialista', 'nullable', 'string', 'max:100'],
-            'especialidad'  => ['required_if:rol,especialista', 'nullable', 'string', 'max:150'],
+            'especialidad_id'=>  ['required_if:rol,especialista', 'nullable', 'exists:especialidades,id'],
             'telefono'      => ['nullable', 'string', 'max:20'],
             'hora_entrada'  => ['required_if:rol,especialista', 'nullable', 'date_format:H:i'],
             'hora_salida'   => ['required_if:rol,especialista', 'nullable', 'date_format:H:i', 'after:hora_entrada'],
@@ -84,12 +85,12 @@ class UsuarioController extends Controller
 
         // Si es especialista, crear su perfil en la tabla especialistas
         if ($validated['rol'] === 'especialista') {
-            Especialista::create([
+            $especialista = Especialista::create([
                 'user_id'      => $user->id,
                 'cedula'       => $validated['cedula'],
                 'nombres'      => $validated['nombres'],
                 'apellidos'    => $validated['apellidos'],
-                'especialidad' => $validated['especialidad'],
+                'especialidad_id' => $validated['especialidad_id'],
                 'telefono'     => $validated['telefono'] ?? null,
                 'hora_entrada' => $validated['hora_entrada'] ?? '08:00',
                 'hora_salida'  => $validated['hora_salida'] ?? '17:00',
@@ -107,9 +108,10 @@ class UsuarioController extends Controller
      */
     public function edit(User $usuario): View
     {
-        $usuario->load('especialista');
+        $usuario->load('especialista.especialidad');
+        $especialidades = \App\Models\Especialidad::where('activo', true)->orderBy('nombre')->get();
 
-        return view('usuarios.edit', compact('usuario'));
+        return view('usuarios.edit', compact('usuario', 'especialidades'));
     }
 
     /**
@@ -126,7 +128,7 @@ class UsuarioController extends Controller
             'cedula'        => ['nullable', 'string', 'max:20'],
             'nombres'       => ['nullable', 'string', 'max:100'],
             'apellidos'     => ['nullable', 'string', 'max:100'],
-            'especialidad'  => ['nullable', 'string', 'max:150'],
+            'especialidad_id'=>  ['nullable', 'exists:especialidades,id'],
             'telefono'      => ['nullable', 'string', 'max:20'],
             'hora_entrada'  => ['nullable', 'date_format:H:i'],
             'hora_salida'   => ['nullable', 'date_format:H:i', 'after:hora_entrada'],
@@ -149,11 +151,26 @@ class UsuarioController extends Controller
 
         // Si es especialista, actualizar su perfil
         if ($usuario->hasRole('especialista') && $usuario->especialista) {
+            // Revisar si está siendo desactivado para cancelar sus citas pendientes
+            if (!$validated['activo'] && $usuario->especialista->activo) {
+                $citasCanceladas = $usuario->especialista->citas()
+                    ->where('estado', \App\Models\Cita::ESTADO_PENDIENTE)
+                    ->update([
+                        'estado' => \App\Models\Cita::ESTADO_CANCELADA,
+                        'motivo_cancelacion' => 'El especialista fue desactivado del sistema.',
+                        'cancelado_por' => auth()->id(),
+                    ]);
+                
+                if ($citasCanceladas > 0) {
+                    session()->flash('info', "Se han cancelado automáticamente {$citasCanceladas} citas pendientes porque el especialista fue desactivado.");
+                }
+            }
+
             $usuario->especialista->update([
                 'cedula'       => $validated['cedula'],
                 'nombres'      => $validated['nombres'],
                 'apellidos'    => $validated['apellidos'],
-                'especialidad' => $validated['especialidad'],
+                'especialidad_id' => $validated['especialidad_id'] ?? $usuario->especialista->especialidad_id,
                 'telefono'     => $validated['telefono'] ?? null,
                 'hora_entrada' => $validated['hora_entrada'] ?? $usuario->especialista->hora_entrada,
                 'hora_salida'  => $validated['hora_salida'] ?? $usuario->especialista->hora_salida,
@@ -163,6 +180,68 @@ class UsuarioController extends Controller
         }
 
         return redirect()->route('usuarios.index')
-            ->with('success', 'Trabajador actualizado correctamente.');
+            ->with('success', 'Datos del trabajador actualizados exitosamente.');
+    }
+
+    /**
+     * Activa o desactiva a un trabajador desde la tabla de forma rápida.
+     */
+    public function toggleStatus(User $usuario): RedirectResponse
+    {
+        if (auth()->id() === $usuario->id) {
+            return redirect()->route('usuarios.index')->with('error', 'No puedes cambiar tu propio estado de actividad.');
+        }
+
+        $nuevoEstado = !$usuario->activo;
+        $usuario->update(['activo' => $nuevoEstado]);
+
+        if ($usuario->hasRole('especialista') && $usuario->especialista) {
+            $usuario->especialista->update(['activo' => $nuevoEstado]);
+
+            // Si se está desactivando, cancelar citas pendientes
+            if (!$nuevoEstado) {
+                $citasCanceladas = $usuario->especialista->citas()
+                    ->where('estado', \App\Models\Cita::ESTADO_PENDIENTE)
+                    ->update([
+                        'estado' => \App\Models\Cita::ESTADO_CANCELADA,
+                        'motivo_cancelacion' => 'El especialista fue desactivado del sistema.',
+                        'cancelado_por' => auth()->id(),
+                    ]);
+                
+                if ($citasCanceladas > 0) {
+                    session()->flash('info', "Se han cancelado automáticamente {$citasCanceladas} citas pendientes porque el especialista fue desactivado.");
+                }
+            }
+        }
+
+        $mensaje = $nuevoEstado ? 'Trabajador activado correctamente.' : 'Trabajador desactivado del sistema.';
+        return redirect()->route('usuarios.index')->with('success', $mensaje);
+    }
+
+    /**
+     * Elimina un trabajador del sistema.
+     */
+    public function destroy(User $usuario): RedirectResponse
+    {
+        if (auth()->id() === $usuario->id) {
+            return redirect()->route('usuarios.index')->with('error', 'No puedes eliminar tu propio usuario.');
+        }
+
+        // Si es especialista, verificar si tiene registros antes de borrar
+        if ($usuario->especialista) {
+            $tieneCitas = $usuario->especialista->citas()->count() > 0;
+            $tieneHistorias = \App\Models\HistoriaClinica::where('especialista_id', $usuario->especialista->id)->count() > 0;
+
+            if ($tieneCitas || $tieneHistorias) {
+                return redirect()->route('usuarios.index')->with('error', 'No se puede eliminar a este especialista porque ya tiene citas o historias clínicas registradas. Por favor, desactívalo desde la edición de datos en lugar de eliminarlo.');
+            }
+        }
+
+        try {
+            $usuario->delete();
+            return redirect()->route('usuarios.index')->with('success', 'Trabajador eliminado del sistema.');
+        } catch (\Exception $e) {
+            return redirect()->route('usuarios.index')->with('error', 'Ocurrió un error inesperado al intentar eliminar al trabajador.');
+        }
     }
 }

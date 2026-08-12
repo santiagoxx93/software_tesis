@@ -90,7 +90,7 @@
                                 <span class="badge badge-ausente">Sin rol</span>
                             @endif
                         </td>
-                        <td>{{ $usuario->especialista->especialidad ?? '—' }}</td>
+                        <td>{{ $usuario->especialista->especialidad->nombre ?? '—' }}</td>
                         <td>
                             @if($usuario->activo)
                                 <span class="badge badge-completada">Activo</span>
@@ -101,6 +101,24 @@
                         <td>
                             <div class="flex gap-2">
                                 <a href="{{ route('usuarios.edit', $usuario) }}" class="btn btn-secondary btn-sm">Editar</a>
+                                @if(auth()->id() !== $usuario->id)
+                                    <form action="{{ route('usuarios.toggle_status', $usuario) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro de que desea cambiar el estado de este trabajador?');">
+                                        @csrf
+                                        @method('PATCH')
+                                        @if($usuario->activo)
+                                            <button type="submit" class="btn btn-sm" style="background:#f59e0b; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Desactivar</button>
+                                        @else
+                                            <button type="submit" class="btn btn-sm" style="background:#10b981; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Activar</button>
+                                        @endif
+                                    </form>
+                                @endif
+                                @if(auth()->id() !== $usuario->id)
+                                    <form action="{{ route('usuarios.destroy', $usuario) }}" method="POST" class="d-inline" onsubmit="return confirm('¿Está seguro de que desea eliminar a este trabajador del sistema? Esta acción no se puede deshacer.');">
+                                        @csrf
+                                        @method('DELETE')
+                                        <button type="submit" class="btn btn-danger btn-sm" style="background:#ef4444; color:white; border:none; padding:4px 10px; border-radius:4px; cursor:pointer;">Eliminar</button>
+                                    </form>
+                                @endif
                             </div>
                         </td>
                     </tr>
