@@ -4,8 +4,10 @@
     <meta charset="utf-8">
     <title>Confirmación de Cita</title>
     <style>
+        @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+        
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Montserrat', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
             line-height: 1.6;
             color: #374151;
             background-color: #f3f4f6;
@@ -97,9 +99,18 @@
 </head>
 <body>
     <div class="container">
-        <div class="header">
-            <h1 class="logo-text">Centro San Alfonso</h1>
-            <div class="sub-logo">Citas Médicas e Historias Clínicas</div>
+        <div class="header" align="center">
+            <table border="0" cellspacing="0" cellpadding="0" style="margin: 0 auto; display: inline-block;">
+                <tr>
+                    <td align="right" valign="middle" style="padding-right: 15px;">
+                        <img src="{{ $message->embed(public_path('sanalfonzo.png')) }}" alt="Logo San Alfonso" style="max-height: 95px;">
+                    </td>
+                    <td align="left" valign="middle" style="padding-right: 30px;">
+                        <h1 class="logo-text" style="text-align: left; margin-bottom: 2px;">Centro San Alfonso</h1>
+                        <div class="sub-logo" style="text-align: left; font-size: 15px;">Citas Médicas e Historias Clínicas</div>
+                    </td>
+                </tr>
+            </table>
         </div>
         
         <div class="content">
