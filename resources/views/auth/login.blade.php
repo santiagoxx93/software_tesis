@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Iniciar Sesión — Centro San Alfonso</title>
+    <title>Iniciar Sesión — SIGEMED</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <style>
@@ -217,8 +217,8 @@
         <div class="brand-logo-wrap">
             <img src="/sanalfonzo.png" alt="Centro San Alfonso Logo" draggable="false">
         </div>
-        <div class="brand-name">Centro Integral<br>San Alfonso, C.A.</div>
-        <div class="brand-sub">Sistema de Gestión de Citas e Historias Clínicas</div>
+        <div class="brand-name" style="font-size: 2rem; letter-spacing: 1px;">SIGEMED</div>
+        <div class="brand-sub">Sistema Integral de Gestión Médica<br>Centro San Alfonso, C.A.</div>
         <div class="brand-features">
             <div class="feature">
                 <div class="feature-dot"></div>

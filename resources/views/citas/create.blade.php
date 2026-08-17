@@ -54,7 +54,7 @@
                             $especialidadId = $e->especialidad_id ?? '';
                             $nombreEspecialidad = $e->especialidad ? $e->especialidad->nombre : 'Sin especialidad';
                         @endphp
-                        <option value="{{ $e->id }}" data-horario="{{ $infoHorario }}" data-especialidad="{{ $especialidadId }}" {{ old('especialista_id') == $e->id ? 'selected' : '' }}>
+                        <option value="{{ $e->id }}" data-horario="{{ $infoHorario }}" data-especialidad="{{ $especialidadId }}" data-dias="{{ json_encode($diasE) }}" {{ old('especialista_id') == $e->id ? 'selected' : '' }}>
                             {{ $e->nombre_completo }} — {{ $nombreEspecialidad }}
                         </option>
                     @endforeach
@@ -69,10 +69,10 @@
         <div class="grid-3">
             <div class="form-group">
                 <label class="form-label" for="fecha">Fecha *</label>
-                <input type="date" name="fecha" id="fecha"
+                <input type="text" name="fecha" id="fecha"
                     class="form-control {{ $errors->has('fecha') ? 'is-invalid' : '' }}"
                     value="{{ old('fecha') }}"
-                    min="{{ date('Y-m-d') }}" required>
+                    placeholder="Seleccione la fecha" required>
                 @error('fecha')<div class="invalid-feedback">{{ $message }}</div>@enderror
             </div>
 
@@ -122,6 +122,7 @@
 @endsection
 
 @push('scripts')
+<script src="https://npmcdn.com/flatpickr/dist/l10n/es.js"></script>
 <script>
 // Auto-calcular hora fin (+1 hora) al seleccionar hora inicio
 document.getElementById('hora_inicio').addEventListener('change', function() {
@@ -138,7 +139,16 @@ document.getElementById('hora_inicio').addEventListener('change', function() {
     }
 });
 
-// Mostrar horario del especialista seleccionado
+// Inicializar Flatpickr para la fecha
+let fpFecha = flatpickr("#fecha", {
+    locale: "es",
+    dateFormat: "Y-m-d",
+    minDate: "today",
+    altInput: true,
+    altFormat: "d/m/Y"
+});
+
+// Mostrar horario del especialista seleccionado y bloquear días en calendario
 const espSelect = document.getElementById('especialista_id');
 const infoBox = document.getElementById('info-horario-especialista');
 const textoBox = document.getElementById('texto-horario');
@@ -147,11 +157,38 @@ function updateHorario() {
     if(espSelect.selectedIndex < 0) return;
     const selected = espSelect.options[espSelect.selectedIndex];
     const horario = selected.getAttribute('data-horario');
+    
     if (horario && espSelect.value !== '') {
         textoBox.textContent = horario;
         infoBox.style.display = 'block';
+
+        // Lógica de calendario: Bloquear días
+        try {
+            const diasPhp = JSON.parse(selected.getAttribute('data-dias'));
+            // Convertir a enteros y mapear PHP (1=Lun..7=Dom) a JS (0=Dom..6=Sab)
+            const jsDiasPermitidos = diasPhp.map(d => {
+                let num = parseInt(d, 10);
+                return num === 7 ? 0 : num;
+            });
+
+            fpFecha.set('disable', [
+                function(date) {
+                    return !jsDiasPermitidos.includes(date.getDay());
+                }
+            ]);
+            
+            // Limpiar fecha si la que estaba seleccionada ya no es válida para este especialista
+            if (fpFecha.selectedDates.length > 0) {
+                const dayOfSelected = fpFecha.selectedDates[0].getDay();
+                if(!jsDiasPermitidos.includes(dayOfSelected)) {
+                    fpFecha.clear();
+                }
+            }
+        } catch (e) { console.error("Error parseando días:", e); }
+
     } else {
         infoBox.style.display = 'none';
+        fpFecha.set('disable', []); // Si no hay especialista, liberar calendario
     }
 }
 espSelect.addEventListener('change', updateHorario);

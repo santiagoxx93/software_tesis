@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="csrf-token" content="{{ csrf_token() }}">
-    <title>@yield('title', 'Centro San Alfonso') — SGCHC</title>
+    <title>@yield('title', 'Inicio') — SIGEMED</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Outfit:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -518,8 +518,8 @@
     <div class="sidebar-brand">
         <img src="/sanalfonzo.png" alt="Logo San Alfonso" class="sidebar-logo">
         <div class="sidebar-brand-text">
-            <h1>Centro San Alfonso</h1>
-            <span>Sistema de Gestión Clínica</span>
+            <h1 style="letter-spacing: 1px;">SIGEMED</h1>
+            <span>Centro San Alfonso, C.A.</span>
         </div>
     </div>
 
