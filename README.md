@@ -10,7 +10,7 @@
 </p>
 
 <p align="center">
-  <a href="https://www.linkedin.com/in/santiagoxx93" target="_blank">
+  <a href="https://www.linkedin.com/in/santiago-s%C3%A1nchez-256921396" target="_blank">
     <img src="https://img.shields.io/badge/LinkedIn-Santiago_Sánchez-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn">
   </a>
   <a href="https://github.com/santiagoxx93" target="_blank">
@@ -62,7 +62,7 @@ Este software constituye la solución técnica del **Trabajo Especial de Grado**
 | **Institución** | Instituto Universitario de Tecnología "Antonio José de Sucre" (IUTAJS) — Extensión Charallave |
 | **Título del Proyecto** | *Desarrollo de un sistema de información para la gestión y control de las historias clínicas y citas de pacientes en el Centro Integral de Reflexología Podal San Alfonso, C.A. Ubicado en Santa Lucía, Estado Miranda, 2025* |
 | **Línea de Investigación** | Sistemas de Información |
-| **Autor** | [**Santiago Alfredo Sánchez Roa**](https://www.linkedin.com/in/santiagoxx93) (C.I. V-31.601.397) |
+| **Autor** | [**Santiago Alfredo Sánchez Roa**](https://www.linkedin.com/in/santiago-s%C3%A1nchez-256921396) (C.I. V-31.601.397) |
 | **Tutora Metodológica** | Prof. Mayira Bravo |
 | **Fecha de Presentación** | Febrero, 2026 |
 | **Calificación** | 20 / 20 pts (Aprobado con Mención de Excelencia) |
@@ -312,8 +312,8 @@ Ingresa en tu navegador a: `http://localhost:8000`
 </p>
 
 <p align="left">
-  <a href="https://www.linkedin.com/in/santiagoxx93" target="_blank">
-    <img src="https://img.shields.io/badge/LinkedIn-santiagoxx93-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile">
+  <a href="https://www.linkedin.com/in/santiago-s%C3%A1nchez-256921396" target="_blank">
+    <img src="https://img.shields.io/badge/LinkedIn-Santiago_Sánchez-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white" alt="LinkedIn Profile">
   </a>
   <a href="https://github.com/santiagoxx93" target="_blank">
     <img src="https://img.shields.io/badge/GitHub-santiagoxx93-181717?style=for-the-badge&logo=github&logoColor=white" alt="GitHub Profile">
