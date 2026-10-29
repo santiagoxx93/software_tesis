@@ -74,15 +74,15 @@ Este software constituye la solución técnica del **Trabajo Especial de Grado**
 ```mermaid
 graph LR
     subgraph "Antes (Proceso Manual Físico)"
-        A[Agenda Física en Papel] --> B[Cruce y Choque de Horarios]
-        C[Expedientes en Carpetas] --> D[Pérdida y Desgaste de Fichas]
-        E[Sin Recordatorios] --> F[Alto Ausentismo (~35%)]
+        A["Agenda Física en Papel"] --> B["Cruce y Choque de Horarios"]
+        C["Expedientes en Carpetas"] --> D["Pérdida y Desgaste de Fichas"]
+        E["Sin Recordatorios"] --> F["Alto Ausentismo (~35%)"]
     end
     
     subgraph "Con SIGEMED (Automatizado)"
-        G[Agenda Reactiva en Vue 3] --> H[Algoritmo Anti-Colisión en Tiempo Real]
-        I[Historia Clínica Digital] --> J[Trazabilidad y Secreto Médico Estricto]
-        K[Artisan Scheduler] --> L[Seguimiento y Reducción del Ausentismo]
+        G["Agenda Reactiva en Vue 3"] --> H["Algoritmo Anti-Colisión en Tiempo Real"]
+        I["Historia Clínica Digital"] --> J["Trazabilidad y Secreto Médico Estricto"]
+        K["Artisan Scheduler"] --> L["Seguimiento y Reducción del Ausentismo"]
     end
 ```
 
